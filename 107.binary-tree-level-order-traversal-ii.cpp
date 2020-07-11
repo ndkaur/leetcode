@@ -55,7 +55,7 @@ int main(){
     Solution sol; 
     string input = "[3,9,20,null,null,15,7]";
     TreeNode* root = stringToTreeNode(input);
-    vector<vetor<int>> out = sol.levelOrderBottom(root);
+    vector<vector<int>> out = sol.levelOrderBottom(root);
     print_vv(out);
     return 0;
 }
