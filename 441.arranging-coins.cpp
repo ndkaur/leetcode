@@ -24,6 +24,27 @@ public:
     } 
 };
 
+class Solution{
+public:
+    int arrangeCoins(long long n){
+        int l=0,r=n;
+        long coin,k;
+        while(l<=r){
+            //k(k+1)/2<=n
+            k=l+(r-l)/2;
+            coin=k*(k+1)/2;
+            if(coin==n)
+                return k;
+            if(coin>n)
+                r=k-1;
+            else
+                l=k+1;
+        }
+        return r;
+    } 
+};
+
+
 class Solution {
 public:
     int arrangeCoins(int n) {
@@ -40,7 +61,7 @@ public:
 
 int main(){
     Solution sol;
-    int n=5;
+    int n=8;
     int x=sol.arrangeCoins(n);
     cout<<x;
     return 0;

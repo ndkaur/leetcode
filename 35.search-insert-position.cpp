@@ -31,12 +31,32 @@ public:
     }
 };
 // @lc code=end
-
+class Solution 
+{
+public:
+    int searchInsert(vector<int>& nums, int target){
+        int n=nums.size();
+        if(n==0)
+            return -1;
+        int l=0,r=n;
+        while(l<r){
+            int mid=l+(r-l)/2;
+            if(nums[mid]==target)
+                return mid;
+            else if(nums[mid]<target)
+                l=mid+1;
+            else
+                r=mid;
+        }
+        return l;
+        
+    }
+};
 
 int main(){
     Solution sol;
     vector<int> nums={1,3,5,6};
-    int target=6;
+    int target=7;
     int found=sol.searchInsert(nums,target);
     cout<<found;
     return 0;
