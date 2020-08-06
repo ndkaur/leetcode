@@ -1,11 +1,11 @@
 /*
- * @lc app=leetcode id=21 lang=cpp
+ * @lc app=leetcode id=1019 lang=cpp
  *
- * [21] Merge Two Sorted Lists
+ * [1019] Next Greater Node In Linked List
  */
 #include "bits/stdc++.h"
 using namespace std;
-// #include "Tree.h"
+#include "Tree.h"
 #define deb(x) cout<<x<<endl;
 typedef vector<int> vi;
 typedef vector<vector<int>> vvi;
@@ -18,6 +18,7 @@ void print(vi &out){
     for(auto x: out) cout<<x<<" ";
     cout<<endl;
 }
+
 // @lc code=start
 /**
  * Definition for singly-linked list.
@@ -31,34 +32,28 @@ void print(vi &out){
  */
 class Solution {
 public:
-    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-        if(!l1 && !l2) return NULL;
-        if(!l1) return l2;
-        if(!l2) return l1;
-        ListNode *extra = new ListNode(INT_MIN);
-        ListNode *l3=extra;
-
-        while(l1 && l2){
-            if(l1->val<l2->val){
-                l3->next=l1;
-                l1=l1->next;
+    vector<int> nextLargerNodes(ListNode* head) {
+        vector<int> result;
+        ListNode *curr=head;
+        while(curr){
+            int cv=curr->val;
+            ListNode *temp=curr->next;
+            while(temp && temp->val<=cv){
+                    temp=temp->next;
             }
-            else{
-                l3->next=l2;
-                l2=l2->next;
-            }
-            l3=l3->next;
+            if(temp)
+                result.push_back(temp->val);
+            else 
+                result.push_back(0);
+            curr=curr->next;
         }
-        if(l1)
-            l3->next=l1;
-        else 
-            l3->next=l2;
-        
-        return extra->next;
+        return result;
     }
 };
 // @lc code=end
-int main() {
-    
+
+
+int main(){
+
     return 0;
 }
