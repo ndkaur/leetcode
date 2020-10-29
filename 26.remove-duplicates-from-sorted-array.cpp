@@ -41,3 +41,15 @@ int main(){
     cout<<out;
     return 0;
 }
+/* My proposal
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+   int arr[10] ={0,0,1,1,1,2,2,3,3,4};
+   set<int> s;
+   for(auto el : arr) s.insert(el);
+   for(auto el : s) cout<<el<<" ";
+   cout<<endl;
+return 0;
+}
