@@ -88,3 +88,14 @@ int main(){
     printList(output);
     return 0;
 }
+/* My proposal
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+int arr[5] ={-1,5,3,4,0};
+sort(arr , arr+5);
+for(auto e : arr) cout<<e<<" ";
+cout<<endl;
+return 0;
+}
+*/
