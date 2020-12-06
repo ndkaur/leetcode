@@ -32,22 +32,21 @@ void print(vi &out){
  * };
  */
 class Solution {
-    TreeNode *curr;
 public:
     TreeNode* increasingBST(TreeNode* root) {
+        TreeNode *curr;
         TreeNode *out = new TreeNode(-1);
         curr = out;
-        dfs(root);
-        return out->right;
+        dfs(out,root);
+        return curr->right;
     }
     // left  root right        
-    void dfs(TreeNode *root){
+    void dfs(TreeNode* &out, TreeNode *root){
         if(!root) return ;
-        dfs(root->left);
-        curr->right =root;
-        curr->left = NULL;
-        curr=curr->right;
-        dfs(root->right);
+        dfs(out,root->left);
+        out->right = new TreeNode(root->val);
+        out= out->right;
+        dfs(out,root->right);
     }
 };
 
