@@ -39,6 +39,22 @@ public:
         return true;
     }
 };
+
+class Solution {
+public:
+    bool validMountainArray(vector<int>& arr) {
+        int n =arr.size();
+        if(n<3) return false;
+        int i=0;
+        while(i+1<n && arr[i]<arr[i+1]) //check increase
+            i++;
+        if(i==0 || i==n-1)// peak can be at begin or at end 
+            return false;
+        while(i+1<n && arr[i]>arr[i+1]) // check decrease
+            i++;
+        return i==n-1; // i reached last position 
+    }
+};
 // @lc code=end
 int main(){
     Solution sol;
