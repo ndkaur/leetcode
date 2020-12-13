@@ -14,7 +14,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+class Solution1 {
 public:
     int removeDuplicates(vector<int>& nums) {
         int len =nums.size();
@@ -28,6 +28,22 @@ public:
         }
         // return out;
         return c.size();
+    }
+};
+
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int n= nums.size();
+        if(n==0) return 0;
+        int i=0; // we used two pointers
+        for(int j=1;j<n;j++){
+            if(nums[j]!=nums[i]){
+                i++; //count increased
+                nums[i]=nums[j]; // inplace replacemnt for the term 
+            }
+        }
+        return i+1;
     }
 };
 // @lc code=end
