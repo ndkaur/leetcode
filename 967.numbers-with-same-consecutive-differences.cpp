@@ -29,9 +29,9 @@ public:
             for(int x:curr){ // int req = y+i=k //y=i-k , y=i+k
                 int y= x%10;
                 if(x>0 && y+k<10)
-                    curr2.push_back(x*10+y+k);
-                if(x>0 && k>0 && y-k>=0)
-                    curr2.push_back(x*10+y-k);
+                    curr2.push_back(x*10+y+k); // when no is smaller than k 
+                if(x>0 && k>0 && y-k>=0) 
+                    curr2.push_back(x*10+y-k); // when no is greater than k 8>7
             }
             curr=curr2;
         }
