@@ -20,7 +20,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+class Solution0 {
 public:
     int maxProfit(vector<int>& prices) {
         int n =prices.size();
@@ -41,12 +41,25 @@ public:
         return mx;
     }
 };
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n =prices.size();
+        int mx=0;
+        for(int i=1;i<n;i++){
+            if(prices[i]>prices[i-1])
+                mx+= prices[i]-prices[i-1];
+        }
+        return mx;
+    }
+};
 // @lc code=end
 
 
 int main(){
     Solution sol;
-    vector<int> prices={1,2,3,4,5};
+    vector<int> prices={7,1,5,3,6,4};
     int m =sol.maxProfit(prices);
     cout<<m;
     return 0;

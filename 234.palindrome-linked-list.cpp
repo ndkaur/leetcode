@@ -30,7 +30,7 @@ void print(vi &out){
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-class Solution {
+class Solution0 {
 public:
     bool isPalindrome(ListNode* head) {
         ListNode *temp=head;
@@ -48,6 +48,40 @@ public:
             head=head->next; 
         }
         return true;
+    }
+};
+
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        if(head==NULL || head->next==NULL)
+            return true;
+        ListNode* slow=head;
+        ListNode* fast=head;
+        while(fast->next!=NULL && fast->next->next!=NULL){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        slow->next=reversList(slow->next);
+        slow=slow->next;
+        while(slow!=NULL){
+            if(head->val!=slow->val)
+                return false;
+            head=head->next;
+            slow=slow->next;
+        }
+        return true;
+    }
+    ListNode* reversList(ListNode* head){
+        ListNode* prev=NULL;
+        ListNode* next=NULL;
+        while(head!=NULL){
+            next=head->next;
+            head->next=prev;
+            prev=head;
+            head=next;
+        }
+        return prev;
     }
 };
 // @lc code=end
