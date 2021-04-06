@@ -35,6 +35,7 @@ class Solution {
 public:
     int minCostClimbingStairs(vector<int>& cost) {
         int  n = cost.size();
+        // n+1+2 depends on next two values also
         vector<int> dp(n+3);
         dp[n] = dp[n+1] = 0;
         for(int i=n-1; i>=0; --i){
