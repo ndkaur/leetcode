@@ -35,20 +35,20 @@ public:
     }
 }; /// time limit exceeded 
 
-// class Solution {
-// public:
-//     int longestPalindromeSubseq(string s) {
-//         int n=s.size();
-//         vector<vector<int>>dp (n,vector<int>(n));
-//         return help(0,n-1,s,dp);
-//     }
-//     int help(int left, int right, string s, vector<vector<int>>& dp){
-//         if(left==right) return 1;
-//         if(left>right) return 0;
-//         if(dp[left][right]) return dp[left][right];
-//         return dp[left][right] = (s[left]==s[right]) ? 2+help(left+1,right-1,s,dp) : max(help(left+1,right, s, dp), help(left,right-1,s,dp));
-//     } // time elimit exceed
-// };
+class Solution1 {
+public:
+    int longestPalindromeSubseq(string s) {
+        int n=s.size();
+        vector<vector<int>>dp (n,vector<int>(n));
+        return help(0,n-1,s,dp);
+    }
+    int help(int left, int right, string s, vector<vector<int>>& dp){
+        if(left==right) return 1;
+        if(left>right) return 0;
+        if(dp[left][right]) return dp[left][right];
+        return dp[left][right] = (s[left]==s[right]) ? 2+help(left+1,right-1,s,dp) : max(help(left+1,right, s, dp), help(left,right-1,s,dp));
+    } // time elimit exceed
+};
 
 
 class Solution2 {
@@ -68,7 +68,7 @@ public:
 };
 
 
-class Solution {
+class Solution3 {
 public:
     int longestPalindromeSubseq(string s) {        
         int n = s.size();
@@ -85,12 +85,32 @@ public:
         return dp[0][n-1];
     }
 };
+
+class Solution { // using logic of lcs
+public:
+    int longestPalindromeSubseq(string a) {        
+        string b=a;
+        reverse(b.begin(),b.end());
+        int n = a.size();
+        int m = b.size();
+        vector<vector<int>> dp(n+1,vector<int>(m+1,0));
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=m;j++){
+                if(a[i-1]==b[j-1])
+                    dp[i][j]= 1+dp[i-1][j-1];
+                else 
+                    dp[i][j]= max(dp[i-1][j],dp[i][j-1]);
+            }
+        }
+        return dp[n][m];
+    }
+};
 // @lc code=end
 
 
 int main(){
     Solution sol;
-    string s = "abbd";
+    string s = "cbbde";
     int ans = sol.longestPalindromeSubseq(s);
     cout<<ans;
     return 0;
