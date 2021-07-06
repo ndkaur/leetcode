@@ -13,6 +13,8 @@ void print(vi &out){
     cout<<endl;
 }
 
+// ugly no which has only the  given factors 
+
 // @lc code=start
 //METHOD 1
 // class Solution {
@@ -42,7 +44,7 @@ void print(vi &out){
 //     }
 // };
 
-class Solution {
+class Solution0 {
 public:
     int nthUglyNumber(int n){
         if(n<=0)    //if the value of n is negative or is zero
@@ -65,6 +67,36 @@ public:
         return k[n-1]; // zero based indexing
     }
 };
+
+
+class Solution {
+public:
+    int nthUglyNumber(int n){
+        vector<int> dp(n+1);
+        dp[1]=1;
+        int p2=1;
+        int p3=1;
+        int p5=1;
+        for(int i=2;i<=n;i++){
+            int f2= dp[p2]*2;
+            int f3= dp[p3]*3;
+            int f5 = dp[p5]*5;
+            int mn = min(f2, min(f3,f5));
+            dp[i]=mn;
+            if(mn==f2)
+                p2++;
+            if(mn==f3)
+                p3++;
+            if(mn==f5)
+                p5++;
+        }
+        return dp[n];
+    }
+};
+
+//taking min of values from table of 2, 3,5 and the value taken as min
+//  its pointer is moved forward and its table value is increased
+
 // @lc code=end
 
 
