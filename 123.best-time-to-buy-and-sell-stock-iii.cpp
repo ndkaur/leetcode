@@ -21,7 +21,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+class Solution0 {
 public:
     int maxProfit(vector<int>& prices) {
         int n =prices.size();
@@ -38,6 +38,43 @@ public:
             }
         }
         return sell[k][n];
+    }
+};
+
+class Solution1 {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n= prices.size();
+        vector<vector<vector<int>>> dp(n,vector<vector<int>>(2,vector<int>(2,-1)));
+        return find(prices,0,0,1,dp);
+    }
+    int find(vector<int>& prices, int i, int trans ,bool buy, vector<vector<vector<int>>> &dp){
+        int n = prices.size();
+        if(i>=n || trans>=2) return 0;
+        if(dp[i][buy][trans]!=-1) return dp[i][buy][trans];
+        if(buy)
+            return dp[i][buy][trans]= max(-prices[i]+find(prices,i+1,trans,!buy,dp) , find(prices,i+1,trans,buy,dp));
+        else 
+            return dp[i][buy][trans]= max(prices[i]+find(prices,i+1,trans+1,!buy,dp),find(prices,i+1,trans,buy,dp));
+     }
+};
+
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n= prices.size();
+        int buy1=INT_MAX;
+        int buy2=INT_MAX;
+        int sell1=0;
+        int sell2=0;
+        for(int i=0;i<n;i++){
+            buy1= min(buy1,prices[i]);
+            sell1 = max(sell1, prices[i]-buy1);
+            buy2= min(buy2,prices[i]-sell1);
+            sell2= max(sell2 , prices[i]-buy2);
+        }
+        return sell2;
     }
 };
 // @lc code=end
