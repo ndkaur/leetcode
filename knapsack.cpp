@@ -55,9 +55,9 @@ class Solution{
 
 int main(){
    Solution sol;
-   vector<int> values={100,100,180};
-   vector<int> weights={25,25,30};
-   int w=50;
+   vector<int> values={60,15,30,80,20};
+   vector<int> weights={5,2,10,8,6};
+   int w=15;    
    int idx=0;
    int ans=sol.knapsack(idx,w,values,weights );
    cout<<ans;

@@ -20,7 +20,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+class Solution0 {
 public:
     int tribonacci(int n) {
         if(n<2) return n;
@@ -35,6 +35,23 @@ public:
         return c;
     }
 };
+
+class Solution {
+public:
+    int tribonacci(int n) {
+        vector<int> dp{0,1,1};
+        for(int i=3;i<=n;i++){
+            dp[i%3] = dp[i%3]+dp[(i+1)%3]+dp[(i+2)%3];
+        }
+        return dp[n%3];
+    }
+};
+
+// if direct multiple of 3 then it will give 0 
+// if i+1 remainder will be 1
+// if i+2 remainder will be 2 
+// and we keep on updating the values of dp[0], dp[1], dp[3]
+
 // @lc code=end
 
 

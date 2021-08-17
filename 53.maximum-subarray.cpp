@@ -37,7 +37,7 @@ public:
     }
 };
 
-class Solution {
+class Solution1 {
 public:
     int maxSubArray(vector<int>& nums) {
         int n = nums.size();
@@ -49,6 +49,21 @@ public:
             max_arry =  max(max_arry , cur_arry);
         }
         return max_arry;
+    }
+};
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int n= nums.size();
+        vector<int> dp(n);
+        dp[0]=nums[0];
+        int mx= dp[0];
+        for(int i=1;i<n;i++){
+            dp[i] = nums[i]+ (dp[i-1]>0 ? dp[i-1]:0);
+            mx= max(mx,dp[i]);
+        }
+        return mx;
     }
 };
 // @lc code=end
