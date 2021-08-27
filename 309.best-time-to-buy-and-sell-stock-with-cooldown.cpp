@@ -78,6 +78,24 @@ public:
 };
 
 
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n= prices.size();
+        if(n<=1) return 0;
+        int sell=0;
+        int buy =-prices[0];
+        int hold=0;
+        for(int i=1;i<n;i++){
+            int temp=sell;
+            sell = max(sell,hold);
+            hold= buy+prices[i];
+            buy= max(buy,temp-prices[i]);
+        }
+        return max(sell,hold);
+    }
+};
+
 // @lc code=end
 
 

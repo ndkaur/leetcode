@@ -77,6 +77,24 @@ public:
         return sell2;
     }
 };
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n= prices.size();
+        int buy1=INT_MIN;
+        int buy2=INT_MIN;
+        int sell1=0;
+        int sell2=0;
+        for(int i:prices){
+            sell2= max(sell2 , i+buy2);
+            buy2= max(buy2,sell1-i);
+            sell1 = max(sell1, i+buy1);
+            buy1= max(buy1,-i);
+        }
+        return sell2;
+    }
+};
 // @lc code=end
 
 

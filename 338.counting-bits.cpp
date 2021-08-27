@@ -1,4 +1,4 @@
-/*
+  /*
  * @lc app=leetcode id=338 lang=cpp
  *
  * [338] Counting Bits
