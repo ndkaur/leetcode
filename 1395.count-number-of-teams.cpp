@@ -37,31 +37,31 @@ public:
         }
         return count;
     }
-};
+}; // time limit exceeded
+
 
 class Solution {
 public:
     int numTeams(vector<int>& rating) {
-        int n= rating.size();
-        // cout<<n<<endl;
+        int n = rating.size();
         int count=0;
         for(int i=0;i<n;i++){
             int inc1=0,inc2=0,dec1=0,dec2=0;
             for(int j=0;j<n;j++){
                 if(i>j){
                     if(rating[i]>rating[j])
-                        inc1++;
-                    else 
                         dec1++;
+                    else 
+                        inc1++;
                 }
-                else if(i<j){
+                else if(j>i){
                     if(rating[j]>rating[i])
                         inc2++;
                     else 
                         dec2++;
                 }
             }
-            count += inc1*inc2 + dec1*dec2;
+            count += dec1*inc2 + inc1*dec2;
         }
         return count;
     }

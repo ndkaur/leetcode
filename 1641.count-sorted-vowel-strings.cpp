@@ -1,4 +1,4 @@
-/*
+    /*
  * @lc app=leetcode id=1641 lang=cpp
  *
  * [1641] Count Sorted Vowel Strings
@@ -21,7 +21,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+class Solution0 {
 public:
     int countVowelStrings(int n) {
         vector<int> dp(5,1);
@@ -36,6 +36,45 @@ public:
         return ans;
     }
 };
+
+
+class Solution1 {
+public:
+    int countVowelStrings(int n) {
+        vector<vector<int>> dp(n+1,vector<int>(6));
+        for(int i=1;i<=n;i++){
+            for(int k=1;k<=5;k++){
+                dp[i][k] = dp[i][k-1]+ (i>1? dp[i-1][k]:1);
+            }
+        }
+        return dp[n][5];
+    }
+};
+
+
+class Solution2 {
+public:
+    int countVowelStrings(int n) {
+        vector<int> dp={0,1,1,1,1,1};
+        for(int i=1;i<=n;i++){
+            for(int k=1;k<=5;k++){
+                dp[k]+= dp[k-1];
+            }
+        }
+       return dp[5];
+    }
+};
+
+class Solution {
+public:
+    int countVowelStrings(int n) {
+      return (n+1)*(n+2)*(n+3)*(n+4)/24;       
+    }
+};
+
+// [ 0 1 1 1 1 1]
+// [ 0 1 2 3 4 5 ]
+// [ 0 1 3 6 10 15 ]  dp[k]= dp[k]+dp[k-1]
 
 // n=1  1  1  1  1  1 
 // n=2  5  4  3  2  1

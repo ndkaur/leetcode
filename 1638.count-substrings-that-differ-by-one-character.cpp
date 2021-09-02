@@ -95,7 +95,31 @@ public:
     }
 }; 
 
+// easy to understand   
 
+class Solution {
+public:
+    int countSubstrings(string s, string t) {
+        int n= s.size();
+        int m= t.size();
+        int ans =0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                int dif=0;
+                int x= i;
+                int y=j;
+                while(x<n && y<m){
+                    if(s[x]!=t[y]) dif++;
+                    if(dif==1) ans++;
+                    if(dif==2) break;
+                    x++;
+                    y++;
+                }
+            }
+        }
+        return ans ;
+    }
+};
 
 
 // @lc code=end
