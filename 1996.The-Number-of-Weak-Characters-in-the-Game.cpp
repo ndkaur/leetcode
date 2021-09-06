@@ -22,11 +22,11 @@ class Solution {
 public:
     int numberOfWeakCharacters(vector<vector<int>>& prop) {
          int n= prop.size();
-         sort(prop.begin(),prop.end());
+         sort(prop.begin(),prop.end(),comp);
          int count=0;
          int prev=INT_MIN;
-         for(int i=0;i<n;i++){
-            if(prop[i][1]>prev)
+         for(int i=n-1;i>=0;i--){
+            if(prop[i][1]<prev)
                   count++;
             prev= max(prev,prop[i][1]);
          }
@@ -38,6 +38,7 @@ public:
             return a[0]<b[0]; // assending order acc to first element
     }
 };
+
 
 
 int main(){
