@@ -26,7 +26,7 @@ void print(vi &out){
 // a-b =diff -> b = -diff+a
 // a+a-diff=total -> 2a= total+diff -> a = (t+d)/2;
 
-class Solution { // top down 
+class Solution0 { // top down 
 public:
     int stoneGameII(vector<int>& piles) {
         int n= piles.size();
@@ -49,6 +49,56 @@ public:
             ans = max(ans,sum-help(piles,j+1, max(m,j-i+1),dp));
         }
         return dp[i][m]=ans;
+    }
+};
+
+
+class Solution1 {
+public:
+    int stoneGameII(vector<int>& piles) {
+        int n= piles.size();
+        int diff=  help(0,1,piles);
+        int sum=0;
+        for(auto i:piles) sum+=i;
+        return (sum+diff)/2;
+        
+    }
+    int help(int i, int M, vector<int>&piles){
+        int n= piles.size();
+        if(i>=n) return 0;
+        int sum=0;
+        int ans =INT_MIN;
+        for(int x=0;x<2*M;x++){
+            if(i+x<n) 
+                sum+= piles[i+x];
+            ans = max(ans,sum-help(i+x+1,max(M,x+1),piles));
+        }
+        return ans;
+    } // time limit exceeded 
+};
+
+class Solution {
+public:
+    int stoneGameII(vector<int>& piles){
+        int n= piles.size();
+        vector<vector<int>> dp(n+1,vector<int>(n+1,-1));
+        int diff=  help(0,1,piles,dp);
+        int sum=0;
+        for(auto i:piles) sum+=i;
+        return (sum+diff)/2;
+    }
+    int help(int i, int M, vector<int>&piles,vector<vector<int>>& dp){
+        int n= piles.size();
+        if(i>=n) return 0;
+        if(dp[i][M]!=-1) return dp[i][M]; 
+        int sum=0;
+        int ans =INT_MIN;
+        for(int x=0;x<2*M;x++){
+            if(i+x<n) 
+                sum+= piles[i+x];
+            ans = max(ans,sum-help(i+x+1,max(M,x+1),piles,dp));
+        }
+        return dp[i][M]=ans;
     }
 };
 // @lc code=end

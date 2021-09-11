@@ -35,7 +35,7 @@ public:
     ListNode* reverseList(ListNode* head) {
         ListNode *prev=NULL;
         ListNode *curr=head;
-        ListNode *next=curr->next;
+        // ListNode *next=curr->next;
         while(curr){
             node* temp=curr->next;
             curr->next=prev;
