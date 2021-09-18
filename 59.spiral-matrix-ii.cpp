@@ -20,7 +20,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+class Solution0 {
     const vector<vector<int>> dirs={{0,1},{1,0},{0,-1},{-1,0}};
 public:
     vector<vector<int>> generateMatrix(int n) {
@@ -59,6 +59,36 @@ public:
         return ans;
     }
 };
+
+
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> ans(n,vector<int>(n));
+        int top=0;
+        int bottom = n-1;
+        int left= 0;
+        int right=n-1;
+        int val=1;
+        while(left<=right && top<=bottom){ 
+            for(int i=left;i<=right;i++)// left->right
+                ans[top][i]=val++;
+            top++;
+            for(int i=top;i<=bottom;i++)// top->bottom
+                ans[i][right] =val++;
+            right--;
+            for(int i=right;i>=left;i--) // right->left
+                ans[bottom][i]=val++;
+            bottom--;
+            for(int i=bottom;i>=top;i--) // bottom->top
+                ans[i][left]= val++;
+            left++;
+        }
+        return ans;
+    }
+};
+
+
 // @lc code=end
 
 

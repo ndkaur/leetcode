@@ -19,7 +19,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+class Solution0 {
 public:
     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
         vector<int> out;
@@ -51,6 +51,21 @@ public:
             }   
         }
         return false;
+    }
+};
+
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> ans ;
+        unordered_set<int> check(nums1.begin(),nums1.end());
+        for(auto x:nums2){
+            if(check.count(x)){
+                ans.push_back(x);
+                check.erase(x);
+            }
+        }
+        return ans;
     }
 };
 // @lc code=end

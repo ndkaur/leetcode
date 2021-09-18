@@ -19,7 +19,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+class Solution0 {
 public:
     vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
         int n=nums2.size();
@@ -43,6 +43,23 @@ public:
             }
         }
         return out;
+    }
+};
+
+class Solution {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+        unordered_map<int,int> cnt;
+        for(int i:nums1)
+            cnt[i]++;
+        vector<int> ans ;
+        for(int i:nums2){
+            if(cnt[i]>0){
+                ans.push_back(i);
+                cnt[i]--;
+            }
+        }
+        return ans;
     }
 };
 // @lc code=end
