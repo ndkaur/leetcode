@@ -21,7 +21,8 @@ void print(vi &out){
 }
 
 // @lc code=start
-// class Solution {
+
+// class Solution { // gives wrong answer in some cases 
 // public:
 //     int mctFromLeafValues(vector<int>& arr) {
 //         int n= arr.size();
