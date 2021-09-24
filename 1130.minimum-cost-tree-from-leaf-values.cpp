@@ -72,7 +72,7 @@ void print(vi &out){
 // };
 
 
-class Solution {
+class Solution0 {
 public:
     int mctFromLeafValues(vector<int>& arr) {
         int n= arr.size();
@@ -94,13 +94,38 @@ public:
 };
 
 
+class Solution {
+public:
+    int mctFromLeafValues(vector<int>& arr) {
+        int n= arr.size();
+        vector<vector<int>> dp(n+1,vector<int>(n+1,-1));
+        return solve(arr,0,n-1,dp);  
+    }
+    int solve(vector<int>&arr, int low, int high, vector<vector<int>>&dp){
+        if(low==high) return 0;
+        if(dp[low][high]!=-1) return dp[low][high];
+        priority_queue<int> pq(arr.begin()+low,arr.begin()+high+1);
+        int a = pq.top();
+        pq.pop();
+        int b = pq.top();
+        pq.pop();
+        int product= a*b;
+        int mnsum=INT_MAX;
+        for(int i=low;i<high;i++){
+            mnsum= min(mnsum,solve(arr,low,i,dp)+solve(arr,i+1,high,dp));
+        }
+        return dp[low][high] = mnsum+product;
+    }
+};
+
+
 // @lc code=end
 
 
 int main(){
     Solution sol;
     // vector<int> arr ={15,13,5,3,15};
-    vector<int> arr= {6,2,4};
+    vector<int> arr= {7,12,8,10};
     int ans= sol.mctFromLeafValues(arr);
     cout<<ans;
     return 0;
