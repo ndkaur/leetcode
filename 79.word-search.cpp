@@ -50,6 +50,40 @@ public:
         return false;
     }
 };
+
+
+
+class Solution {
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        int n= board.size();
+        int m = board[0].size();
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(board[i][j]==word[0] && find(board, word, i, j, 0))
+                    return true;
+            }
+        }
+        return false;
+    }
+    bool find(vector<vector<char>>& board,string &word, int i,int j, int idx){
+        int n= board.size();
+        int m = board[0].size();
+        int w= word.size();
+        if(idx==w-1) return true;
+        board[i][j]= board[i][j]-65;
+        if(i>0 && board[i-1][j]==word[idx+1] && find(board, word, i-1,j,idx+1))
+            return true;
+        if(j<m-1 && board[i][j+1]==word[idx+1] && find(board, word, i, j+1,idx+1))
+            return true;
+        if(i<n-1 && board[i+1][j]== word[idx+1] && find(board, word, i+1 , j, idx+1))
+            return true;
+        if(j>0 && board[i][j-1]== word[idx+1] && find(board, word, i, j-1,idx+1))
+            return true;
+        board[i][j]= board[i][j]+65;
+        return false;
+    }
+};
 // @lc code=end+
 
 int main(){

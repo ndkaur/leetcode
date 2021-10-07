@@ -20,7 +20,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+class Solution0 {
 public:
     bool canJump(vector<int>& nums) {
         int n = nums.size();
@@ -29,6 +29,22 @@ public:
            reach = max(i+nums[i],reach); 
         }
         return i==n;// if i reached at last position without getting terminated inbetween 
+    }
+};
+
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int n = nums.size();
+        int step= nums[0];
+        for(int i=1;i<n;i++){
+            step--;
+            if(step<0)
+                return false;
+            if(step<nums[i])
+                step= nums[i];
+        }
+        return true;
     }
 };
 // @lc code=end

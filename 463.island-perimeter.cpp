@@ -38,6 +38,32 @@ public:
         return perimeter; 
     }
 };
+
+
+class Solution {
+public:
+    int islandPerimeter(vector<vector<int>>& grid) {
+        int r = grid.size();
+        int c = grid[0].size();
+        int p=0;
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                if(grid[i][j]==0)
+                    continue;
+                p=p+4;
+                if(i<r-1)
+                    p= p-grid[i+1][j]; // down
+                if(i>0
+                    p=p-grid[i-1][j]; // up
+                if(j>0)
+                    p=p-grid[i][j-1]; // left
+                if(j<c-1)
+                    p=p-grid[i][j+1]; // right
+            }
+        }
+        return p;7
+    }
+};
 // @lc code=end
 
 
