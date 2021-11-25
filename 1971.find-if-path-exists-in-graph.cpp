@@ -20,26 +20,26 @@ for(auto x: out) cout<<x<<" ";
 cout<<endl;
 }
 // @lc code=start
-class Solution {
+class Solution0 {
 public:
     bool validPath(int n, vector<vector<int>>& edges, int start, int end) {
         // int n = edges.size();
         vector<vector<int>> adjList(n);
         queue<int> q;
         vector<bool> visited(n, false);
-        int u,v, curnode,sndnode;
         for(int i=0; i< edges.size(); i++){
-            u= edges[i][0];
-            v= edges[i][1];
+            int u= edges[i][0];
+            int v= edges[i][1];
             adjList[u].push_back(v);
             adjList[v].push_back(u);
         }
         q.push(start);
         visited[start]=true;
         while(!q.empty()){
-            curnode= q.front(); q.pop();
+            int curnode= q.front(); 
+            q.pop();
             for(int i=0; i<adjList[curnode].size();i++){
-                sndnode= adjList[curnode][i];
+                int sndnode= adjList[curnode][i];
                 if(!visited[sndnode]){
                     q.push(sndnode);
                     visited[sndnode]=true;
@@ -51,6 +51,34 @@ public:
         return false;
     }
 };
+
+class Solution {
+public:
+    bool validPath(int n, vector<vector<int>>& edges, int start, int end) {
+        vector<vector<int>> adjList(n);
+        vector<bool> visited(n, false);
+        for(int i=0; i< edges.size(); i++){
+            int u= edges[i][0];
+            int v= edges[i][1];
+            adjList[u].push_back(v);
+            adjList[v].push_back(u);
+        }
+        return dfs(start,end,adjList,visited);  
+    }
+    bool dfs(int start,int end, vector<vector<int>>& adjList,vector<bool>& visited){
+        if(start==end) return true;
+        visited[start]=true;
+        for(int it:adjList[start]){
+            if(!visited[it]){
+                bool res= dfs(it,end,adjList,visited);
+                if(res==true)
+                    return true;
+            }
+        }
+        return false;
+    }
+};
+
 // @lc code=end
 
 int main(){
