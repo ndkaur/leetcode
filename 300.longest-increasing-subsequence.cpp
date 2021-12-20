@@ -40,7 +40,7 @@ public:
 //binary search log(n)
 //travelsal of array O(n)
 
-class Solution {
+class Solution1 {
 public:
     int lengthOfLIS(vector<int>& nums){
         int n=nums.size();
@@ -59,12 +59,56 @@ public:
     }
 };
 
+// dp 
+class Solution2 {
+public:
+    int lengthOfLIS(vector<int>& nums){
+        int n=nums.size();
+        vector<int> dp(n);
+        int maax=0;
+        for(int i=0;i<n;i++){
+            int mx=0;
+            for(int j=0;j<i;j++){
+                if(nums[j]<nums[i]){
+                    if(dp[j]>mx)
+                        mx=dp[j];
+                }
+            }
+            dp[i]= mx+1;
+            if(dp[i]>maax)
+                maax=dp[i];
+        }
+        return maax;
+    }
+};
+
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums){
+        int n=nums.size();
+        vector<int> dp;
+        for(auto x: nums){
+            auto it = lower_bound(dp.begin(),dp.end(),x);
+            // lower bound check if greter or equal 
+            // coming element can find someone greater than it -> replace it 
+            //  if all elements are smaller then exisiting ones ->pushback
+            if(it==dp.end())
+                dp.push_back(x);
+            else 
+                *it=x;
+        }
+        return dp.size();
+    }
+};
+
+
 // @lc code=end
 
 
 int main(){
     Solution sol;
-    vector<int> nums={7,7,7,7,7,7};
+    vector<int> nums={10,9,2,5,3,7,101,18};
     int ans=sol.lengthOfLIS(nums);
     cout<<ans;
     return 0;
