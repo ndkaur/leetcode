@@ -32,6 +32,26 @@ public:
         return output;
     }
 };
+
+class Solution {
+public:
+    vector<int> sortArrayByParity(vector<int>& nums) {
+        int n= nums.size();
+        int i=0;
+        int j=n-1; // will find even 
+        while(i<j){
+            if(nums[i]%2!=0 && nums[j]%2==0){
+                swap(nums[i],nums[j]);
+                i++,j--;
+            }
+            else if(nums[j]%2!=0)
+                j--;
+            else if(nums[i]%2==0)
+                i++;
+        }
+        return nums;
+    }
+};
 // @lc code=end
 
 int main(){

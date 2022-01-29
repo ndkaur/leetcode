@@ -35,6 +35,34 @@ public:
     }
 };
 
+class Solution0 {
+public:
+    int arrayPairSum(vector<int>& nums) {
+        int n= nums.size();
+        int ans =0;
+        sort(nums.begin(),nums.end());
+        for(int i=0;i<n;i+=2){
+            ans += min(nums[i],nums[i+1]);
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    int arrayPairSum(vector<int>& nums) {
+        int n= nums.size();
+        int ans =0;
+        sort(nums.begin(),nums.end());
+        for(int i=0;i<n;i++){
+            //1 2 3 4
+            ans += nums[i];
+            i++;
+        }
+        return ans;
+    }
+};
+
 int main(){
    Solution sol;
    vi nums={1,4,3,2};

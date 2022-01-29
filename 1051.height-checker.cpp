@@ -26,16 +26,16 @@ public:
             if(heights[i]!=order[i])
                 count++;
         }
-            return count;
-        }
-    };
+        return count;
+    }
+};
+
 int main(){
     Solution sol;
     vector<int> heights={1,1,4,2,1,3};
     int count;
     count=sol.heightChecker(heights);
     cout<<count;
-
     return 0;
 }
 
