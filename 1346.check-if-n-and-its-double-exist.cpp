@@ -14,7 +14,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+class Solution0 {
 public:
     bool checkIfExist(vector<int>& a) {
         int n = a.size();
@@ -27,7 +27,8 @@ public:
         return false;
     }
 };
-class Solution {
+
+class Solution1 {
 public:
     bool checkIfExist(vector<int>& arr) {
         int n=arr.size();
@@ -52,12 +53,44 @@ public:
          return false;
     }
 };
+
+// binary search 
+class Solution {
+public:
+    bool checkIfExist(vector<int>& arr) {
+        int n= arr.size();
+        sort(arr.begin(),arr.end()); // double exist 
+        for(int i=0;i<n;i++){
+            int ans = search(arr,arr[i]);
+            if(ans !=i && ans !=-1) 
+                return true;
+        }
+        return false;
+    }
+    int search(vector<int>& arr, int target){
+        int n= arr.size();
+        int l= 0;
+        int r=n-1;
+        while(l<=r){
+            int mid= l+(r-l)/2;
+            if(arr[mid]>2*target)
+                r= mid-1;
+            else if(arr[mid]<2*target)
+                l= mid+1;
+            else 
+                return mid;
+        }
+        return -1;
+    }
+};
+
+
 // @lc code=end
 
 
 int main(){
     Solution sol;
-    vector<int> arr={3,1,7,11};
+    vector<int> arr={3,5,7,10};
     bool out=sol.checkIfExist(arr);
     cout<<out;
     return 0;

@@ -19,7 +19,9 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+
+// binary search
+class Solution0 {
 public:
     int mySqrt(int x){
         if(x<2)
@@ -37,6 +39,37 @@ public:
         return left-1;
     }
 };
+
+//linear search 
+class Solution1 {
+public:
+    int mySqrt(int x) {
+        long long y=0;
+        while(y*y<=x) y++;
+        return y-1;
+    }
+}; 
+
+class Solution {
+public:
+    int mySqrt(int x) {
+        long long l=0;
+        long long r=INT_MAX;
+        long long ans;
+        while(l<=r){
+            long long m= l+(r-l)/2;
+            if(m*m<=x){
+                ans =m;
+                l=m+1;
+            }else {
+                r=m-1;
+            }
+        }
+        return ans;
+    }
+};
+
+//  time complexity = O(under root of x)
 // @lc code=end
 
 
