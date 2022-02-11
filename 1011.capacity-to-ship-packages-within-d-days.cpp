@@ -34,11 +34,12 @@ public:
         }
         int l= mx;
         int h= sum;
+        //  we doing bsearch on the weights
         while(l<=h){
             int mid= l+(h-l)/2;
-            if(isPossible(weights,days,mid)==true){
+            if(isPossible(weights,days,mid)==true){ // if possible we become greedy and want to get a lesser value
                 ans=mid;
-                h=mid-1;
+                h=mid-1; // for lesser answer we reduce higher limit 
             }
             else 
                 l= mid+1;
@@ -50,9 +51,9 @@ public:
         int sum=0;
         for(int i=0;i<weights.size();i++){
             sum+= weights[i];
-            if(sum>mid){
+            if(sum>mid){ // if the sum is more than mid then we need one more day to complete the task
                 d++;
-                sum = weights[i];
+                sum = weights[i]; // reset sum back at where i is
             }
         }
         if(d<=days)

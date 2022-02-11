@@ -21,7 +21,8 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+//  same as 1011. capacity to ship packages 
+class Solution { // binary search 
 public:
     int splitArray(vector<int>& nums, int m) {
         int n= nums.size();
