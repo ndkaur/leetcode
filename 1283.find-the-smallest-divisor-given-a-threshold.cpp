@@ -20,29 +20,32 @@ void print(vi &out){
 }
 
 // @lc code=start
-// class Solution {
-// public:
-//     int smallestDivisor(vector<int>& nums, int threshold) {
-//         int n = nums.size();
-//         int mx = *max_element(nums.begin(), nums.end());
-//         for(int d=1;d<=mx;d++){
-//             int sum = find_sum(nums,d);
-//             if(sum<=threshold) 
-//                 return d;
-//         }
-//         return -1;
-//     }
+class Solution0 {
+public:
+    int smallestDivisor(vector<int>& nums, int threshold) {
+        int n = nums.size();
+        int mx = *max_element(nums.begin(), nums.end());
+        for(int d=1;d<=mx;d++){
+            int sum = find_sum(nums,d);
+            if(sum<=threshold) 
+                return d;
+        }
+        return -1;
+    }
 
-//     int find_sum(vi &nums, int d){
-//         int sum = 0;
-//         for(auto x: nums){
-//             int ans = (x + d-1)/d;
-//             sum+=ans;
-//         }
-//         return sum;
-//     }
-// };
-class Solution {
+    int find_sum(vi &nums, int d){
+        int sum = 0;
+        for(auto x: nums){
+            int ans = (x + d-1)/d;
+            sum+=ans;
+        }
+        return sum;
+    }
+};
+
+//  ceil division = a+b-1 / b
+
+class Solution1 {
 public:
     int smallestDivisor(vector<int>& nums, int threshold) {
         int n=nums.size();
@@ -67,13 +70,45 @@ public:
     }
 };
 
+class Solution {
+public:
+    int smallestDivisor(vector<int>& nums, int threshold) {
+        int n= nums.size();
+        int l=1;
+        int h= *max_element(nums.begin(),nums.end());
+        int ans= -1;
+        while(l<=h){
+            int mid= l+(h-l)/2;
+            if(possible(nums,threshold,mid)==true){
+                h=mid-1;
+                ans= mid;
+            } else 
+                l= mid+1;
+        }
+        return ans;
+    }
+    bool possible(vector<int>& nums,int threshold,int mid){
+        int n= nums.size();
+        int count=0;
+        for(int i=0;i<n;i++){
+            if(nums[i]%mid==0)
+                count+= nums[i]/mid;
+            else 
+                count+= nums[i]/mid +1;
+        }
+        if(count>threshold)
+            return false;
+        return true;
+    }
+};
+
 // @lc code=end
 
 
 int main(){
     Solution sol; 
-    vector<int> nums= {2,3,5,7,11}; 
-    int th = 11; 
+    vector<int> nums= {1,2,5,9}; 
+    int th = 6; 
     int out;
     out = sol.smallestDivisor(nums,th); 
     deb(out);
