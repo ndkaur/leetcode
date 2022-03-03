@@ -56,6 +56,43 @@ public:
     }
 };
 
+class Solution { // array 
+public:
+    vector<int> ans;
+    Solution(ListNode* head) {
+        while(head){
+            ans.push_back(head->val);
+            head= head->next;
+        }
+    }
+    
+    int getRandom() {
+        return ans[rand()% ans.size()];
+    }
+};
+
+
+class Solution {  // reservoir sampling method
+public:
+    ListNode* curr;
+    Solution(ListNode* head) {
+        curr= head;
+    }
+    
+    int getRandom() {
+        int ans=0;
+        int len=1;
+        ListNode* temp= curr;
+        while(temp){
+            if(rand()% len==0)
+                ans= temp->val;
+            len++;
+            temp= temp->next;
+        }
+        return ans;
+    }
+};
+
 /**
  * Your Solution object will be instantiated and called as such:
  * Solution* obj = new Solution(head);

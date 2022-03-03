@@ -65,6 +65,36 @@ public:
         return out;
     }
 };
+
+
+class Solution {
+public:
+    vector<ListNode*> splitListToParts(ListNode* head, int k) {
+        ListNode* temp= head;
+        int len= 0;
+        while(temp){
+            temp= temp->next;
+            len++;
+        }
+        vector<ListNode*> ans(k,NULL);
+        int sz= len/k;
+        int rem= len%k; 
+        temp = head;
+        ListNode* prev=NULL;
+        int i=0;
+        while(temp && i<k){ // len= 10  sz= 3 rem=1
+            ans[i]= temp;
+            for(int j=0; j<sz+(rem>0 ? 1:0); j++){ // j=0->1->2->3 {1,2,3,4}
+                prev= temp;
+                temp= temp->next;
+            }
+            prev->next= NULL; // break connection 
+            i++;
+            rem--;
+        }
+        return ans;
+    }
+};
 // @lc code=end
 
 

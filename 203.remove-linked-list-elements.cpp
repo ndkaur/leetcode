@@ -50,6 +50,52 @@ public:
         return head;
     }
 };
+
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int value) {
+        if(head==NULL) return NULL;
+        ListNode* dummy = new ListNode(-1);
+        dummy->next = head;
+        ListNode* tail= dummy;
+        while(tail && tail->next){
+            if(tail->next->val== value){
+                ListNode* temp = tail->next;
+                tail->next= tail->next->next;
+                delete temp;
+            }
+            else
+                tail= tail->next;
+        }
+        return dummy->next;
+    }
+};
+
+//  recursion 
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        if(head==NULL) return NULL;
+        head->next= removeElements(head->next,val);
+        if(head->val==val){
+            ListNode* temp = head->next;
+            delete head;
+            return temp;
+        }
+        else
+            return head;
+    }
+};
+
+
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        if(head==NULL) return NULL;
+        head->next= removeElements(head->next,val);
+        return head->val==val ? head->next: head;
+    }
+};
 // @lc code=end
 
 

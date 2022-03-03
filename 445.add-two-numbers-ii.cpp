@@ -50,9 +50,54 @@ public:
 
             sum=sum/10;
         }
-        return head;
+        return head; 
     }
 };
+
+//  help= 7 
+// help -> next= head    head= null   so  it becomes  help= 7->next= head -----> 7->null
+// head=  help    when new node comes we add it to help ->next which is head 
+//  so new node is getting added in front of previous head   8->7 
+
+class Solution {
+public:
+    ListNode* reverseL(ListNode* head){
+        ListNode* curr= head;
+        ListNode* prev=NULL;
+        while(curr){
+            ListNode* temp= curr->next;
+            curr->next= prev;
+            prev= curr;
+            curr= temp;
+        }
+        return prev;
+    }
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        l1= reverseL(l1);
+        l2= reverseL(l2);
+        int carry=0;
+        ListNode* dummy = new ListNode();
+        ListNode* temp = dummy;
+        while(l1 || l2 || carry){
+            int sum=0;
+            if(l1){
+                sum+= l1->val;
+                l1=l1->next;
+            }
+            if(l2){
+                sum+= l2->val;
+                l2= l2->next;
+            }
+            sum+= carry;
+            carry = sum/10;
+            ListNode* node= new ListNode(sum%10);
+            temp->next = node;
+            temp= temp->next;
+        }
+        return reverseL(dummy->next);
+    }
+};
+
 int main(){
     Solution sol;
     vector<int> a={7,2,4,3};

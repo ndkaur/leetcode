@@ -51,7 +51,11 @@ public:
     }
 };
 
-class Solution {
+// find the mid element then reverse the list next to mid 
+//  take two ptrs one on head one on element next to mid 
+// then again revrse the list to make it same as original
+
+class Solution {  // O(n)
 public:
     bool isPalindrome(ListNode* head) {
         if(head==NULL || head->next==NULL)
@@ -82,6 +86,42 @@ public:
             head=next;
         }
         return prev;
+    }
+};
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head){
+        if(head==NULL) return NULL;
+        ListNode* curr= head;
+        ListNode* prev= NULL;
+        ListNode* temp;
+        while(curr!=NULL){
+            temp= curr->next;
+            curr->next= prev;
+            prev= curr;
+            curr= temp;
+        }
+        return prev;
+    }
+    bool isPalindrome(ListNode* head) {
+        ListNode* slow= head;
+        ListNode* fast=head;
+        while(fast->next && fast->next->next){
+            slow=slow->next;
+            fast= fast->next->next;
+        }
+//          slow->next= mid->mid 
+        slow->next = reverseList(slow->next);
+        ListNode* start = head;
+        ListNode* mid = slow->next;
+        while(mid!=NULL){
+            if(mid->val!=start->val) return false;
+            start= start->next;
+            mid= mid->next;
+        }
+        slow->next= reverseList(slow->next);
+        return true;
     }
 };
 // @lc code=end

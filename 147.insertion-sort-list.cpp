@@ -58,6 +58,61 @@ public:
         return dummy->next;
     }
 };
+
+
+// class Solution {
+// public:
+//     ListNode* insertionSortList(ListNode* head) {
+//         if(!head) return head;
+//         ListNode* dummy= new ListNode(0);
+//         dummy->next= head;
+//         ListNode* prev= dummy;
+//         ListNode* curr=  head;
+//         ListNode* temp;
+//         while(curr){
+//             if(curr->next && curr->next->val<curr->val){
+//     // set temp as ptr till where the list is already sorted or where the num will be inserted
+//                 while(prev->next && prev->next->val<curr->next->val){
+//                     prev= prev->next;
+//                 }
+//                 temp= prev->next;
+//                 prev->next= curr->next;
+//                 curr->next= curr->next->next;
+//                 prev->next->next= temp;
+//                 prev= dummy;
+//             } else{
+//                 curr= curr->next;
+//             }
+//         }
+//         return dummy->next;
+//     }
+// };
+
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* head) {
+        ListNode* curr= head;
+        head= NULL;
+        while(curr){
+            ListNode* next= curr->next;
+            if(!head || head->val>curr->val){
+                curr->next= head;
+                head= curr;
+            }
+            else{
+                ListNode* temp= head;
+                while(temp->next && temp->next->val <= curr->val){
+                        temp= temp->next;
+                }
+                curr->next= temp->next;
+                temp->next= curr;
+            }
+            curr= next;
+        }
+        return head;
+    }
+};
+
 // @lc code=end
 
 

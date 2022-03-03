@@ -59,6 +59,34 @@ public:
         return head;
     }
 };
+
+
+class Solution {
+public:
+    Node* flatten(Node* head) {
+        if(head==NULL) return head;
+        Node* temp= head;
+        Node* childNext =NULL;
+        Node* tempChild = NULL;
+        while(temp){
+            if(temp->child){
+                childNext = temp->next;
+                temp->next= temp->child;
+                temp->child->prev=temp;
+                tempChild= temp->child; 
+                while(tempChild->next){
+                    tempChild= tempChild->next;
+                }
+                tempChild->next= childNext;
+                if(childNext)
+                    childNext->prev= tempChild;
+                temp->child= NULL;
+            }
+            temp = temp->next;
+        }
+        return head;
+    }
+};
 // @lc code=end
 
 int main(){

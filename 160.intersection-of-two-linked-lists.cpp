@@ -28,6 +28,85 @@ void print(vi &out){
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+
+//  brute force :- for headA travel each headB
+class Solution0 {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode* temp;
+        while(headA){
+            temp= headB;
+            while(temp){
+                if(temp== headA) 
+                    return headA;
+                temp=temp->next;
+            }
+            headA= headA->next;
+        }
+        return NULL;
+    }
+};
+
+
+//  use extra space make map
+class Solution1 {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        unordered_map<ListNode* , int> mp;
+        while(headA){
+            mp[headA]++;
+            headA=headA->next;
+        } 
+        while(headB){
+            if(mp[headB]>0)  // count more that 0 
+                return headB;
+            headB=headB->next;
+        }
+        return NULL;
+    }
+};
+
+// making the lenghts sync in together then moving together
+//  reducing the large lenght so it get equal 
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        int l1=0;
+        int l2=0;
+        ListNode* h1= headA;
+        ListNode* h2= headB;
+        while(headA){
+            l1++;
+            headA=headA->next;
+        }
+        while(headB){
+            l2++;
+            headB = headB->next;
+        }
+        int diff = abs(l1-l2);
+        if(l1>l2){
+            while(diff--)
+                h1 = h1->next;
+        }
+        else{
+            while(diff--)
+                h2= h2->next;
+        }
+        while(h1 && h2){
+            if(h1==h2)
+                return h1;
+            h1=h1->next;
+            h2= h2->next;
+        }
+        return NULL;
+    }
+};
+
+
+//  moving headA with lenght = (m+x)+(n+x)
+//  moving headB with lenght = (n+x)+(m+x)
+// balancing out the lenghts 
+
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
@@ -47,7 +126,7 @@ public:
             else 
                 b=headA;
         }
-        deb(a->val);
+        // deb(a->val);
         return a;
     }
 };

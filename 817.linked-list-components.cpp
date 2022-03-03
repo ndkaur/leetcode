@@ -30,7 +30,7 @@ void print(vi &out){
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-class Solution {
+class Solution0 {
 public:
     int numComponents(ListNode* head, vector<int>& g) {
         unordered_set<int> s(g.begin(),g.end());
@@ -42,6 +42,27 @@ public:
             curr=curr->next;
         }
         return count;
+    }
+};
+
+class Solution {
+public:
+    int numComponents(ListNode* head, vector<int>& g) {
+       if(!head) return 0;
+       if(!head->next) return 1;
+       int count=0;
+       bool consecutive= false;
+       while(head){
+            if(find(g.begin(),g.end(), head->val)!=g.end()){
+                if(!consecutive) 
+                    count++;
+                consecutive = true;
+            }    
+            else 
+                consecutive= false;
+            head= head->next;
+       }
+       return count;
     }
 };
 // @lc code=end

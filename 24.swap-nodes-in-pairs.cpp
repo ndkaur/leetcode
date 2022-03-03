@@ -51,6 +51,28 @@ public:
         return temp->next;
     }
 };
+
+
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        ListNode *dummy=new ListNode(-1);
+        dummy->next= head;
+        ListNode* prev = dummy;
+        while(prev->next && prev->next->next){
+            ListNode* curr= prev->next;
+            ListNode* forward = curr->next;
+            ListNode* temp= forward->next;
+
+            prev->next= forward;
+            curr->next= temp;
+            forward->next= curr;
+
+            prev= curr;
+        }
+        return dummy->next;
+    }
+};
 // @lc code=end
 
 

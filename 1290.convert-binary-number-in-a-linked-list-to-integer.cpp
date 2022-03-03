@@ -30,6 +30,8 @@ void print(vi &out){
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
+//  binary representation
 class Solution {
 public:
     int getDecimalValue(ListNode* head) {
@@ -40,6 +42,22 @@ public:
             ans=ans*2;
             ans=ans+head->val;
             head=head->next;
+        }
+        return ans;
+    }
+};
+
+
+// bit manipulation
+class Solution {
+public:
+    int getDecimalValue(ListNode* head) {
+        int ans =0;
+        if(head==NULL)
+            return 0;
+        while(head){
+            ans= (ans<<1) | head->val;
+            head= head->next;
         }
         return ans;
     }
