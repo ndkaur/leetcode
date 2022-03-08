@@ -14,7 +14,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+class Solution0 {
 public:
     vector<int> smaller(vector<int>& nums) {
         int len=nums.size();
@@ -31,6 +31,22 @@ public:
     }
 };
 
+class Solution {
+public:
+    vector<int> smaller(vector<int>& nums) {
+        int n= nums.size();
+        unordered_map<int,int> mp;
+        vector<int> sorted= nums;
+        sort(sorted.begin(),sorted.end());
+        for(int i=n-1;i>=0;i--){
+            mp[sorted[i]]=i;
+        }
+        for(int i=0;i<n;i++){
+            nums[i]= mp[nums[i]];
+        }
+        return nums;
+    }
+};
 // @lc code=end
 int main(){
     Solution sol;
