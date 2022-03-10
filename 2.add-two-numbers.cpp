@@ -51,6 +51,32 @@ public:
 		return dummy->next;
     }
 };
+
+
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* dummy= new ListNode(-1);
+        ListNode* temp= dummy;
+        ListNode* p=l1;
+        ListNode* q= l2;
+        int carry=0;
+        while(p || q){
+            int x= p? p->val:0;
+            int y= q ? q->val:0;
+            int sum= carry+x+y;
+            carry= sum/10;
+            temp->next= new ListNode(sum%10);
+            temp= temp->next;
+            if(p) p= p->next;
+            if(q) q= q->next;
+        }
+        if(carry>0){
+            temp->next= new ListNode(carry);
+        }
+        return dummy->next;
+    }
+};
 // @lc code=end
 
 
