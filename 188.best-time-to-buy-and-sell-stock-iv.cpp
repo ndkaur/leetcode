@@ -76,6 +76,88 @@ public:
 
 // @lc code=end
  
+// RECURSSION 
+class Solution {
+public:
+    int f(int idx, int trans, int k, vector<int>& prices){
+        int n= prices.size();
+        if(idx==n || trans==2*k) // 1 trans = 2 steps 
+            return 0;
+        if(trans%2==0){
+            return max(-prices[idx]+ f(idx+1, trans+1,k, prices), f(idx+1, trans, k, prices));
+        }
+        return max(prices[idx]+ f(idx+1, trans+1, k,prices), f(idx+1, trans, k, prices));
+    }
+    int maxProfit(int k, vector<int>& prices) {
+        int n= prices.size();
+        return f(0,0,k,prices);
+    }
+};
+
+
+// MEMOIZATION
+class Solution {
+public:
+    int f(int idx, int trans, int k, vector<int>& prices, vector<vector<int>>& dp){
+        int n= prices.size();
+        if(idx==n || trans==2*k) // 1 trans = 2 steps 
+            return 0;
+        if(dp[idx][trans]!=-1) return dp[idx][trans];
+        if(trans%2==0){
+            return dp[idx][trans]=max(-prices[idx]+ f(idx+1, trans+1,k, prices,dp), f(idx+1, trans, k, prices,dp));
+        }
+        return dp[idx][trans]= max(prices[idx]+ f(idx+1, trans+1, k,prices,dp), f(idx+1, trans, k, prices,dp));
+    }
+    int maxProfit(int k, vector<int>& prices) {
+        int n= prices.size();
+        vector<vector<int>>dp (n, vector<int>(2*k,-1));
+        return f(0,0,k,prices,dp);
+    }
+};
+
+//  tabulation 
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        int n= prices.size();
+        vector<vector<int>>dp (n+1, vector<int>(2*k+1,0));
+
+        for(int idx=n-1;idx>=0;idx--){
+            for(int trans=2*k-1;trans>=0;trans--){
+                if(trans%2==0){
+                    dp[idx][trans] = max(-prices[idx]+dp[idx+1][trans+1], dp[idx+1][trans]);
+                }
+                else 
+                    dp[idx][trans] = max(prices[idx]+ dp[idx+1][trans+1], dp[idx+1][trans]);
+                
+            }
+        }
+        return dp[0][0];
+    }
+};
+
+//  space optimization 
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        int n= prices.size();
+        vector<int> next(2*k+1 ,0);
+        vector<int> cur(2*k+1, 0);
+        
+        for(int idx=n-1;idx>=0;idx--){
+            for(int trans=2*k-1;trans>=0;trans--){
+                if(trans%2==0){
+                    cur[trans] = max(-prices[idx]+next[trans+1], next[trans]);
+                }
+                else 
+                    cur[trans] = max(prices[idx]+ next[trans+1], next[trans]);
+                
+            }
+            next= cur;
+        }
+        return next[0];
+    }
+};
 
 int main(){
     Solution sol;

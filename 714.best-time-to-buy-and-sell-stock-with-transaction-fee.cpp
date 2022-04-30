@@ -69,6 +69,60 @@ public:
 };
 // @lc code=end
 
+//  RECURSSION 
+class Solution {
+public:
+    int f(int idx, int buy, int fee, vector<int>& prices){
+        int n= prices.size();
+        if(idx==n) return 0;
+        if(buy)
+            return max(-prices[idx]-fee + f(idx+1, 0, fee, prices), f(idx+1, 1, fee, prices));
+        return max(prices[idx]+ f(idx+1, 1, fee, prices), f(idx+1,0, fee, prices));
+    }
+    int maxProfit(vector<int>& prices, int fee) {
+        return f(0, 1, fee, prices);
+    }
+};
+
+
+//  MEMOIZATION 
+class Solution {
+public:
+    int f(int idx, int buy, int fee, vector<int>& prices,vector<vector<int>>& dp){
+        int n= prices.size();
+        if(idx==n) return 0;
+        if(dp[idx][buy]!=-1) return dp[idx][buy];
+        if(buy)
+            dp[idx][buy]= max(-prices[idx]-fee + f(idx+1, 0, fee, prices,dp), f(idx+1, 1, fee, prices,dp));
+        else 
+            dp[idx][buy]= max(prices[idx]+ f(idx+1, 1, fee, prices,dp), f(idx+1,0, fee, prices,dp));
+        return dp[idx][buy];
+    }
+    int maxProfit(vector<int>& prices, int fee) {
+        int n= prices.size();
+        vector<vector<int>> dp(n, vector<int>(2,-1));
+        return f(0, 1, fee, prices,dp);
+    }
+};
+
+//  TABULATION 
+class Solution {
+public:
+    int maxProfit(vector<int>& prices, int fee) {
+        int n= prices.size();
+        vector<vector<int>> dp(n+1, vector<int>(2,0));
+         
+        for(int idx=n-1;idx>=0;idx--){
+            for(int buy=0;buy<=1;buy++){
+                if(buy)
+                    dp[idx][buy] = max(-prices[idx]-fee + dp[idx+1][0] , dp[idx+1][1]);
+                else 
+                    dp[idx][buy] = max(prices[idx]+ dp[idx+1][1], dp[idx+1][0]);
+            }
+        }
+        return dp[0][1];
+    }
+};
 
 int main(){
     Solution sol;

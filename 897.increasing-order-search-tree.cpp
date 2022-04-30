@@ -50,6 +50,54 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    void dfs(TreeNode* &curr , TreeNode* root){
+        if(root==NULL) return;
+        dfs(curr, root->left);
+        root->left= NULL;
+        curr->right= root;
+        curr= curr->right;
+        dfs(curr, root->right);
+    }
+    TreeNode* increasingBST(TreeNode* root) {
+        if(root==NULL) return NULL;
+        TreeNode* newtree= new TreeNode(0);
+        TreeNode* curr= newtree;
+        dfs(curr,root);
+        return newtree->right;
+    } 
+}; 
+
+
+class Solution {
+public:
+    TreeNode* increasingBST(TreeNode* root) {
+        if(root==NULL) return NULL;
+        TreeNode* newtree= new TreeNode(0);
+        TreeNode* out= newtree;
+        TreeNode* curr= root;
+        stack<TreeNode*> stk;
+        while( curr || !stk.empty()){
+            while(curr){
+                stk.push(root);
+                curr= curr->left;
+            }
+            curr = stk.top();
+            stk.pop();
+            out->right= curr;
+            out= out->right;
+            out->left= NULL;
+
+            curr= curr->right;
+        }
+        return newtree->right;
+    } 
+}; 
+
+
+
 // @lc code=end
 
 

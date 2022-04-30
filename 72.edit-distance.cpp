@@ -150,6 +150,76 @@ public:
     }
 };
 
+// RECURSION
+
+class Solution {
+public:
+    int f(int i, int j, string w1, string w2){
+        if(i<0) // w1 is exhausted insert he remaining of j into i 
+            return j+1;
+        if(j<0) // w2 is exhausted , delete the remining i 
+            return i+1;
+        if(w1[i]==w2[j])  // matched
+            return 0+f(i-1,j-1,w1,w2);
+        // not matched 
+        return 1+min(f(i,j-1,w1,w2), min(f(i-1,j,w1,w2),f(i-1,j-1,w1,w2))); 
+//         insert delted replace
+    }
+    int minDistance(string w1, string w2) {
+        int n= w1.size();
+        int m= w2.size();
+        return f(n-1,m-1,w1,w2);
+    }
+};
+
+//  MEMOIZATION
+class Solution {
+public:
+    int f(int i, int j, string w1, string w2,vector<vector<int>>& dp){
+        if(i==0) // w1 is exhausted insert he remaining of j into i 
+            return j;
+        if(j==0) // w2 is exhausted , delete the remining i 
+            return i;
+        if(dp[i][j]!=-1) return dp[i][j];
+        if(w1[i-1]==w2[j-1])  // matched
+            return dp[i][j]= 0+f(i-1,j-1,w1,w2,dp);
+        // not matched 
+        return dp[i][j]= 1+min(f(i,j-1,w1,w2,dp), min(f(i-1,j,w1,w2,dp),f(i-1,j-1,w1,w2,dp))); 
+//         insert delete replace
+    }
+    int minDistance(string w1, string w2) {
+        int n= w1.size();
+        int m= w2.size();
+        vector<vector<int>> dp(n+1, vector<int>(m+1,-1)); // 1 base indexing 
+        return f(n,m,w1,w2,dp);
+    }
+};
+
+//  TABULATION 
+class Solution {
+public:
+    int minDistance(string w1, string w2) {
+        int n= w1.size();
+        int m= w2.size();
+        vector<vector<int>> dp(n+1, vector<int>(m+1,0)); // 1 base indexing 
+        for(int i=0;i<=n;i++)
+            dp[i][0] = i;
+        for(int j=0;j<=m;j++)
+            dp[0][j]=j;
+        
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=m;j++){
+                if(w1[i-1]==w2[j-1])
+                    dp[i][j] = dp[i-1][j-1];
+                else 
+                    dp[i][j] = 1+min(dp[i-1][j], min(dp[i][j-1], dp[i-1][j-1]));
+            }
+        }
+        return dp[n][m];
+    }
+};
+
+ 
 // @lc code=end
 
 

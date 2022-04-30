@@ -162,6 +162,68 @@ class Solution {
     }
 };
 
+
+class Solution0 {
+public:
+    int f(vector<int>& coins , int idx, int amount){
+        if(amount==0) return 0;
+        if(idx>=coins.size() || amount<0) return 1e9;
+        int notPick= f(coins,idx-1, amount);
+        int pick = 1+f(coins,idx, amount-coins[idx]);
+        
+        return min(pick,notPick);
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        int n= coins.size();
+        int ans= f(coins,n-1, amount);
+        if(ans==1e9) return -1;
+        return ans;
+    }
+}; 
+
+class Solution1 {
+public:
+    int f(vector<int>& coins , int idx, int amount, vector<vector<int>>& dp){
+        if(amount==0) return 0;
+        if(idx>=coins.size() || amount<0) return 1e9;
+        if(dp[idx][amount]!=-1) return dp[idx][amount];
+        int notPick= f(coins,idx-1, amount,dp);
+        int pick = 1+f(coins,idx, amount-coins[idx],dp);
+        
+        return dp[idx][amount]=min(pick,notPick);
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        int n= coins.size();
+        vector<vector<int>> dp(n, vector<int>(amount+1,-1));
+        int ans= f(coins,n-1, amount,dp);
+        if(ans==1e9) return -1;
+        return ans;
+    }
+}; 
+
+
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        int n= coins.size();
+        vector<vector<int>> dp(n+1, vector<int>(amount+1,0));
+       
+        for(int i=0;i<=n;i++){
+            for(int t=0;t<=amount;t++){
+                if(t==0)
+                    dp[i][t]=0;
+                else if(i==0)
+                    dp[i][t]= 1e5;
+                else if(coins[i-1]>t) // not pick
+                    dp[i][t]= dp[i-1][t];
+                else // pick
+                    dp[i][t]= min(1+dp[i][t-coins[i-1]], dp[i-1][t]);
+            } 
+        }
+        return dp[n][amount]> 1e4 ? -1 : dp[n][amount];
+    }
+}; 
+
 // @lc code=end
 
 int main(){

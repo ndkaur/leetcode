@@ -92,6 +92,114 @@ public:
 };
 // @lc code=end
 
+// RECURSION -> TIME = 2^N    SPACE -> o(N)
+
+class Solution {
+public:
+    int f(int idx, bool buy, vector<int>& prices){
+        int n= prices.size();
+        if(idx==n) return 0;
+        int profit=0;
+        if(buy){
+            profit= max(-prices[idx]+f(idx+1,0,prices) , f(idx+1,1,prices));
+        }else{ // sell
+            profit= max(prices[idx]+f(idx+1,1,prices),f(idx+1,0,prices));
+        }
+        return profit;
+    }
+    int maxProfit(vector<int>& prices) {
+        int n= prices.size();
+        return f(0,1,prices);
+    }
+};
+
+// MEMOIZATION -> time  O(n*2)    space =O(n*2) +O(n) // auxilary stack space
+
+class Solution {
+public:
+    int f(int idx, bool buy, vector<int>& prices,vector<vector<int>>& dp){
+        int n= prices.size();
+        if(idx==n) return 0; // buy =1, sell =0
+        int profit=0;
+        if(dp[idx][buy]!=-1) return dp[idx][buy];
+        if(buy){
+            profit= max(-prices[idx]+f(idx+1,0,prices,dp) , f(idx+1,1,prices,dp));
+        }else{ // sell
+            profit= max(prices[idx]+f(idx+1,1,prices,dp),f(idx+1,0,prices,dp));
+        }
+        return dp[idx][buy]=profit;
+    }
+    int maxProfit(vector<int>& prices) {
+        int n= prices.size();
+        vector<vector<int>> dp(n, vector<int>(2,-1));
+        return f(0,1,prices,dp);
+    }
+};
+
+// TABULATION  space O(n*2)   time O(n*2)
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n= prices.size();
+        vector<vector<int>> dp(n+1, vector<int>(2,0));
+        dp[n][0] = dp[n][1]=0;
+        int profit=0;
+        for(int idx=n-1;idx>=0;idx--){
+            for(int buy=0;buy<=1;buy++){
+                if(buy){           // buy                       // not buy
+                    profit= max(-prices[idx]+dp[idx+1][0] , dp[idx+1][1]);
+                }else{ // sell
+                    profit= max(prices[idx]+dp[idx+1][1],dp[idx+1][0]);
+                }
+                dp[idx][buy]=profit;
+            }
+        }
+        return dp[0][1];
+    }
+};
+
+// SPACE OPTIMIZATION
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n= prices.size();
+        vector<int> next(2,0);
+        vector<int> curr(2,0);
+        next[0] = next[1]=0;
+        int profit=0;
+        for(int idx=n-1;idx>=0;idx--){
+            for(int buy=0;buy<=1;buy++){
+                if(buy){           // buy                       // not buy
+                    profit= max(-prices[idx]+next[0] , next[1]);
+                }else{ // sell
+                    profit= max(prices[idx]+next[1],next[0]);
+                }
+                curr[buy]=profit;
+            }
+            next= curr;
+        }
+        return next[1];
+    }
+};
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n= prices.size();
+        int nextNotBuy , nextbuy, curBuy , curNotBuy;
+        nextNotBuy = nextbuy =0;
+        
+        for(int idx=n-1;idx>=0;idx--){
+            //  sell
+            curNotBuy = max(prices[idx]+nextbuy , nextNotbuy);
+            curBuy = max(-profit[idx]+ nextNotBuy , nextbuy);
+            nextbuy = curBuy;
+            nextNotBuy = curNotBuy;
+            
+        }
+        return nextbuy;
+    }
+};
 
 int main(){
     Solution sol;
