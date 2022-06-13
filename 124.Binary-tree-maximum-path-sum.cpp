@@ -50,6 +50,22 @@ public:
 // but if both results into negative then it will reduced the actual result 
 
 
+class Solution {
+public:
+    int maxPathSum(TreeNode* root) {
+        int mx= INT_MIN;
+        path(root,mx);
+        return mx;
+    }
+    int path(TreeNode* root,int& mx){
+        if(!root) return 0;
+        int l= max(0,path(root->left, mx));
+        int r= max(0,path(root->right, mx));
+        mx= max(mx,(l+r)+root->val);
+        return max(l,r)+root->val;
+    }
+};
+
 int main(){
     
     return 0;

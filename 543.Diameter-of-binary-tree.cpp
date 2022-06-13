@@ -27,6 +27,7 @@ void print(vi &out){
  * };
  */
 
+
 class Solution {
 public:
     int diameterOfBinaryTree(TreeNode* root) {
@@ -34,6 +35,7 @@ public:
         solve(root,res);
         return res;
     }
+    //  use the method to find height in binary tree
     int solve(TreeNode* root, int& res){
         if(root == NULL)
             return 0;

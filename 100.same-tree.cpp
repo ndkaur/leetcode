@@ -32,6 +32,7 @@ public:
             return true;
         if((p && !q) || (!p && q))
             return false;
+            // preorder
         return p->val==q->val && isSameTree(p->left,q->left) && isSameTree(p->right,q->right);
             
     }

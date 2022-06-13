@@ -24,7 +24,7 @@ public:
             int count=0;
             string str="";
             for(int j=i;j<n;j++){
-                str+= nums[j] +'0';
+                str+= nums[j] +'0'; //'0' mark the end of string
                 if(nums[j]%p==0)
                     count++;
                 if(count<=k)
