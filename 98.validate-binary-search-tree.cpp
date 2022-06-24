@@ -72,6 +72,20 @@ public:
     }
 };
 
+class Solution {  // o(n)  O(1)
+public:
+    bool isValidBST(TreeNode* root) {
+        return valid(root, LONG_MIN, LONG_MAX);
+    }
+    bool valid(TreeNode* root, long minVal ,long maxVal){
+        if(!root) return true;
+        // min < root < max  // opposite  min > root > max
+        if(root->val <= minVal || root->val>= maxVal)
+            return false;
+        return valid(root->left,minVal, root->val) && valid(root->right, root->val, maxVal);
+    }
+};
+
 // @lc code=end
 
 

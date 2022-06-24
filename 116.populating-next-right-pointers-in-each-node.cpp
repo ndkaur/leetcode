@@ -39,7 +39,8 @@ public:
 };
 */
 
-class Solution {
+//  doing it recursively
+class Solution { 
 public:
     Node* connect(Node* root) {
         if(!root || !root->left) return root;
@@ -53,7 +54,7 @@ public:
     }
 };
 
-
+//  we are storing the root val in temp and temp val in n 
 class Solution {
 public:
     Node* connect(Node* root) {

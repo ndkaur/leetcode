@@ -58,6 +58,45 @@ public:
         return count!=n? false:true;
     }
 };
+
+
+//  valid bt -> 1st condition -> if each node gets visited only ones 
+//  2nd condition->  if a single tree is formed ie only one node wihtout parent
+// left= {1,-1,3,1}  0 left=1 ,  1 left= -1 ,  2 left= 3  , 1 left=1
+
+class Solution {
+public:
+    bool validateBinaryTreeNodes(int n, vector<int>& leftChild, vector<int>& rightChild) {
+        vector<bool> visited(n,0);
+        queue<int> q;
+        q.push(0);
+        //  checking each node visited ones
+        while(!q.empty()){
+            int top= q.front();
+            q.pop();
+            if(visited[top]) // if node already visited then node not a valid tree form 
+                return false;
+            visited[top]= true;
+            if(leftChild[top]!=-1)
+                q.push(leftChild[top]);
+            if(rightChild[top]!=-1)
+                q.push(rightChild[top]);
+        }
+        //  check number of nodes without parent ie if a single or multiple tree formed
+        vector<int> without_parent(n,1);
+        for(int i:leftChild){
+            if(i!=-1) 
+                without_parent[i]=0;
+        }
+        for(int i:rightChild){
+            if(i!=-1)
+                without_parent[i]=0;
+        }
+        int tot = accumulate(without_parent.begin(), without_parent.end(),0);
+        return (tot==1)? true:false;
+    }
+};
+
 // @lc code=end
 
 // testcase on which simple bfs doesnot work 

@@ -50,6 +50,32 @@ public:
         return buildTree_rec(inorder,0,n,postorder,0,n);
     }
 };
+
+
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        if(inorder.size()!= postorder.size())
+            return NULL;
+        map<int, int> inMap;
+        for(int i=0;i<inorder.size();i++){
+            inMap[inorder[i]]=i;
+        }
+        return build(postorder,0,postorder.size()-1 , inorder,0, inorder.size()-1,inMap);
+    }
+    TreeNode* build(vector<int>& postorder, int pStart, int pEnd , vector<int>& inorder, int inStart, int inEnd , map<int,int>& inMap){
+        if(pStart> pEnd || inStart > inEnd) 
+            return NULL;
+        TreeNode* node= new TreeNode(postorder[pEnd]);
+        int inRoot= inMap[node->val];
+        int numLeft= inRoot - inStart;
+
+        node->left= build(postorder,pStart,pStart+numLeft-1 , inorder, inStart, inRoot-1, inMap);
+        node->right= build(postorder,pStart+numLeft,pEnd-1 , inorder,inRoot+1, inEnd, inMap);
+        return node;
+    }
+};
+
 // @lc code=end
 
 

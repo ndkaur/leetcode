@@ -72,28 +72,30 @@ public:
 class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-        vector<vector<int>> result;
-        if(!root) return result;
-        bool leftToRight=true;
+        vector<vector<int>> ans;
+        if(!root) return ans;
         queue<TreeNode*> q;
+        bool leftToRight=true;
         q.push(root);
-        while(!q.empty()){
+        while(q.size()){
             int sz= q.size();
-            vector<int> temp(sz);
+            vector<int> row(sz);
             for(int i=0;i<sz;i++){
                 TreeNode* node= q.front();
                 q.pop();
-                int idx= leftToRight ? i : (sz-1-i);
-                temp[idx]=node->val;
+                // if left to right direction then idx is i otherwise fill in reverse manner
+                int idx= leftToRight ? i : (sz-i-1); 
+                row[idx]= node->val;
                 if(node->left)
                     q.push(node->left);
                 if(node->right)
                     q.push(node->right);
+                //  change the directions 
             }
-            leftToRight= !leftToRight;
-            result.push_back(temp);
+            leftToRight = !leftToRight;
+            ans.push_back(row);
         }
-        return result;
+        return ans;
     }
 };
 // @lc code=end

@@ -60,6 +60,36 @@ public:
         return 1+d;
     }
 };
+
+
+//  use same code of lca q no 236
+class Solution {
+public:
+    int depth;
+    TreeNode* lcaDeepestLeaves(TreeNode* root) {
+        depth = findDepth(root);
+        return lca(root,1);
+    }
+    TreeNode* lca(TreeNode* root, int d){
+        if(!root) return NULL;
+        if(d==depth) 
+            return root;
+        TreeNode* left= lca(root->left,d+1);
+        TreeNode* right = lca(root->right, d+1);
+        if(left ==NULL)
+            return right;
+        else if(right==NULL)
+            return left;
+        else
+            return root;
+        
+    }
+    int findDepth(TreeNode* root){
+        if(!root) return 0;
+        int d= max(findDepth(root->left), findDepth(root->right));
+        return d+1;
+    }
+};
 // @lc code=end
 
 

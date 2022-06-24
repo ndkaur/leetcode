@@ -66,6 +66,14 @@ public:
     }
 };
 
+
+//  2 options , with or without robberry 
+    //  a                  -> p with   , q->without
+//   b     c  
+// with robery at a->    left.q + right.q + root->val
+//  without robbery at a -> can rob next level -> max(left.with , left. without ) + max(right. with , right.without)
+ 
+ 
 // @lc code=end
 
 

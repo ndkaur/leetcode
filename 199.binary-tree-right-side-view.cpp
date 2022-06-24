@@ -46,6 +46,24 @@ public:
         dfs(root->left,ans,level+1);
     }
 };
+
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> ans;
+        dfs(root,0,ans);
+        return ans;  
+    }
+    //  root right left 
+    void dfs(TreeNode* root, int level, vector<int>& ans){
+        if(!root) return ;
+        if(ans.size()==level)
+            ans.push_back(root->val);
+        dfs(root->right, level+1, ans);
+        dfs(root->left, level+1,ans);
+        
+    }
+};
 // @lc code=end
 
 

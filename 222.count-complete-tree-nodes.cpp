@@ -32,7 +32,7 @@ void print(vi &out){
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class Solution { //O(n)
 public:
     int countNodes(TreeNode* root) {
         int x,y;
@@ -44,6 +44,38 @@ public:
         return 0;
     }
 };
+
+//  nodes in complete bt are = 2^h -1 
+class Solution { //tc-> O(logn)^2   sc->O(logN)
+public:
+    int countNodes(TreeNode* root) {
+        if(root==NULL) return 0;
+        int lh= findlh(root);
+        int rh= findrh(root);
+        if(lh==rh)
+            return (1<<lh)-1; // 2^h
+            // return pow(2,lh)-1; // 2^h
+        return 1+countNodes(root->left) + countNodes(root->right);
+    }
+    int findlh(TreeNode* node){
+        int h=0;
+        while(node){
+            h++;
+            node= node->left;
+        }
+        return h;
+    }
+
+    int findrh(TreeNode* node){
+        int h=0;
+        while(node){
+            h++;
+            node= node->right;
+        }
+        return h;
+    }
+};
+//  not all nodes are getting traversed 
 // @lc code=end
 
 

@@ -56,17 +56,61 @@ public:
     }
 };
 
-class Solution { // recursive
+//  recursive 
+class Solution { //tc->O(n) sc->O(n)
 public:
-    TreeNode* prev= NULL;
+    TreeNode* prev=NULL;
     void flatten(TreeNode* root) {
-        if(root==NULL)
-            return;
-        flaten(root->right);
-        flaten(root->left);
+        if(root==NULL) return;
+        //  right left root
+        flatten(root->right);
+        flatten(root->left);
         root->right= prev;
         root->left= NULL;
         prev= root;
+    }
+};
+
+// using stack 
+class Solution { //tc->O(n) sc->O(n)
+public:
+    void flatten(TreeNode* root) {
+        if(root==NULL) return;
+       stack<TreeNode*> st;
+       st.push(root);
+       while(!st.empty()){
+            TreeNode* curr= st.top();
+            st.pop();
+            if(curr->right) 
+                st.push(curr->right);
+            if(curr->left)
+                st.push(curr->left);
+            if(!st.empty()){
+                curr->right= st.top();
+                curr->left=NULL;
+            }
+       }
+    }
+};
+
+// using moris traversal
+class Solution {  // tc->O(n) sc->O(1)
+public:
+    void flatten(TreeNode* root) {
+        if(root==NULL) return;
+       TreeNode* curr=root;
+       while(curr!=NULL){
+            if(curr->left!=NULL){
+                TreeNode* prev= curr->left;
+                while(prev->right){
+                    prev=prev->right;
+                }
+                prev->right= curr->right;
+                curr->right= curr->left;
+                curr->left=NULL;
+            }
+            curr= curr->right;
+       }
     }
 };
 // @lc code=end

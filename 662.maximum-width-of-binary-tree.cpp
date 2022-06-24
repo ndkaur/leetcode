@@ -40,14 +40,49 @@ public:
                 q.pop();
 
                 if(p.first->left)
-                    q.push({p.first->left,2*index+1});
+                    q.push({p.first->left,2LL*index+1});
                 if(p.first->right)
-                    q.push({p.first->right, 2*index+2});
+                    q.push({p.first->right, 2LL*index+2});
             }
         }
         return result;
     }
 };
+
+//  every time we move wtih 2*i times can lead to overflow 
+//  so at each level we find the min idx val and subtract it with curr val to reduce it to 
+// 1 2 3 4 5 6 form 
+class Solution {
+public:
+    int widthOfBinaryTree(TreeNode* root) {
+        if(!root) return 0;
+        int width=0;
+        queue<pair<TreeNode*, int>> q;
+        q.push({root,0});
+        while(!q.empty()){
+            int sz= q.size();
+            // before entering at each level calculate the min 
+            int mn = q.front().second;
+            int first, last; // to find width last-first+1
+            for(int i=0;i<sz;i++){
+                int cur_idx = q.front().second - mn;
+                TreeNode* node= q.front().first;
+                q.pop();
+                if(i==0) first= cur_idx;
+                if(i==sz-1) last= cur_idx;
+                if(node->left){
+                    q.push({node->left, 2LL*cur_idx+1});
+                }
+                if(node->right){
+                    q.push({node->right, 2LL*cur_idx+2});
+                }
+            }
+            width = max(width,last-first+1);
+        }
+        return width;
+    }
+};
+
 // @lc code=end
 
 

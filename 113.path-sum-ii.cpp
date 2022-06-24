@@ -1,18 +1,19 @@
 /*
- * @lc app=leetcode id=515 lang=cpp
+ * @lc app=leetcode id=113 lang=cpp
  *
- * [515] Find Largest Value in Each Tree Row
+ * [113] Path Sum II
  */
 #include "bits/stdc++.h"
 using namespace std;
-#include "Tree.h"
+// #include "Tree.h"
 #define deb(x) cout<<x<<endl;
+const int inf = 1e9;
 typedef vector<int> vi;
 typedef vector<vector<int>> vvi;
 typedef vector<string> vs;
 typedef vector<bool> vb;
 typedef pair<int,int> pii;
-#include "LinkedList.h"
+//#include "LinkedList.h"
 
 void print(vi &out){
     for(auto x: out) cout<<x<<" ";
@@ -31,31 +32,29 @@ void print(vi &out){
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-// preorder : first root , left, right 
 class Solution {
 public:
-    vector<int> largestValues(TreeNode* root) {
-        vector<int> ans;
-        largest(root,ans,0);
+    void find(TreeNode* root, int sum , vector<vector<int>>& ans, vector<int>& temp){
+        if(!root) return;
+        temp.push_back(root->val);
+        if(!(root->left) && !(root->right) && sum== root->val) // reached leaf and sum found 
+            ans.push_back(temp);
+        find(root->left, sum-root->val, ans, temp);
+        find(root->right, sum-root->val, ans, temp);
+        temp.pop_back();
+    }
+
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        vector<vector<int>> ans;
+        vector<int> temp;
+        find(root, sum, ans, temp);
         return ans;
     }
-    void largest(TreeNode* root,vector<int>& ans, int level){
-        if(!root)
-            return ;
-        if(level >= ans.size())
-            ans.push_back(root->val);
-        else 
-            ans[level]=max(ans[level],root->val);
-        largest(root->left,ans,level+1);                          
-        largest(root->right,ans,level+1);
-    }
 };
-
-
 // @lc code=end
 
 
 int main(){
-    
+
     return 0;
 }

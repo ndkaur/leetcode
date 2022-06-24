@@ -33,12 +33,12 @@ class Codec {
 public:
 
     // Encodes a tree to a single string.
-    string serialize(TreeNode* root) {
+    string serialize(TreeNode* root) { // root->string 
         return encode(root);
     }
 
     // Decodes your encoded data to tree.
-    TreeNode* deserialize(string data) {
+    TreeNode* deserialize(string data) { // string->root
         stringstream ss(data);
         string item;
         TreeNode* root = NULL;

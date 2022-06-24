@@ -1,6 +1,6 @@
 #include "bits/stdc++.h"
 using namespace std;
-#include "Tree.h"
+// #include "Tree.h"
 #define deb(x) cout<<x<<endl;
 const int inf = 1e9;
 typedef vector<int> vi;
@@ -8,7 +8,7 @@ typedef vector<vector<int>> vvi;
 typedef vector<string> vs;
 typedef vector<bool> vb;
 typedef pair<int,int> pii;
-#include "LinkedList.h"
+// #include "LinkedList.h"
 
 void print(vi &out){
     for(auto x: out) cout<<x<<" ";
@@ -50,7 +50,8 @@ public:
 // but if both results into negative then it will reduced the actual result 
 
 
-class Solution {
+//  using he find height logic 
+class Solution { // t-> O(n)  s->O(n)
 public:
     int maxPathSum(TreeNode* root) {
         int mx= INT_MIN;
@@ -59,10 +60,10 @@ public:
     }
     int path(TreeNode* root,int& mx){
         if(!root) return 0;
-        int l= max(0,path(root->left, mx));
+        int l= max(0,path(root->left, mx)); // max with 0 so to ignore the -ve val of nodes 
         int r= max(0,path(root->right, mx));
-        mx= max(mx,(l+r)+root->val);
-        return max(l,r)+root->val;
+        mx= max(mx,(l+r)+root->val); // the actual answer 
+        return max(l,r)+root->val; // the value that node return to its upper nodes 
     }
 };
 

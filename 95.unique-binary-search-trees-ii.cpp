@@ -32,7 +32,7 @@ void print(vi &out){
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class Solution0 {
 public:
     vector<TreeNode*> generateTrees(int n) {
         return generate(1,n);
@@ -58,6 +58,35 @@ public:
         return ans;
     }
 };
+
+class Solution {
+public:
+    vector<TreeNode*> generateTrees(int n) {
+        return generate(1,n);
+    }
+    vector<TreeNode*> generate(int s, int e){
+        vector<TreeNode*> ans;
+        if(e-s<0) ans.push_back(0); // n is 0
+        if(e-s==0) ans.push_back(new TreeNode(s)); // find a new tree bst
+        
+        if(e-s>0){
+            for(int i=s;i<=e;i++){
+                vector<TreeNode*> l = generate(s,i-1);
+                vector<TreeNode*> r = generate(i+1,e);
+                for(auto left: l){
+                    for(auto right: r){
+                        TreeNode* root= new TreeNode(i);
+                        root->left= left;
+                        root->right= right;
+                        ans.push_back(root);
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
+
 // @lc code=end
 
 

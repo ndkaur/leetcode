@@ -80,7 +80,54 @@ public:
 //     }
 // };
 
+class Solution {  // time limit exceeded 
+public:
+    int numTrees(int n) {
+        int ans=0;
+        if(n==1 || n==0) 
+            return 1;
+        for(int i=0;i<n;i++){
+            ans+= numTrees(i)* numTrees(n-i-1);
+        }
+        return ans;
+    }
+};
+//  c[i] += c[i]* c[n-i-1]
+// using dp
+class Solution {
+public:
+    int numTrees(int n) {
+        vector<int> ans(n+1,0);
+        ans[1]= ans[0]=1;
+        for(int i=2;i<=n;i++){
+            for(int j=0;j<i;j++){
+                ans[i]+=  ans[j]* ans[i-j-1];
+            }
+        }
+        return ans[n];
+    }
+};
 
+
+//  binomial cofficent  2n C n / n+1 
+//  property nCr = nC n-r
+class Solution {
+public:
+    long cal(int n , int k){
+        long ans=1;
+        if(k>n-k)
+            k= n-k; // property
+        for(int i=0;i<k;i++){
+            ans*= (n-i);
+            ans/= (i+1);
+        }
+        return ans;
+    }
+    int numTrees(int n) {
+        return cal(2*n, n) / (n+1); 
+        //  to calculate 2n C n
+    }
+};
 
 // @lc code=end
 

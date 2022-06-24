@@ -49,7 +49,8 @@ public:
     }
 };
 
-class Solution {
+//  use queue , move in same order as inorder then reverse the result 
+class Solution { 
 public:
     vector<vector<int>> levelOrderBottom(TreeNode* root) {
         vector<vector<int>> ans;
