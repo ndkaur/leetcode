@@ -53,7 +53,7 @@ public:
 };
 
 
-class Solution {
+class Solution2 {
 public:
     int wiggleMaxLength(vector<int>& nums){
         int n= nums.size();
@@ -76,6 +76,97 @@ public:
             }
         }
         return max(dec[n-1],inc[n-1]);
+    }
+};
+
+
+//  recursion -> time limit exceeded 
+// tc-> O(2^n)   sc->O(n)
+
+class Solution {
+public:
+    int wiggleMaxLength(vector<int>& nums){
+        int n= nums.size();
+        if(n<2) 
+            return n;
+        vector<int> temp;
+        for(int i=1;i<n;i++){
+            int diff= nums[i]-nums[i-1];
+            if(diff!=0)
+                temp.push_back(diff);
+        }
+        return 1+f(0,-1,temp); // cause temp is a diffrence array and one len gets reduced while finding diff
+    }
+    int f(int idx, int prev, vector<int>& temp){
+        int n= temp.size();
+        if(idx==n) 
+            return 0;
+        int not_take= 0+ f(idx+1,prev,temp);
+        int take=0;
+        if(prev==-1 || (temp[prev]>=0 && temp[idx]<0) || (temp[prev]<0 && temp[idx]>=0))
+            take= 1+ f(idx+1, idx, temp);
+        return max(take, not_take);
+    }
+};
+
+//  memoization 
+//  tc-> O(n*n)  sc->O(n*n)+ O(n)
+class Solution {
+public:
+    int wiggleMaxLength(vector<int>& nums){
+        int n= nums.size();
+        if(n<2) 
+            return n;
+        vector<int> temp;
+        for(int i=1;i<n;i++){
+            int diff= nums[i]-nums[i-1];
+            if(diff!=0)
+                temp.push_back(diff);
+        }
+        vector<vector<int>> dp(n, vector<int>(n+1,-1)); // prev is -1 so one right shift of indexes 
+        return 1+f(0,-1,temp,dp);
+    }
+    int f(int idx, int prev, vector<int>& temp, vector<vector<int>>& dp){
+        int n= temp.size();
+        if(idx==n) 
+            return 0;
+
+        if(dp[idx][prev+1]!=-1) return dp[idx][prev+1];
+
+        int not_take= 0+ f(idx+1,prev,temp,dp);
+        int take=0;
+        if(prev==-1 || (temp[prev]>=0 && temp[idx]<0) || (temp[prev]<0 && temp[idx]>=0))
+            take= 1+ f(idx+1, idx, temp,dp);
+        return dp[idx][prev+1]=max(take, not_take);
+    }
+};
+
+//  tabulation 
+class Solution {
+public:
+    int wiggleMaxLength(vector<int>& nums){
+        int n= nums.size();
+        if(n<2) 
+            return n;
+        vector<int> temp;
+        for(int i=1;i<n;i++){
+            int diff= nums[i]-nums[i-1];
+            if(diff!=0)
+                temp.push_back(diff);
+        }
+        vector<vector<int>> dp(n+1, vector<int>(n+1,0)); // prev is -1 so one right shift of indexes 
+        
+        for(int idx=n-1;idx>=0;idx--){
+            for(int prev=idx-1; prev>=-1; prev--){
+                int len = 0+ dp[idx+1][prev+1];
+                // int take =0;
+                if(prev == -1 || (temp[prev]>=0 && temp[idx]<0) || (temp[prev]<0 && temp[idx]>=0)){
+                    len = max(len,1 + dp[idx+1][idx+1]);
+                }
+                dp[idx][prev+1] = len;
+            }
+        }
+        return 1+dp[0][-1+1];
     }
 };
 
