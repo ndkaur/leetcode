@@ -48,6 +48,136 @@ public:
         return dp[r][c] = ans;
     }
 };
+
+//  recursion
+
+class Solution {
+public:
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int n= matrix.size();
+        int m= matrix[0].size();
+        int mini=1e9;
+        for(int j=0;j<m;j++){
+            mini= min(mini,f(n-1,j,matrix));
+        }
+        return mini;
+    }
+     int f(int i, int j, vector<vector<int>>& grid){
+        if(j<0 || j>= grid[0].size()) return 1e9;
+        if(i==0) 
+            return grid[0][j];
+        
+        int ans=INT_MAX;
+        for(int k=0;k<grid[0].size();k++){
+            if(k==j)
+                continue;
+            int curr= grid[i][j]+ f(i-1,k, grid);
+            ans= min(ans, curr);
+        }
+        
+        return ans;
+    }
+};
+
+//  meomization 
+class Solution {
+public:
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int n= matrix.size();
+        int m= matrix[0].size();
+        vector<vector<int>>dp(n, vector<int>(m,-1));
+        int mini=1e9;
+        for(int j=0;j<m;j++){
+            mini= min(mini,f(n-1,j,dp,matrix));
+        }
+        return mini;
+    }
+     int f(int i, int j, vector<vector<int>>& dp, vector<vector<int>>& grid){
+        if(j<0 || j>= grid[0].size()) return 1e9;
+        if(i==0) 
+            return grid[0][j];
+        
+        if(dp[i][j]!=-1) return dp[i][j];
+        int ans=INT_MAX;
+        for(int k=0;k<grid[0].size();k++){
+            if(k==j)
+                continue;
+            int curr= grid[i][j]+ f(i-1,k,dp, grid);
+            ans= min(ans, curr);
+        }
+        
+        return dp[i][j]= ans;
+    }
+};
+
+//  tabulation 
+class Solution {
+public:
+    int minFallingPathSum(vector<vector<int>>& grid) {
+        int n= grid.size();
+        int m= grid[0].size();
+        vector<vector<int>>dp(n, vector<int>(m,0));
+        
+        for(int j=0;j<m;j++)
+            dp[0][j]= grid[0][j];
+        
+        for(int i=1;i<n;i++){
+            for(int j=0;j<m;j++){
+                int ans=INT_MAX;
+                for(int k=0;k<grid[0].size();k++){
+                    if(k==j)
+                        continue;
+                    int curr= grid[i][j]+ dp[i-1][k];
+                    ans= min(ans, curr);
+                    dp[i][j]= ans;
+                }
+            }
+        }
+        int mini=1e9;
+        for(int j=0;j<m;j++){
+            mini= min(mini,dp[n-1][j]);
+        }
+        return mini;
+    }
+};
+
+//  space optimization 
+class Solution {
+public:
+    int minFallingPathSum(vector<vector<int>>& grid) {
+        int n= grid.size();
+        int m= grid[0].size();
+
+        if(n==1) grid[0][0];
+
+        vector<int> prev(m);
+        
+        for(int j=0;j<m;j++)
+            prev[j]= grid[0][j];
+        
+        for(int i=1;i<n;i++){
+            vector<int> curr(m);
+            for(int j=0;j<m;j++){
+                int ans=INT_MAX;
+                for(int k=0;k<grid[0].size();k++){
+                    if(k==j)
+                        continue;
+                    int temp= grid[i][j]+ prev[k];
+                    ans= min(ans, temp);
+                }
+                curr[j] = ans;
+            }
+            prev= curr;
+        }
+        int mini=1e9;
+        for(int j=0;j<m;j++){
+            mini= min(mini,prev[j]);
+        }
+        return mini;
+    }
+};
+
+
 // @lc code=end
 
 

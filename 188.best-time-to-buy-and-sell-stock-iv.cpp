@@ -103,6 +103,8 @@ public:
         if(idx==n || trans==2*k) // 1 trans = 2 steps 
             return 0;
         if(dp[idx][trans]!=-1) return dp[idx][trans];
+        // b s b s
+        // 0 1 2 3  even idx =buy
         if(trans%2==0){
             return dp[idx][trans]=max(-prices[idx]+ f(idx+1, trans+1,k, prices,dp), f(idx+1, trans, k, prices,dp));
         }

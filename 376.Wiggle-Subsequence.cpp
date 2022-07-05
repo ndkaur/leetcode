@@ -141,7 +141,8 @@ public:
     }
 };
 
-//  tabulation 
+//  tabulation    
+//  some error doesnot work properly 
 class Solution {
 public:
     int wiggleMaxLength(vector<int>& nums){
@@ -155,7 +156,7 @@ public:
                 temp.push_back(diff);
         }
         vector<vector<int>> dp(n+1, vector<int>(n+1,0)); // prev is -1 so one right shift of indexes 
-        
+       
         for(int idx=n-1;idx>=0;idx--){
             for(int prev=idx-1; prev>=-1; prev--){
                 int len = 0+ dp[idx+1][prev+1];
