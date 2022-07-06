@@ -21,6 +21,10 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+// instead of moving one time from (0,0) to (n-1,n-1) and again moving from (n-1,n-1) to (0,0)
+//  lets move from starting 0,0 to n one time by taking two robots who visit all possible cases 
+
 class Solution0 {
 public:
     int f(int r1, int c1, int r2, int c2, vector<vector<int>>& grid){

@@ -21,32 +21,104 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+//  recursion  t-> expo  s->o(n)
 class Solution {
-    vector<vector<int>> dp;
 public:
     bool canPartition(vector<int>& nums) {
         int n= nums.size();
         int sum=0;
-        for(int i=0;i<n;i++){
-            sum+= nums[i];
-        }
-        if(sum & 1)
+        for(int num:nums)
+            sum+=num;
+        int target= sum/2;
+        if(sum%2)
             return false;
-        dp.clear();
-        dp.resize(n+1,vector<int>(sum/2+1,-1));
-        return subsum(nums,n,0,sum/2);
+        return f(n-1, target, nums);
     }
-    bool subsum(vector<int>& nums, int n , int pos, int sum){
-        if(sum==0) 
-            return true;
-        else if(pos>=n || sum<0) 
-            return false;
-        if(dp[pos][sum]!=-1)
-            return dp[pos][sum];
-        return dp[pos][sum]=subsum(nums,n,pos+1,sum-nums[pos]) || subsum(nums,n,pos+1,sum);
-        //include || not include 
+    int f(int idx, int target, vector<int>& nums){
+        if(target==0) return true;
+        // constarints starting from 1 so num[idx] can never be 0
+        if(idx==0)
+            return (nums[0]==target);
+        
+        bool notTake= f(idx-1, target, nums);
+        bool take= false;
+        if(nums[idx]<=target)
+            take= f(idx-1,target-nums[idx], nums);
+        return notTake | take;
     }
 };
+
+//  memo -> t-> O(n* target) sc->O(n* target)+ O(n)
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int n= nums.size();
+        int sum=0;
+        for(int num:nums)
+            sum+=num;
+
+        if(sum%2)
+            return false;
+        else {
+            int target= sum/2;
+            vector<vector<int>> dp(n,vector<int>(target+1,-1));
+            return f(n-1, target, nums,dp);
+        }
+    }
+    int f(int idx, int target, vector<int>& nums,vector<vector<int>>& dp){
+        if(target==0) return true;
+        
+        if(idx==0)
+            return (nums[0]==target);
+        
+        if(dp[idx][target]!=-1) return dp[idx][target];
+        
+        bool notTake= f(idx-1, target, nums,dp);
+        bool take= false;
+        if(nums[idx]<=target)
+            take=f(idx-1,target-nums[idx], nums,dp);
+        return dp[idx][target] = notTake || take;
+    }
+};
+
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int n= nums.size();
+        int sum=0;
+        for(int num:nums)
+            sum+=num;
+
+        if(sum%2==1)
+            return false;
+        else {
+            int target= sum/2;
+            vector<vector<bool>> dp(n,vector<bool>(target+1,false));
+
+            for(int i=0;i<n;i++)
+                dp[i][0]= true;
+
+            if(nums[0]<= target)
+                dp[0][nums[0]]= true;
+
+            for(int i=1;i<n;i++){
+                for(int j=1; j<=target; j++){
+                    bool notTake= dp[i-1][j];
+                    bool take= false;
+                    if(nums[i]<=j)
+                        take= dp[i-1][j-nums[i]];
+                    dp[i][j] = notTake || take;
+                }
+            }
+            return dp[n-1][target];
+        }
+    }
+};
+
+
+
 // @lc code=end
 
 

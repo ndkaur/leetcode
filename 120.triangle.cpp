@@ -117,7 +117,7 @@ public:
         for(int j=0;j<m;j++){
             dp[m-1][j]= triangle[m-1][j];
         }
-        for(int i=m-2;i>=0;i--){
+        for(int i=m-2;i>=0;i--){ // m-2 cause already calculated for m-1
             for(int j=i;j>=0;j--){
                 int down = triangle[i][j]+ dp[i+1][j];
                 int diag= triangle[i][j]+ dp[i+1][j+1];

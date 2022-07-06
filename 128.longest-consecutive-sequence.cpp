@@ -90,6 +90,57 @@ public:
         return cnt;
     }
 };
+
+// .....................................................................................
+
+class Solution0 {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        int n= nums.size();
+        if(n==0) return 0;
+        sort(nums.begin(),nums.end());
+        int curr=1;
+        int longest=1;
+        for(int i=1;i<n;i++){
+            if(nums[i]!=nums[i-1]){
+                if(nums[i]==nums[i-1]+1)
+                    curr+=1;
+                else{
+                    longest = max(curr, longest);
+                    curr=1;
+                }
+            }
+        }
+        return max(curr, longest);
+    }
+};
+
+
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        int n= nums.size();
+        if(n==0) return 0;
+        unordered_set<int> s;
+        for(int i:nums){
+            s.insert(i);
+        }
+        int curr=1;
+        int longest=1;
+        
+        for(int num:s){
+            if(!s.count(num-1)){
+                curr=0;
+                while(s.count(num)){
+                    curr++;
+                    num = num+1;
+                }
+                longest= max(curr, longest);
+            }
+        }
+        return longest;
+    }
+};
 // @lc code=end
 
 

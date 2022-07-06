@@ -123,9 +123,9 @@ public:
 class Solution1 {
 public:
     int f(int idx, int target, vector<int>& nums, vector<vector<int>>& dp){
-        
+        //  constraints starting from 0 so it is possible that num[idx] can be 0
         if(idx==0){ 
-            if(target==0 && nums[0]==0) 
+            if(target==0 && nums[0]==0)  // take + not take = 1+1=2
                 return 2;
             if(target==0 || target==nums[0])
                 return 1;
