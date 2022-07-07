@@ -115,31 +115,36 @@ public:
     }
 };
 
+
 class Solution {
 public:
     string longestPalindrome(string s) {
         int n= s.size();
-        if(n==0) return "";
-        vector<vector<bool>> dp(n, vector<int>(n,0));
-        //  every letter is palindrome 
+        int start=0;
+        int end=0;
+        int mx=0;
+
         for(int i=0;i<n;i++){
-            dp[i][i]= true;
-        }
+            //  when string len is odd  both ptrs at same location 
+            int a= palAroundCenter(i,i,s);
+            // when string len is even both ptrs will be at separet location
+            int b= palAroundCenter(i, i+1, s);
+            int len= max(a,b);
 
-        string ans="";
-        ans+= s[0];
-
-        for(int i=n-1;i>=0;i--){
-            for(int j=i+1;j<n;j++){
-                if(s[i]==s[j]){
-                    
-                    if(j-1==1 || dp[i+1][j-1]){
-
-                    }
-                }
-
+            //  find the substring of palindrome max len in the original string
+            if(len > end-start){
+                start= i-(len-1)/2;
+                end=  i+ len/2;
             }
         }
+        return s.substr(start, end-start+1);
+    }
+    int palAroundCenter(int l, int r, string& s){
+        while(l>=0 && r<=s.size() && s[l]==s[r]){
+            l--;
+            r++;
+        }
+        return r-l-1;
     }
 };
 // @lc code=end
