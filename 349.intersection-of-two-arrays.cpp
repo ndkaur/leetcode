@@ -54,7 +54,7 @@ public:
     }
 };
 
-class Solution {
+class Solution1 {
 public:
     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
         vector<int> ans ;
@@ -68,13 +68,51 @@ public:
         return ans;
     }
 };
+
+
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+     
+        sort(nums1.begin(),nums1.end());
+        sort(nums2.begin(),nums2.end());
+        // print(nums1);
+        // print(nums2);
+        vector<int> ans;
+        
+        for(int i=0;i<nums1.size();i++){
+            if(i-1>=0 && nums1[i-1]==nums1[i])
+                continue;
+        
+            int left = -1;
+            int right = nums2.size();
+            int mid=0;
+            int temp=0;
+
+            while(1+left<right){
+                mid= left+(right-left)/2;
+
+                if(nums2[mid]<=nums1[i]){
+                    left= mid;
+                    temp= mid;
+                }
+                else
+                    right= mid;
+            }
+            
+            if(nums2[temp]==nums1[i])
+                ans.push_back(nums2[temp]);
+        }
+        return ans;
+    }
+};
 // @lc code=end
 
 
 int main(){
     Solution sol;
-    vector<int> nums1={1,2,2,1};
-    vector<int> nums2={2,2};
+    vector<int> nums1={4,9,5};
+    vector<int> nums2={9,4,9,8,4};
     vector<int> out=sol.intersection(nums1,nums2);
     print(out);
     return 0;

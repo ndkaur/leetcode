@@ -3,18 +3,31 @@
  *
  * [1351] Count Negative Numbers in a Sorted Matrix
  */
-#include "bits/stdc++.h"
+#include <bits/stdc++.h>
 using namespace std;
-#define deb(x) cout<<x<<endl;
+#define forn(i, n) for(int i = 0; i < int(n); i++)
+#define fore(i, l, r) for(int i = int(l); i < int(r); i++)
+#define pb push_back
+#define all(x) x.begin(), x.end()
+#define sz(a) int((a).size())
+typedef long long ll;
 typedef vector<int> vi;
+typedef vector<vector<int>> vvi;
+typedef vector<ll> vl;
+typedef vector<vector<ll>> vvl;
+typedef vector<string> vs;
+typedef vector<vector<string>> vvs;
+typedef vector<bool> vb;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
+const int mod = 1e9 + 7;
+template<class T, class U> inline void addSelf(T &a, U b){a += b;if (a >= mod) a -= mod;if (a < 0) a += mod;}
+template<class T, class U> inline void minSelf(T &x, U y) { if (y < x) x = y; }
+template<class T, class U> inline void maxSelf(T &x, U y) { if (y > x) x = y; }
 
-void print(vi &out){
-    for(auto x: out) cout<<x<<" ";
-    cout<<endl;
-}
 
 // @lc code=start
-class Solution {
+class Solution0 {
 public:
     int countNegatives(vector<vector<int>>& grid) {
         // int len =grid.size();
@@ -28,6 +41,37 @@ public:
         return negcount;
     }
 };
+
+class Solution { //O(nlogm)
+public:
+    int countNegatives(vector<vector<int>>& grid) {
+        int n= grid.size();
+        int m= grid[0].size();
+        int cnt=0;
+      
+        for(int i=0; i<n; i++){
+            int l=-1;
+            int r= m;
+    
+            while(1+l<r){
+                int mid= l+(r-l)/2;
+                if(grid[i][mid]<0){
+                    r= mid;
+                }
+                else{
+                    l=mid;
+                }
+            }
+            //  the l will be at the last +ve no
+            // the r will be at the first -ve no
+            cnt+= m-r;
+            
+        }
+        return cnt;
+    }
+};
+
+
 // @lc code=end  
 
 
@@ -35,7 +79,8 @@ int main(){
     Solution sol;
     vector<vector<int>> grid;
     int i,j,negcount;
-    grid={{4,3,2,-1},{-3,-2,-1,-1}};
+    grid={{ 4, 3, 2,-1},
+          {-3,-2,-1,-1}};
     negcount=sol.countNegatives(grid);
     cout<<negcount;
     return 0;

@@ -15,7 +15,7 @@ for(auto x: out) cout<<x<<" ";
 cout<<endl;
 }
 
-class Solution {
+class Solution0 {  // tc->(nlogn +n)
 public:
     vector<int> targetIndices(vector<int>& nums, int target) {
         int n= nums.size();
@@ -26,6 +26,55 @@ public:
                     ans.push_back(i);
               }
         }
+        return ans;
+    }
+};
+
+class Solution { //O(nlogn + logn +n+ mlogm)-> nlogn h
+public:
+    int bsearch(vector<int>& nums, int target){
+        int n= nums.size();
+        
+        int l=-1;
+        int r= n;
+       
+        while(1+l<r){
+            int mid= l+(r-l)/2;
+            if(nums[mid]>target){
+                r= mid;
+            }
+            else if(nums[mid]<target)
+                l= mid;
+            else 
+                return mid;
+        }
+        return -1;
+    }
+    vector<int> targetIndices(vector<int>& nums, int target) {
+        sort(nums.begin(), nums.end());
+        int idx= bsearch(nums,target);
+        int n= nums.size();
+        //  so if dublicates exist it will be one idx behind or ahead cause sorted array 
+        if(idx==-1) return {};
+        int i= idx-1;
+        vector<int> ans;
+        while(i>=0){
+            if(nums[i]==target)
+                ans.push_back(i);
+            else 
+                break;
+            i--;
+        }
+        ans.push_back(idx); // insert the mid itself
+        i= idx+1;
+        while(i<n){
+            if(nums[i]==target)
+                    ans.push_back(i);
+            else
+                break;
+            i++;     
+        }
+        sort(ans.begin(), ans.end());
         return ans;
     }
 };

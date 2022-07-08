@@ -14,7 +14,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+class Solution0 {
 public:
     vector<int> kWeakestRows(vector<vector<int>>& mat, int k){
         vector<pair<int,int>> vone;
@@ -33,6 +33,44 @@ public:
              weakrow.push_back(vone[i].second);
         }
         return weakrow;
+    }
+};
+
+class Solution { //O(nlogm)
+public:
+    vector<int> kWeakestRows(vector<vector<int>>& mat, int k) {
+        int row= mat.size();
+        int col= mat[0].size();
+        vector<pair<int,int>> arr;
+        for(int i=0;i<row;i++){
+            int l=-1;
+            int r=col;
+            // int cnt=0;
+            
+            while(1+l<r){
+                int mid= l+(r-l)/2;
+                if(mat[i][mid]>0){
+                    l=mid;
+                }
+                else
+                    r= mid;
+            }
+            //  l will be at last 1
+            // r will be at first 0
+            arr.push_back({l+1,i});   
+        }
+        vector<int> ans;
+        // for(auto [a,b]:arr){
+        //     cout<<a<<" "<<b<<endl;
+        // }
+        sort(arr.begin(),arr.end());
+        for(auto &it: arr){
+            if(k==0)
+                break;
+            ans.push_back(it.second);
+            k--;
+        }
+        return ans;
     }
 };
 
