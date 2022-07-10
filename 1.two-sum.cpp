@@ -38,7 +38,49 @@ public:
         return {-1,-1};
     }
 };
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        int n=  nums.size();
+        vector<int> ans;
+        for(int i=0;i<n;i++){
+            int k= target-nums[i];
+            for(int j=i+1;j<n;j++){
+                if(nums[j]==k){
+                    ans.push_back(i);
+                    ans.push_back(j);
+                    break;
+                }     
+            }
+            if(ans.size()==2)
+                break;
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        int n=  nums.size();
+        vector<int> ans;
+        unordered_map<int,int> mp;
+        for(int i=0;i<n;i++){
+            if(mp.find(target-nums[i])!=mp.end()){
+                ans.push_back(i);
+                ans.push_back(mp[target-nums[i]]);
+                return ans;
+            }
+            else
+                mp[nums[i]]=i;
+        }
+        return ans;
+    }
+};
+
 // @lc code=end
+
 
 
 int main(){

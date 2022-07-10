@@ -36,6 +36,23 @@ public:
         return true;
     }
 };
+
+class Solution {
+public:
+    bool hasGroupsSizeX(vector<int>& deck) {
+        if(deck.size()==1)
+            return false;
+        unordered_map<int,int> mp;
+        for(int i:deck)
+            mp[i]++;
+        int mx=0;
+        for(auto it:mp){
+            mx= __gcd(it.second,mx);
+        }
+        return mx>=2;
+        
+    }
+};
 // @lc code=end
 
 

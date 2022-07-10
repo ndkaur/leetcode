@@ -85,6 +85,25 @@ public:
 };
 
 
+class Solution {
+public:
+    bool checkIfExist(vector<int>& nums) {
+        int n= nums.size();
+        unordered_map<int,int> mp;
+    
+        for(int i=0;i<n;i++){
+            // 5*2 
+            if(mp.find(nums[i]*2)!=mp.end())
+                return true;
+            //  10%2==0 or 3%2!=0 can give 1 as ans
+            if(nums[i]%2==0 && mp.find(nums[i]/2)!=mp.end())
+                return true;
+            mp[nums[i]]++;
+        }
+        return false;
+    }
+};
+
 // @lc code=end
 
 

@@ -14,7 +14,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+class Solution0 {
 public:
     vector<int> plusOne(vector<int>& digits) {
         int n=digits.size()-1;
@@ -32,6 +32,26 @@ public:
         return digits;
     }
 };
+
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        int n= digits.size();
+        for(int i=n-1;i>=0;i--){
+            if(digits[i]==9){ //1,2,9
+                digits[i]=0;  
+            }else{ //1,2,4 ->125
+                digits[i]++;
+                return digits;
+            }
+        }
+        // if a single digit num is 9
+        digits.push_back(0);
+        digits[0]=1;
+        return digits;
+    }
+};
+
 // @lc code=end
 
 
