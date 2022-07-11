@@ -20,6 +20,8 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+// simply return the size of queue after pop or push of all recent counters 
 class RecentCounter {
     queue<int> q;
 public:
@@ -30,6 +32,7 @@ public:
     int ping(int t) {
         int left = t-3000;
         int right = t;
+        // when 1<2 so then pop 
         while(!q.empty() && q.front()<left){
             q.pop();
         }

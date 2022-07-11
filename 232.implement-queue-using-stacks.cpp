@@ -29,7 +29,7 @@ public:
     
     /** Removes the element from in front of queue and returns that element. */
     int pop() {
-        peek();
+        peek(); // for poping elemt first be inserted 
         int top=output.top();
         output.pop();
         return top;

@@ -21,6 +21,8 @@ public:
     
     
     /** Push element x onto stack. */
+    //  push x in queue , but it will be at last emlemt position 
+    // sp pop ele from q front , and add them at back till the desired elem doesnt come up
     void push(int x) {
         q.push(x);
         for(int i=1;i<q.size();i++){

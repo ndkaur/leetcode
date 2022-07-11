@@ -3,6 +3,23 @@
  *
  * [1670] Design Front Middle Back Queue
  */
+#include "bits/stdc++.h"
+using namespace std;
+// #include "Tree.h"
+#define deb(x) cout<<x<<endl;
+const int inf = 1e9;
+typedef vector<int> vi;
+typedef vector<vector<int>> vvi;
+typedef vector<string> vs;
+typedef vector<bool> vb;
+typedef pair<int,int> pii;
+//#include "LinkedList.h"
+
+void print(vi &out){
+    for(auto x: out) cout<<x<<" ";
+    cout<<endl;
+}
+
 
 // @lc code=start
 class FrontMiddleBackQueue {
@@ -212,3 +229,134 @@ public:
  */
 // @lc code=end
 
+
+class FrontMiddleBackQueue {
+    deque<int> dq1, dq2;
+public:
+    FrontMiddleBackQueue() {
+        
+    }
+//      we assume that dq1 size can be 1 greater than dq2 size
+    void pushFront(int val) {
+        dq1.push_front(val);
+//          if size diff equal to 1
+        while(dq1.size()-dq2.size()>1){
+            dq2.push_front(dq1.back());
+            dq1.pop_back();
+        }
+    }
+//      whenever pop is from dq2 we check the diff btw dq1 and dq2 are of 1
+    void pushMiddle(int val) {
+        if(dq1.size()==dq2.size())
+            dq1.push_back(val);
+        else{
+            dq2.push_front(dq1.back());
+            dq1.pop_back();
+            dq1.push_back(val);
+        }
+            
+    }
+    
+    void pushBack(int val) {
+        dq2.push_back(val);
+        while(dq2.size()>dq1.size()){
+            dq1.push_back(dq2.front());
+            dq2.pop_front();
+        }
+        
+    }
+    
+    int popFront() {
+        if(dq1.empty()) 
+            return -1;
+        int ans= dq1.front();
+        dq1.pop_front();
+        while(dq2.size()>dq1.size()){
+            dq1.push_back(dq2.front());
+            dq2.pop_front();
+        }
+        return ans;
+    }
+    
+    int popMiddle() {
+        if(dq1.empty()) return -1;
+        int ans= dq1.back();
+        dq1.pop_back();
+        while(dq2.size()> dq1.size()){
+            dq1.push_back(dq2.front());
+            dq2.pop_front();
+        }
+        return ans;
+    }
+    
+    int popBack() {
+        if(dq1.empty()) return -1;
+        if(dq2.empty()){
+            int ans= dq1.back();
+            dq1.pop_back();
+            return ans;
+        }
+        int ans= dq2.back();
+        dq2.pop_back();
+        while(dq1.size()-dq2.size()>1){
+            dq2.push_front(dq1.back());
+            dq1.pop_back();
+        }
+        return ans;
+    }
+};
+
+//  using array 
+
+class FrontMiddleBackQueue {
+    vector<int> arr;
+public:
+    FrontMiddleBackQueue() {
+        
+    }
+
+    void pushFront(int val) {
+        arr.insert(arr.begin(), val);
+    }
+
+    void pushMiddle(int val) {
+        int mid= arr.size()/2;
+        arr.insert(arr.begin()+mid, val);
+    }
+    
+    void pushBack(int val) {
+        arr.push_back(val);
+    }
+    
+    int popFront() {
+        if(arr.size()==0) 
+            return -1;
+        int val= arr[0];
+        arr.erase(arr.begin());
+        return val;
+    }
+    
+    int popMiddle() {
+        if(arr.size()==0)
+            return -1;
+        int mid= (arr.size()%2==0) ? (arr.size()/2)-1 : arr.size()/2;
+        int val= arr[mid];
+        arr.erase(arr.begin()+mid);
+        return val;
+    }
+    
+    int popBack() {
+        if(arr.size()==0)
+            return -1;
+        int val= arr.back();
+        arr.pop_back();
+        return val;
+    }
+};
+
+
+
+int main(){
+
+    return 0;
+}
