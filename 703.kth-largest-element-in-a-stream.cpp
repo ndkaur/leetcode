@@ -24,19 +24,22 @@ void print(vi &out){
 class KthLargest {
 public:
 // pq is by default max heap 
-    priority_queue<int,vector<int>, greater<int>> pq; // making it min heap
+    priority_queue<int,vector<int>, greater<int>> pq;  // making it min heap
     int size;
     KthLargest(int k, vector<int>& nums) {
         size=k;
+        // always keep priority queue size as k  
         for(int i=0;i<nums.size();i++){
             pq.push(nums[i]);
+            // the first ele can never be the kth largest as the size of k has increased the k
             if(pq.size()>k) pq.pop();
         }
     }
     
-    int add(int val) {
+    int add(int val){
         pq.push(val);
         if(pq.size()>size) pq.pop();
+        // the top most elemt is always the kth largest
         return pq.top();
     }
 };

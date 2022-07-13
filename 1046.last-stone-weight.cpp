@@ -37,6 +37,31 @@ public:
         return pq.empty()?0 :pq.top();
     }
 };
+
+class Solution {
+public:
+    int lastStoneWeight(vector<int>& stones) {
+        if(stones.size()==1) return stones[0];
+        priority_queue<int> pq;
+        for(int stone:stones){
+            pq.push(stone);
+        } // O(nlogn)
+        while(pq.size()>1){
+            int s1= pq.top(); //O(1)
+            pq.pop(); // O(logn)
+            int s2= pq.top();
+            pq.pop();
+            if(s1==s2)
+                continue;
+            else if(s1>s2){
+                pq.push(s1-s2);
+            }
+            else
+                pq.push(s2-s1);
+        }
+        return pq.empty() ? 0 : pq.top();
+    }
+};
 // @lc code=end
 
 

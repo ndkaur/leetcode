@@ -14,6 +14,8 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
 class Solution0 {
 public:
     vector<int> kWeakestRows(vector<vector<int>>& mat, int k){
@@ -36,6 +38,7 @@ public:
     }
 };
 
+// binary search 
 class Solution { //O(nlogm)
 public:
     vector<int> kWeakestRows(vector<vector<int>>& mat, int k) {
@@ -73,6 +76,41 @@ public:
         return ans;
     }
 };
+
+// Priority queue 
+//  inserting into pq + pop push + reversing the array 
+// o(nlog n )+ O(logn)+ O(n)
+class Solution {
+public:
+    vector<int> kWeakestRows(vector<vector<int>>& mat, int k){
+        vector<int> ans;
+        int row= mat.size();
+        int col= mat[0].size();
+        priority_queue<pair<int,int>> pq;
+        for(int i=0;i<row;i++){
+            int cnt=0;
+            for(int j=0;j<col;j++){
+                if(mat[i][j]==1) 
+                    cnt++;
+            }
+            //  stores cnt of each row with idx of row
+            pq.push({cnt,i});
+            //  we need smallest k elemts so pop the largest ones 
+            if(pq.size()>k)
+                pq.pop();
+        }
+        for(int i=0;i<k;i++){
+            ans.push_back(pq.top().second);
+            pq.pop();
+        }
+        //  ans will be in the max order so reverse 
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
+// {(1,0),(4,1),(1,2),(1,3)}  k=3 
+//  (4,1) (1,2) (1,3)
+
 
 // @lc code=end
 
