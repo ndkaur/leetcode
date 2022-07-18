@@ -29,7 +29,9 @@ public:
         for(int i=0;i<sz;i++){
             int u= c[i][0];
             int v= c[i][1];
+            //u->v edge 1
             adj[u].push_back({v,1});
+            // v->u edge self created in 0
             adj[v].push_back({u,0});
         }
         int ans =0;
@@ -84,6 +86,40 @@ public:
         return inverse;
     }
 }; 
+
+// dfs
+class Solution {
+public:
+    int minReorder(int n, vector<vector<int>>& c) {
+        int sz= c.size();
+        vector<vector<pair<int,int>>> adj(n);
+        for(int i=0;i<sz;i++){
+            int u= c[i][0];
+            int v= c[i][1];
+            adj[u].push_back({v,1});
+            adj[v].push_back({u,-1});
+        }
+        int ans =0;
+        vector<bool> visited(n,false);
+        dfs(0,ans,visited,adj);
+        return ans;
+    }
+    //  we have to change the u->v edges into v->u so count the u->v edges 
+    void dfs(int node, int &ans , vector<bool>& visited,vector<vector<pair<int,int>>> &adj){
+        if(visited[node])
+            return;
+        visited[node]=true;
+        for(auto pir:adj[node]){
+            int nf= pir.first;
+            int weight= pir.second;
+            if(visited[nf]==false && weight==1){
+                ans++;
+            }
+            dfs(nf,ans, visited, adj);
+        }
+    }
+};
+
 
 // @lc code=end
 

@@ -47,11 +47,28 @@ public:
         int len = trust.size();
         vector<int> ar(n+1,0);
         for(int i=0;i<len;i++){
-            ar[trust[i][0]]--; // indegree
-            ar[trust[i][1]]++; // outdegree
+            ar[trust[i][0]]--; // outdegree
+            ar[trust[i][1]]++; // indegree
         }
         for(int i=1;i<=n;i++){
             if(ar[i]==n-1) return i;
+        }
+        return -1;
+    }
+};
+
+class Solution {
+public:
+    int findJudge(int n, vector<vector<int>>& trust) {
+       vector<int> degree(n+1,0);
+        for(int i=0;i<trust.size();i++){
+            degree[trust[i][0]]--;
+            degree[trust[i][1]]++;
+        }
+        for(int i=1;i<=n;i++){
+            //judge will have indegree of n-1 node 
+            if(degree[i]==n-1)
+                return i;
         }
         return -1;
     }

@@ -20,6 +20,8 @@ for(auto x: out) cout<<x<<" ";
 cout<<endl;
 }
 // @lc code=start
+
+//  bfs ->tc-> O(n+e)  sc->O(n+e)+O(n)+O(n)
 class Solution0 {
 public:
     bool validPath(int n, vector<vector<int>>& edges, int start, int end) {
@@ -52,6 +54,15 @@ public:
     }
 };
 
+//   for(auto itr:adj[start]){
+        //     if(!visited[itr]){
+        //         if(dfs(itr, end, adj, visited))
+        //             return true;
+        //     }
+        // }
+
+
+//  dfs
 class Solution {
 public:
     bool validPath(int n, vector<vector<int>>& edges, int start, int end) {

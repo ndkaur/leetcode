@@ -61,6 +61,52 @@ public:
 
 // @lc code=end
 
+//  union find 
+
+class Solution {
+public:
+    vector<int> parent;
+    vector<int> rank;
+
+    int findParent(int node){
+        if(parent[node]== node)
+            return node;
+        return parent[node]= findParent(parent[node]);
+    }
+    bool unionFind(int a, int b){
+        a= findParent(a);
+        b= findParent(b);
+        if(a!=b){
+            if(rank[a]>rank[b]){
+                rank[a]++;
+                parent[b]= a;
+            }else{
+                rank[b]++;
+                parent[a]=b;
+            }
+            return true;
+        }
+        return false;
+
+    }
+
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int n= edges.size();
+        // make  set fun 
+        for(int i=0;i<=n;i++){
+            parent.push_back(i);
+            rank.push_back(0);
+        }
+        vector<int> ans;
+        for(int i=0;i<n;i++){
+            //  when both the nodes share a common parent that means a cycyle exist
+            if(!unionFind(edges[i][0], edges[i][1])){
+                ans= edges[i];
+            }
+        }
+        return ans;
+    }
+};
 
 int main(){
     Solution sol;

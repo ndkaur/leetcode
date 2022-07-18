@@ -21,7 +21,8 @@ cout<<endl;
 }
 
 // @lc code=start
-// count the nodes with incoming values =0
+// count the nodes with incoming values =0 // indegree as 0
+//  we will only consider in the u->v edge only v count 
 class Solution {
 public:
     vector<int> findSmallestSetOfVertices(int n, vector<vector<int>>& edges) {
@@ -38,6 +39,25 @@ public:
     }
 };
 
+//  calculate the indegree 
+class Solution {
+public:
+    vector<int> findSmallestSetOfVertices(int n, vector<vector<int>>& edges) {
+        vector<int> indegree(n,0);
+        vector<int> visited(n,0);
+        for(auto edge:edges){
+            indegree[edge[1]]++;
+            visited[edge[0]]=1;
+            visited[edge[1]]=1;
+        }
+        vector<int> ans;
+        for(int i=0;i<n;i++){
+            if(!visited[i] || indegree[i]==0)
+                ans.push_back(i);
+        }
+        return ans;
+    }
+};
 
 // @lc code=end
 

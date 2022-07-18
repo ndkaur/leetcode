@@ -94,6 +94,39 @@ public:
     }
 };
 
+//  easy bfs 
+// queue formed will be  
+// {0} ,{0,1},{0,2},{0,1,3},{0,2,3} 
+
+class Solution {
+public:
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+        int n= graph.size();
+        //  graph is stored in form of vi so the ans required is also in form of vi
+        vector<vector<int>> ans;
+        vector<int> path;
+        //  q in from of vi that store the path value till that point 
+        queue<vector<int>> q;
+
+        q.push({0});
+        while(!q.empty()){
+            path= q.front(); // in form of vi 
+            q.pop();
+            //  if last elemt of vector<int> path is equal to n-1 ie destination 
+            if(path.back()==n-1)
+                ans.push_back(path); // one path found
+            else {
+                for(auto itr: graph[path.back()]){  // start itr from the last visited node ie the vector<int> path's last val
+                    vector<int> v = path; // in order to add new itr we made a new vi v= path 
+                    v.push_back(itr);
+                    q.push(v);
+                }
+            }
+        }
+        return ans;
+    }
+};
+
 // @lc code=end
 
 int main(){

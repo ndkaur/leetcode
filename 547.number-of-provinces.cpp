@@ -74,6 +74,35 @@ public:
         return count;
     }
 };
+
+
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int n= isConnected.size();
+        vector<int> visited(n,0);
+        int cnt=0;
+        queue<int> q;
+        for(int i=0;i<n;i++){
+            if(!visited[i]){
+                cnt++;
+                q.push(i);
+                visited[i]= 1;
+                while(!q.empty()){
+                    auto node= q.front();
+                    q.pop();
+                    for(int j=0;j<n;j++){
+                        if(!visited[j] && isConnected[node][j]==1){
+                            q.push(j);
+                            visited[j]=1;
+                        }
+                    }
+                }
+            }
+        }
+        return cnt;
+    }
+};
 // @lc code=end
 
 

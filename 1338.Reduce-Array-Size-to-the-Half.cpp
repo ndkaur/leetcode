@@ -1,6 +1,6 @@
 #include "bits/stdc++.h"
 using namespace std;
-#include "Tree.h"
+// #include "Tree.h"
 #define deb(x) cout<<x<<endl;
 const int inf = 1e9;
 typedef vector<int> vi;
@@ -8,7 +8,7 @@ typedef vector<vector<int>> vvi;
 typedef vector<string> vs;
 typedef vector<bool> vb;
 typedef pair<int,int> pii;
-#include "LinkedList.h"
+// #include "LinkedList.h"
 
 void print(vi &out){
     for(auto x: out) cout<<x<<" ";
@@ -39,6 +39,32 @@ public:
             sz=sz-v[i];
         } // move from behind and remove ele till not grater than or equal to half
         return ans;
+    }
+};
+
+
+//  priority queue 
+class Solution {
+public:
+    int minSetSize(vector<int>& arr){
+        int n= arr.size();
+        map<int,int> mp;
+        for(int i=0;i<n;i++){
+            mp[arr[i]]++;
+        }
+        priority_queue<pair<int,int>> pq; // cnt, ele
+        for(auto m:mp){
+            pq.push({m.second, m.first});
+        }
+        int count=0;
+        int k=n;
+        while(k-pq.top().first>n/2){
+            k= k- pq.top().first;
+            pq.pop();
+            count++;
+        }
+        count++;
+        return count;
     }
 };
 
