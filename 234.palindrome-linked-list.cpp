@@ -89,37 +89,45 @@ public:
     }
 };
 
+
+
 class Solution {
 public:
     ListNode* reverseList(ListNode* head){
-        if(head==NULL) return NULL;
-        ListNode* curr= head;
+        if(head==NULL || head->next==NULL) 
+            return head;
         ListNode* prev= NULL;
-        ListNode* temp;
+        ListNode* curr= head;
+        ListNode* nxt= head->next;
         while(curr!=NULL){
-            temp= curr->next;
             curr->next= prev;
             prev= curr;
-            curr= temp;
+            curr= nxt;
+            if(nxt!=NULL)
+                nxt= nxt->next;
         }
         return prev;
     }
     bool isPalindrome(ListNode* head) {
-        ListNode* slow= head;
         ListNode* fast=head;
-        while(fast->next && fast->next->next){
-            slow=slow->next;
+        ListNode* slow=head;
+        // finding the one position behind the mid 
+        while(fast->next!=NULL && fast->next->next!=NULL){
+            slow= slow->next;
             fast= fast->next->next;
         }
-//          slow->next= mid->mid 
-        slow->next = reverseList(slow->next);
-        ListNode* start = head;
+        // reverse the half list from mid till end 
+        slow->next= reverseList(slow->next);
+        // compare both the lisitng with two ptrs 
+        ListNode* start= head;
         ListNode* mid = slow->next;
         while(mid!=NULL){
-            if(mid->val!=start->val) return false;
+            if(mid->val!=start->val)
+                return false;
             start= start->next;
             mid= mid->next;
         }
+        // to again restore the orignal order of the list 
         slow->next= reverseList(slow->next);
         return true;
     }

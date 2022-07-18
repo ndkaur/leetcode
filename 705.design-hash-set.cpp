@@ -21,38 +21,38 @@ void print(vi &out){
 }
 
 // @lc code=start
-class MyHashSet {
-    int numBuckets;
-    vector<vector<int>> buckets;
-    int hash_function(int key){
-        return key % numBuckets;
-    }
-public:
-    MyHashSet() {
-        numBuckets = 15000;
-        buckets= vector<vector<int>>(numBuckets,vector<int>{});
-    }
+// class MyHashSet {
+//     int numBuckets;
+//     vector<vector<int>> buckets;
+//     int hash_function(int key){
+//         return key % numBuckets;
+//     }
+// public:
+//     MyHashSet() {
+//         numBuckets = 15000;
+//         buckets= vector<vector<int>>(numBuckets,vector<int>{});
+//     }
     
-    void add(int key) {
-        int i= hash_function(key);
-        if(find(buckets[i].begin(),buckets[i].end,key)== buckets[i].end())
-            buckets[i].push_back(key);
-    }
+//     void add(int key) {
+//         int i= hash_function(key);
+//         if(find(buckets[i].begin(),buckets[i].end,key)== buckets[i].end())
+//             buckets[i].push_back(key);
+//     }
     
-    void remove(int key) {
-        int i= hash_function(key);
-        auto itr= find(buckets[i].begin(),buckets[i].end(),key);
-        if(itr!= buckets[i].end())
-            buckets[i].erase(itr);
-    }
+//     void remove(int key) {
+//         int i= hash_function(key);
+//         auto itr= find(buckets[i].begin(),buckets[i].end(),key);
+//         if(itr!= buckets[i].end())
+//             buckets[i].erase(itr);
+//     }
     
-    bool contains(int key) {
-        int i= hash_function(key);
-        if(find(buckets[i].begin(),buckets[i].end(),key)== buckets[i].end())
-            return false;
-        return true;
-    }
-};
+//     bool contains(int key) {
+//         int i= hash_function(key);
+//         if(find(buckets[i].begin(),buckets[i].end(),key)== buckets[i].end())
+//             return false;
+//         return true;
+//     }
+// };
 
 /**
  * Your MyHashSet object will be instantiated and called as such:
@@ -96,6 +96,7 @@ public:
     void add(int key) {
         ListNode* temp= head;
         while(temp->next!=NULL){
+            //  if key val already exists 
             if(temp->next->val==key) 
                 return;
             temp=temp->next;
@@ -127,42 +128,52 @@ public:
 };
 
 
-
 class MyHashSet {
+public:
+//      doubly linked list 
     vector<list<int>> m;
     int sz;
-public:
+    
     MyHashSet() {
-        sz= 1e6+1;
+       int sz= 1e6+1;
         m.resize(sz);
     }
+    
     int hash(int key){
-        return key%sz;
+        return key%sz; // one smaller idx
     }
+    
     list<int> :: iterator search(int key){
         int i= hash(key);
-        return find(m[i].begin(), m[i].end(),key);
+        return find(m[i].begin(), m[i].end(), key);
     }
-
+    
+    
     void add(int key) {
-        if(contains(key)) return ;
+        // check if already exist or not 
+        if(contains(key)) return;
         int i= hash(key);
         m[i].push_back(key);
     }
     
     void remove(int key) {
-        if(!contains(key)) return;
+//          key doesnot exist
+       if(!contains(key))
+           return;
         int i= hash(key);
+        // at every i there can be exisiting multiple node values linked to each other 
+//          so search for the apt value that needs to be deleted
         m[i].erase(search(key));
     }
     
     bool contains(int key) {
-        int i = hash(key);
-        if(search(key)!= m[i].end()) 
+       int i= hash(key);
+        if(search(key)!= m[i].end()) // if key found
             return true;
         return false;
     }
 };
+
 
 // @lc code=end
 

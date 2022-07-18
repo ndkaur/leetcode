@@ -30,19 +30,54 @@ void print(vi &out){
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        ListNode *prev=NULL;
-        ListNode *curr=head;
-        // ListNode *next=curr->next;
-        while(curr){
-            node* temp=curr->next;
-            curr->next=prev;
-            prev=curr;
-            curr=temp;
+        if(head==NULL)
+            return NULL;
+        ListNode* curr= head;
+        ListNode* nxt= head->next;
+        ListNode* prev=NULL;
+        while(curr!=NULL){
+            curr->next= prev;
+            prev= curr;
+            curr= nxt;
+            if(nxt!=NULL)
+                nxt= nxt->next;
         }
-       return prev;
+        return prev;
+    }
+};
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(head==NULL || head->next==NULL)
+            return head;
+        ListNode* curr= head;
+        ListNode* nxt;
+        ListNode* prev=NULL;
+        while(curr!=NULL){
+            nxt= curr->next;
+            curr->next= prev;
+            prev= curr;
+            curr= nxt;
+        }
+        return prev;
+    }
+};
+
+//  recursive 
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(head==NULL || head->next==NULL)
+            return head;
+        ListNode* newhead= reverseList(head->next);
+        head->next->next= head;
+        head->next=NULL;
+        return newhead;
     }
 };
 // @lc code=end

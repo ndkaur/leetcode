@@ -44,6 +44,22 @@ public:
         return head;
     }
 };
+
+//  recursive 
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        if(!head || head->next==NULL) return head;
+        ListNode* newhead= deleteDuplicates(head->next);
+        if(head->val== newhead->val)
+            return newhead;
+        else 
+            head->next= newhead;
+        return head;
+    }
+}; 
+
+
 // @lc code=end
 
 

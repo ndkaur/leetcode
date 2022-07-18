@@ -83,6 +83,7 @@ public:
             l2++;
             headB = headB->next;
         }
+        //  taking the ptr in synchronization 
         int diff = abs(l1-l2);
         if(l1>l2){
             while(diff--)
@@ -92,6 +93,7 @@ public:
             while(diff--)
                 h2= h2->next;
         }
+
         while(h1 && h2){
             if(h1==h2)
                 return h1;
