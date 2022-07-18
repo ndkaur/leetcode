@@ -21,6 +21,29 @@ cout<<endl;
 }
 
 // @lc code=start
+
+//  this code gives wrong ans as we only pick the last two greatest elem anf subtract 1 from them even if the 
+// connection between them exist or not .
+class Solution {
+public:
+    int maximalNetworkRank(int n, vector<vector<int>>& roads) {
+        vector<int> in(n,0);
+        for(auto road:roads){
+            in[road[0]]++;
+            in[road[1]]++;
+        }
+
+        int sum=0;
+        int sz= in.size();
+        for(int i=0;i<sz;i++){
+            sum= in[sz-1]+in[sz-2];
+        }
+        return sum-1;
+    }
+};
+
+
+// so  in this code we first check if the connection btw two nodes exist then only subtract 1 else -0
 class Solution {
 public:
     int maximalNetworkRank(int n, vector<vector<int>>& roads) {
@@ -36,6 +59,7 @@ public:
             degree[v]++;
         }
         int ans=0;
+        //  nested for loops cause we can get max from any part 
         for(int i=0;i<n;i++){
             for(int j=i+1;j<n;j++){
                 ans = max(ans, degree[i]+degree[j]- (adj[i][j] ? 1:0));

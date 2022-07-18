@@ -54,6 +54,7 @@ public:
     }   
 };
 
+// increase cnt everytime till i<adj.size()
 
 // union find 
 
@@ -92,13 +93,15 @@ public:
         for(auto c:con){
             int a= c[0];
             int b =c[1];
+            // if both parents same then we need extra wire to join them 
             if(findParent(a)==findParent(b))
                 extraWire++;
-            else{
+            else{ // parents not same then unite them to some parent and groups will reduce 
                 unionn(a,b);
                 group--;
             }
         }
+        //  if we have more extra wires then groups then only we can make connections 
         if(extraWire >= (group-1))
             return (group-1);
         else 

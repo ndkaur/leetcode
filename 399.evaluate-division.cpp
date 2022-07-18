@@ -62,19 +62,23 @@ cout<<endl;
 //     }
 // };
 
+//  tc-> O(no of vertices * no of queries )
+// sc-> O(n)
+
 class Solution {
 public:
     void dfs(string s, string d, map<string,vector<pair<string,double>>>& mp, set<string> visited, double& ans, double temp){
+        //  if already visited 
         if(visited.find(s)!=visited.end()) return ;
-        else{
-            visited.insert(s);
+        else{ // if not visited 
+            visited.insert(s); // mark it as visted
             if(s==d){
-                ans= temp;
+                ans= temp; // store the ans 
                 return;
             }
             else {
                 for(auto itr:mp[s]){
-                    dfs(itr.first,d,mp,visited,ans,temp*itr.second );
+                    dfs(itr.first,d,mp,visited,ans,temp*itr.second);
                 }
             }
         }
@@ -90,15 +94,21 @@ public:
         for(int i=0;i<queries.size();i++){
             string s= queries[i][0]; // start
             string d= queries[i][1]; // destination
+
+            // few  queries get repeated so we use set of string ie it will have unique values
             set<string> visited;
             double ans = -1.0;
+
             if(mp.find(s)!=mp.end()) // if start present
-            dfs(s,d,mp,visited,ans, 1.0);
+                dfs(s,d,mp,visited,ans, 1.0);
+
+            //  if it doesnot exist in map so return -1 
             res.push_back(ans);
         }
         return res;
     }
 }; 
+//  for every query [s,e] the visited wil be different so declared inside the for loop
 
 // @lc code=end
 
