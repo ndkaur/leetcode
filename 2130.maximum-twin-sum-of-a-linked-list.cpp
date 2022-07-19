@@ -78,6 +78,45 @@ public:
     }
 };
 
+
+// find mid , reverse and adding 
+class Solution {
+public:
+    ListNode* reverse(ListNode* head){
+        ListNode* prev=NULL;
+        ListNode* curr= head;
+        ListNode* nxt= head->next;
+        while(curr!=NULL){
+            curr->next= prev;
+            prev= curr;
+            curr=nxt;
+            if(nxt!=NULL)
+                nxt= nxt->next;
+        }
+        return prev;
+    }
+    int pairSum(ListNode* head) {
+        ListNode* fast= head;
+        ListNode* slow= head;
+        while(fast->next!=NULL && fast->next->next!=NULL){
+            slow= slow->next;
+            fast= fast->next->next;
+        }
+        slow->next= reverse(slow->next);
+        ListNode* start= head;
+        ListNode* mid= slow->next;
+       
+        int mx=0;
+        while(mid!=NULL){
+            int sum=0;
+            sum+= start->val + mid->val;
+            mx= max(mx, sum);
+            start= start->next;
+            mid= mid->next;
+        }
+        return mx;
+    }
+};
 // @lc code=end
 
 

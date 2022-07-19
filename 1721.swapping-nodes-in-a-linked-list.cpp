@@ -64,5 +64,35 @@ public:
        return head;
     }
 };
+
+// find the len of list 
+// take two ptr one at k other at n-k+1
+class Solution {
+public:
+    ListNode* swapNodes(ListNode* head, int k) {
+        int n=0;
+        // lenght of list 
+        ListNode* temp= head;
+        while(temp!=NULL){
+            n++;
+            temp= temp->next;
+        }
+
+        int last= n-k+1;
+        
+        ListNode* temp1= head;
+        ListNode* temp2= head;
+        for(int i=1;i<k;i++){
+            temp1= temp1->next;
+        }
+        for(int i=1;i<n-k+1;i++){
+            temp2= temp2->next;
+        }
+        int t= temp1->val;
+        temp1->val= temp2->val;
+        temp2->val= t;
+        return head;
+    }
+};
 // @lc code=end
 

@@ -33,21 +33,21 @@ void print(vi &out){
 class Solution {
 public:
     vector<int> nextLargerNodes(ListNode* head) {
-        vector<int> result;
-        ListNode *curr=head;
-        while(curr){
-            int cv=curr->val;
-            ListNode *temp=curr->next;
-            while(temp && temp->val<=cv){
-                    temp=temp->next;
+        vector<int> ans;
+        ListNode* curr= head;
+        while(curr!=NULL){
+            ListNode* temp = curr->next;
+            while(temp!=NULL && temp->val<= curr->val){ // till the time values are less or equal move ahead
+                temp= temp->next;
             }
-            if(temp)
-                result.push_back(temp->val);
-            else 
-                result.push_back(0);
-            curr=curr->next;
+            // check if temp exist can be possible that no greater val found 
+            if(temp) 
+                ans.push_back(temp->val);
+            else
+                ans.push_back(0);
+            curr= curr->next;
         }
-        return result;
+        return ans;
     }
 };
 // @lc code=end

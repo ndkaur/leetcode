@@ -51,6 +51,62 @@ public:
         return list1;
     }
 };
+
+
+class Solution {
+public:
+    ListNode* mergeInBetween(ListNode* list1, int a, int b, ListNode* list2) {
+        ListNode* temp1=list1;
+        int idx1=1;
+        // we want to place our ptr just one idx behind the a 
+        while(idx1<a){
+            temp1= temp1->next;
+            idx1++;
+        }
+        
+        ListNode* temp2= list1;
+        int idx2=1;
+        while(idx2<=b){
+            temp2= temp2->next;
+            idx2++;
+        }
+        
+        ListNode* temp3= list2;
+        // take pt3 to the end of list2
+        while(temp3->next!=NULL){
+            temp3= temp3->next;
+        }
+        
+        temp1->next= list2;
+        temp3->next= temp2->next;
+        
+        return list1;
+    }
+};
+
+
+class Solution {
+public:
+    ListNode* mergeInBetween(ListNode* list1, int a, int b, ListNode* list2) {
+        ListNode* temp1=list1;
+        ListNode* temp2= list1;
+        // a-1 cause we have to attach prev of a with new list 
+        for(int i=0;i<a-1;i++)
+            temp1= temp1->next;
+        // go till less than b cause have to atatch b->ext with last node of list2 
+        for(int i=0;i<b;i++)
+            temp2= temp2->next;
+        
+        //  attach with list2
+        temp1->next= list2;
+        while(list2->next!=NULL)
+            list2= list2->next;
+        // list2 idx reached the end of list 2 
+        // attach with the list1 
+        list2->next= temp2->next;
+        return list1;
+    }
+};
 // @lc code=end
 
 

@@ -34,15 +34,19 @@ class Solution {
 public:
     ListNode* oddEvenList(ListNode* head) {
         if(head==NULL) return NULL;
+
         ListNode *odd=head;
         ListNode *even =head->next;
+        // to store the first occurence of even node so to atatch with odd end ptr 
         ListNode *evenHead =even;
+
         while(even!=NULL && even->next!=NULL){
             odd->next=even->next;
             odd=odd->next;
             even->next=odd->next;
             even=even->next;
         }
+        // attaching the odd with even 
         odd->next= evenHead;
         return head;
     }

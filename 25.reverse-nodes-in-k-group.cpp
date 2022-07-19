@@ -73,6 +73,46 @@ public:
         return dummy->next;
     }
 };
+
+class Solution { //t-> O(n)  sc-> O(n/k)
+public:
+    void reverse(ListNode* s, ListNode* e){
+        ListNode* curr= s;
+        ListNode* prev= NULL;
+        ListNode* nxt= s->next;
+        // cant use curr!= null conditon cause it can be possible that the list is remaining so we use other condtion  ,,, after reverse curr reaches null and prev reaches last idx 
+        while(prev!=e){
+            curr->next= prev;
+            prev= curr; 
+            curr= nxt;
+            if(nxt!=NULL)
+                nxt= nxt->next;
+        }
+            
+    }
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        if(head==NULL || head->next==NULL || k==1)
+            return head;
+        ListNode* start= head;
+        ListNode* end= head;
+        int ptr= k-1; // 0 based indexing 
+        // dividing into k groups 
+        while(ptr--){ // ptr will reach the end of each kth group 
+            end= end->next;
+            if(end==NULL) // no k divisions can be made from the remaining list 
+                return head;
+        }
+        // recursiively reversing the remaining elemts 
+        ListNode* nextHead = reverseKGroup(end->next, k);
+        reverse(start, end);
+        // after reversing the start and end will change
+        // start will get at the end so attach the start to the next remaining reversed list 
+        start->next= nextHead;
+        // end after reversal becomes the start pointer ie the head
+        return end;
+    }
+};
+
 // @lc code=end
 
 
