@@ -34,6 +34,45 @@ public:
         return -(ans)+1;
     }
 };
+
+class Solution {
+public:
+    int minStartValue(vector<int>& nums) {
+        int start=1;
+        while(true){
+            int sum= start;
+            bool isValid= true;
+            for(int i=0;i<nums.size();i++){
+                sum+= nums[i];
+                  if(sum<1){
+                      isValid= false;
+                      break;
+                  }
+            }
+            if(isValid)
+                return start;
+            else
+                start+=1;
+        }
+        return -1;
+    }
+};
+
+// insted we just find the min negative val sum so that we take the same val as +ve and it will cover all the val less than 1 
+class Solution {
+public:
+    int minStartValue(vector<int>& nums) {
+        int ans=0;
+        int sum=0;
+        for(int i=0;i<nums.size();i++){
+            sum+= nums[i];
+            ans= min(ans,sum);
+        }
+        return -ans+1;
+    }
+};
+
+
 // @lc code=end
 
 

@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode id=700 lang=cpp
+ * @lc app=leetcode id=530 lang=cpp
  *
- * [700] Search in a Binary Search Tree
+ * [530] Minimum Absolute Difference in BST
  */
 #include "bits/stdc++.h"
 using namespace std;
@@ -32,26 +32,30 @@ void print(vi &out){
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
-public:
-    TreeNode* searchBST(TreeNode* root, int val) {
-        while(root!= NULL && root->val!= val){
-            root= (root->val>val)? root->left : root->right;
-        }
-        return root;
-    }
-};
 
+
+//  O(n)
+// O(h)
 class Solution {
 public:
-    TreeNode* searchBST(TreeNode* root, int val) {
-        if(!root) return NULL;
-        if(root->val== val)
-            return root;
-        if(root->val>val)
-            return searchBST(root->left,val);
-        else 
-            return searchBST(root->right,val);
+    int getMinimumDifference(TreeNode* root) {
+        auto mn=INT_MAX;
+        // val is that which store the main root val
+        int val= -1;
+        return dfs(root,mn, val);
+    }
+    int dfs(TreeNode* root, int &mn , int& val){
+        if(root->left)
+            dfs(root->left,mn,val);
+        
+        if(val>=0)
+                mn= min(mn, abs(root->val- val));
+            //update the root value
+        val = root->val;
+        
+        if(root->right)
+            dfs(root->right, mn, val);
+        return mn;
     }
 };
 

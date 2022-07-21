@@ -34,22 +34,21 @@ void print(vi &out){
 class Solution {
 public:
     TreeNode* increasingBST(TreeNode* root) {
-        TreeNode *curr;
-        TreeNode *out = new TreeNode(-1);
-        curr = out;
-        dfs(out,root);
-        return curr->right;
+        if(root==NULL) return NULL;
+        TreeNode* newTree= new TreeNode(0);
+        TreeNode* curr= newTree;
+        dfs(curr,root);
+        return newTree->right;
     }
-    // left  root right        
-    void dfs(TreeNode* &out, TreeNode *root){
-        if(!root) return ;
-        dfs(out,root->left);
-        out->right = new TreeNode(root->val);
-        out= out->right;
-        dfs(out,root->right);
+    void dfs(TreeNode* &curr, TreeNode* root){
+        if(root==NULL) return;
+        dfs(curr, root->left);
+        curr->right= new TreeNode(root->val);
+        curr= curr->right;
+        dfs(curr, root->right);
+        
     }
 };
-
 
 class Solution {
 public:
@@ -71,31 +70,32 @@ public:
 }; 
 
 
-class Solution {
+class Solution {  //t->O(n)  s->O(n)
 public:
     TreeNode* increasingBST(TreeNode* root) {
         if(root==NULL) return NULL;
-        TreeNode* newtree= new TreeNode(0);
-        TreeNode* out= newtree;
+        stack<TreeNode*> st;
         TreeNode* curr= root;
-        stack<TreeNode*> stk;
-        while( curr || !stk.empty()){
+        TreeNode* newTree= new TreeNode(0);
+        TreeNode* noder= newTree;
+        while(curr || !st.empty()){
             while(curr){
-                stk.push(root);
+                st.push(curr);
                 curr= curr->left;
             }
-            curr = stk.top();
-            stk.pop();
-            out->right= curr;
-            out= out->right;
-            out->left= NULL;
-
+            curr= st.top();
+            st.pop();
+            
+            noder->right= curr;
+            noder= noder->right;
+            // first move node to right then make left as null
+            noder->left=NULL;
+           
             curr= curr->right;
         }
-        return newtree->right;
-    } 
-}; 
-
+        return newTree->right;
+    }
+};
 
 
 // @lc code=end

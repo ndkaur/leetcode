@@ -31,6 +31,8 @@ void print(vi &out){
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+// t->O(n)  s->O(1)
 class Solution {
 public:
     TreeNode* sortedArrayToBST(vector<int>& nums) {

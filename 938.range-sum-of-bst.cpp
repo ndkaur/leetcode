@@ -31,7 +31,7 @@ void print(vi &out){
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class Solution { // o(N)  s->O(h)
 public:
     int rangeSumBST(TreeNode* root, int low, int high) {
         int sum=0;
