@@ -37,13 +37,17 @@ void print(vi &out){
 class Solution {
 public:
     vector<int> getAllElements(TreeNode* root1, TreeNode* root2) {
-        stack<TreeNode *> s1,s2;
+        stack<TreeNode*> s1,s2;
         vector<int> ans;
+        // we put values in st in form of inorder 
         while(root1 || root2 || !s1.empty() || !s2.empty()){
+            // till root1 is not null
             while(root1!=NULL){
                 s1.push(root1);
+                // first push left child 
                 root1 = root1->left;
             }
+            // till root2 is not null 
             while(root2!=NULL){
                 s2.push(root2);
                 root2= root2->left;
@@ -52,6 +56,7 @@ public:
                 root1= s1.top();
                 s1.pop();
                 ans.push_back(root1->val);
+                // then move to right child 
                 root1 = root1->right;
             }
             else{ // s1 is empty
@@ -62,6 +67,25 @@ public:
             }
         }
         return ans;
+    }
+};
+
+// t->O(nlogn)   s->O(n)
+class Solution {
+public:
+    vector<int> getAllElements(TreeNode* root1, TreeNode* root2) {
+        vector<int> ans;
+        dfs(root2,ans);
+        dfs(root1,ans);
+        sort(ans.begin(),ans.end());
+        return ans;
+    }
+    
+    void dfs(TreeNode* root, vector<int>& ans){
+        if(!root) return;
+        dfs(root->left,ans);
+        ans.push_back(root->val);
+        dfs(root->right,ans);
     }
 };
 // @lc code=end
