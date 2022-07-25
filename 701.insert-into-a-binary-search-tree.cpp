@@ -36,7 +36,8 @@ public:
     TreeNode* insertIntoBST(TreeNode* root, int val) {
         TreeNode *curr=root, *prev=NULL;
         if(!root) return new TreeNode(val);
-
+        // prev is used to store the parent position of the val that will be added 
+        // prev is parent of curr 
         while(curr){
             prev=curr;
             if(val<curr->val)
@@ -52,6 +53,45 @@ public:
         return root;
     }
 };
+
+//t->O(n)
+// s->O(h) or O(1)
+class Solution {
+public:
+    TreeNode* insertIntoBST(TreeNode* root, int val) {
+        if(!root) 
+            return new TreeNode(val);
+        if(root->val < val){
+            if(root->right!=NULL)
+                insertIntoBST(root->right,val);
+            else 
+                root->right= new TreeNode(val);
+        }
+        else{
+            if(root->left!=NULL)
+                 insertIntoBST(root->left,val);
+            else 
+                root->left= new TreeNode(val);
+        }
+        return root;
+    }
+};
+
+class Solution {
+public:
+    TreeNode* insertIntoBST(TreeNode* root, int val) {
+        if(!root) 
+            return new TreeNode(val);
+        if(root->val < val){
+            root->right= insertIntoBST(root->right,val);
+        }
+        else{
+            root->left=insertIntoBST(root->left,val);
+        }
+        return root;
+    }
+};
+
 // @lc code=end
 
 

@@ -45,6 +45,29 @@ public:
         return trimBST(root->left,low,high);
     }
 };
+
+//  t->O(N)
+//  s->O(N)
+class Solution {
+public:
+    TreeNode* trimBST(TreeNode* root, int low, int high) {
+        if(!root) 
+            return NULL;
+        // if val greater than high that means all the node to the right of root will also be greater than high
+        // so go left 
+        if(root->val> high)
+            return trimBST(root->left, low, high);
+        // if val is small than low then all the values ont he left side of root will also be smaller 
+        // so move right
+        if(root->val<low)
+            return trimBST(root->right, low, high);
+        // those roots which ful full the condition 
+        root->left= trimBST(root->left,low,high);
+        root->right= trimBST(root->right, low, high);
+        return root;
+    }
+};
+
 // @lc code=end
 
 

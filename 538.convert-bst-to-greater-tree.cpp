@@ -50,6 +50,24 @@ public:
         return root;
     }
 };
+
+class Solution {
+public:
+    TreeNode* convertBST(TreeNode* root) {
+        if(!root) 
+            return NULL;
+        int val=0;
+        dfs(root,val);
+        return root;
+    }
+    void dfs(TreeNode* root, int &val){
+        if(!root) return;
+        dfs(root->right,val);
+        root->val = root->val+val;
+        val= root->val;
+        dfs(root->left, val);
+    }
+};
 // @lc code=end
 
 

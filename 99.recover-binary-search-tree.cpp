@@ -32,42 +32,41 @@ void print(vi &out){
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution { // tc->O(n) sc->O(1)
+
+// tc->O(n) sc->O(1)
+class Solution {
 public:
-    TreeNode* prev;
     TreeNode* first;
     TreeNode* middle;
     TreeNode* last;
-
+    TreeNode* prev= NULL;
+    
+    void recoverTree(TreeNode* root) {
+        first= middle= last=NULL;
+        prev= new TreeNode(INT_MIN);
+        inorder(root);
+        // non adjacent nodes 
+        if(first && last)
+            swap(first->val, last->val);
+        // adjacent nodes 
+        else if(first && middle)
+            swap(first->val, middle->val);
+    }
+    // prev first middle last 
     void inorder(TreeNode* root){
-        if(!root) return;
+        if(root==NULL)
+            return;
         inorder(root->left);
-        // correct ->  prev val < root val
-        //  checking for violations 
-        if(prev!=NULL && (prev->val > root->val)){
-            if(first==NULL){ // first time violation
+        if(prev!=NULL && (root->val< prev->val)){
+            if(first==NULL){
                 first= prev;
                 middle= root;
             }
-            else{ // first is not null ie second violation
+            else 
                 last= root;
-            }
         }
-        prev=root;
+        prev= root;
         inorder(root->right);
-    }
-
-    void recoverTree(TreeNode* root) {
-        first= middle= last= NULL;
-        prev= new TreeNode(INT_MIN);
-        inorder(root);
-        // swap to get he correct order
-        // case 1 -> when only one violation occur 
-        if(first && middle)
-            swap(first->val , middle->val);
-        //  case 2 -> when two violations occur 
-        if(first && last)
-            swap(first->val , last->val);
     }
 };
 // @lc code=end

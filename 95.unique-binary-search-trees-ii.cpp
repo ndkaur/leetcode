@@ -59,6 +59,7 @@ public:
     }
 };
 
+// O(N^2)
 class Solution {
 public:
     vector<TreeNode*> generateTrees(int n) {
@@ -68,14 +69,18 @@ public:
         vector<TreeNode*> ans;
         if(e-s<0) ans.push_back(0); // n is 0
         if(e-s==0) ans.push_back(new TreeNode(s)); // find a new tree bst
-        
+    
         if(e-s>0){
             for(int i=s;i<=e;i++){
+                // similar as we go from s to mid-1  and from mid+1 to e
+                // generating the seperate left and right subtrees for node
                 vector<TreeNode*> l = generate(s,i-1);
                 vector<TreeNode*> r = generate(i+1,e);
                 for(auto left: l){
                     for(auto right: r){
+                        // i is out main parent node 
                         TreeNode* root= new TreeNode(i);
+                        
                         root->left= left;
                         root->right= right;
                         ans.push_back(root);
