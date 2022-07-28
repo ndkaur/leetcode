@@ -1,24 +1,24 @@
 /*
- * @lc app=leetcode id=563 lang=cpp
+ * @lc app=leetcode id=226 lang=cpp
  *
- * [563] Binary Tree Tilt
+ * [226] Invert Binary Tree
  */
 #include "bits/stdc++.h"
 using namespace std;
-#include "Tree.h"
+// #include "Tree.h"
 #define deb(x) cout<<x<<endl;
+const int inf = 1e9;
 typedef vector<int> vi;
 typedef vector<vector<int>> vvi;
 typedef vector<string> vs;
 typedef vector<bool> vb;
 typedef pair<int,int> pii;
-#include "LinkedList.h"
+//#include "LinkedList.h"
 
 void print(vi &out){
     for(auto x: out) cout<<x<<" ";
     cout<<endl;
 }
-
 // @lc code=start
 /**
  * Definition for a binary tree node.
@@ -31,30 +31,42 @@ void print(vi &out){
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+
 class Solution {
 public:
-    int findTilt(TreeNode* root) {
-        if(!root) return {};
-        int sum=0;
-        dfs(root,sum);
-        return sum;
-    }
-    int dfs(TreeNode* root,int &sum){
-        if(!root) return 0;
-        int leftsum = dfs(root->left,sum);
-        int rightsum = dfs(root->right,sum);
-
-        sum+=abs(leftsum-rightsum);
-        // internal dfs return of a node to its parent node 
-        // it return the sum formed including that node and its children 
-        return root->val + leftsum + rightsum;
+    TreeNode* invertTree(TreeNode* root) {
+        if(!root) return NULL;
+        swap(root->left, root->right);
+        invertTree(root->left);
+        invertTree(root->right);
+        return root;
     }
 };
+
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if(!root) return NULL;
+        stack<TreeNode*> st;
+        st.push(root);
+        while(!st.empty()){
+            TreeNode* curr= st.top();
+            st.pop();
+            if(!curr) continue;
+            st.push(curr->left);
+            st.push(curr->right);
+            swap(curr->left, curr->right);
+        }
+        return root;
+    }
+};
+
 // @lc code=end
 
 
+
 int main(){
-    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    
+
     return 0;
 }

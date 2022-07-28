@@ -1,18 +1,19 @@
 /*
- * @lc app=leetcode id=563 lang=cpp
+ * @lc app=leetcode id=965 lang=cpp
  *
- * [563] Binary Tree Tilt
+ * [965] Univalued Binary Tree
  */
 #include "bits/stdc++.h"
 using namespace std;
-#include "Tree.h"
+// #include "Tree.h"
 #define deb(x) cout<<x<<endl;
+const int inf = 1e9;
 typedef vector<int> vi;
 typedef vector<vector<int>> vvi;
 typedef vector<string> vs;
 typedef vector<bool> vb;
 typedef pair<int,int> pii;
-#include "LinkedList.h"
+//#include "LinkedList.h"
 
 void print(vi &out){
     for(auto x: out) cout<<x<<" ";
@@ -31,30 +32,22 @@ void print(vi &out){
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
 class Solution {
 public:
-    int findTilt(TreeNode* root) {
-        if(!root) return {};
-        int sum=0;
-        dfs(root,sum);
-        return sum;
+    bool isUnivalTree(TreeNode* root) {
+        if(root == NULL) return true;
+        
+        if(root->left != NULL && root->left->val != root->val) return false;
+        if(root->right != NULL && root->right->val != root->val) return false;
+        
+        return isUnivalTree(root->left) && isUnivalTree(root->right);
     }
-    int dfs(TreeNode* root,int &sum){
-        if(!root) return 0;
-        int leftsum = dfs(root->left,sum);
-        int rightsum = dfs(root->right,sum);
-
-        sum+=abs(leftsum-rightsum);
-        // internal dfs return of a node to its parent node 
-        // it return the sum formed including that node and its children 
-        return root->val + leftsum + rightsum;
-    }
-};
+}; 
 // @lc code=end
 
 
 int main(){
-    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    
+
     return 0;
 }

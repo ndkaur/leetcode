@@ -43,6 +43,19 @@ public:
         return (t1->val==t2->val) && dfs(t1->right,t2->left) && dfs(t1->left , t2->right);
     }
 };
+
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        return root == NULL || check(root->left, root->right);
+    }
+    bool check(TreeNode* lft, TreeNode* rt){
+        if(!lft || !rt) return lft==rt;
+        if(lft->val!=rt->val) return false;
+        return check(lft->left, rt->right) && check(lft->right, rt->left);
+    }
+};
+
 // @lc code=end
 
 //bfs

@@ -1,18 +1,19 @@
 /*
- * @lc app=leetcode id=563 lang=cpp
+ * @lc app=leetcode id=671 lang=cpp
  *
- * [563] Binary Tree Tilt
+ * [671] Second Minimum Node In a Binary Tree
  */
 #include "bits/stdc++.h"
 using namespace std;
-#include "Tree.h"
+// #include "Tree.h"
 #define deb(x) cout<<x<<endl;
+const int inf = 1e9;
 typedef vector<int> vi;
 typedef vector<vector<int>> vvi;
 typedef vector<string> vs;
 typedef vector<bool> vb;
 typedef pair<int,int> pii;
-#include "LinkedList.h"
+//#include "LinkedList.h"
 
 void print(vi &out){
     for(auto x: out) cout<<x<<" ";
@@ -31,30 +32,36 @@ void print(vi &out){
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+
 class Solution {
 public:
-    int findTilt(TreeNode* root) {
-        if(!root) return {};
-        int sum=0;
-        dfs(root,sum);
-        return sum;
-    }
-    int dfs(TreeNode* root,int &sum){
+    int findSecondMinimumValue(TreeNode* root) {
         if(!root) return 0;
-        int leftsum = dfs(root->left,sum);
-        int rightsum = dfs(root->right,sum);
-
-        sum+=abs(leftsum-rightsum);
-        // internal dfs return of a node to its parent node 
-        // it return the sum formed including that node and its children 
-        return root->val + leftsum + rightsum;
+        set<int> s; // sorted and increasing order
+        dfs(root, s);
+       if(s.size()==1)
+        return -1;
+        // we want second min val
+        auto it= s.begin();
+        //move it ahead
+        it++;
+        // get the secod min val
+        return *it;
+    }
+    void dfs(TreeNode* root, set<int>& s){
+        if(!root) return;
+        dfs(root->left,s);
+        s.insert(root->val);
+        dfs(root->right, s);
     }
 };
+
+
 // @lc code=end
 
 
 int main(){
-    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    
+
     return 0;
 }

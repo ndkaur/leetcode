@@ -59,6 +59,28 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    int getMinimumDifference(TreeNode* root) {
+        int mn=INT_MAX;
+        int val= -1;
+        return dfs(root,mn, val);
+    }
+    int dfs(TreeNode* root, int &mn , int& val){
+        if(root->left)
+            dfs(root->left,mn,val);
+        
+        if(val>=0)
+                mn= min(mn, abs(root->val- val));
+        val = root->val;
+        
+        if(root->right)
+            dfs(root->right, mn, val);
+        return mn;
+    }
+};
+
 // @lc code=end
 
 

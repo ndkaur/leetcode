@@ -50,6 +50,29 @@ public:
         return ans;
     }
 };
+
+// we take val=-1 just to make sure that even if a node comes with -ve val it doesnot effect our min distance
+class Solution {
+public:
+    int minDiffInBST(TreeNode* root) {
+        if(!root) return NULL;
+        int mn= INT_MAX;
+        int val= -1;
+        return dfs(root, mn, val);
+    }
+    int dfs(TreeNode* root, int &mn, int &val){
+        if(!root) return NULL;
+        if(root->left)
+            dfs(root->left,mn, val);
+        // if root val is +ve then only include it 
+        if(val>=0)
+            mn = min(mn, abs(root->val - val));
+        val = root->val;
+        if(root->right)
+            dfs(root->right, mn, val);
+        return mn;
+    }
+};
 // @lc code=end
 
 int main(){
