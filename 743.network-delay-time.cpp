@@ -21,40 +21,80 @@ cout<<endl;
 }
 
 // @lc code=start
-class Solution { // dijkstra
+// t-> O(n + elogn)
+// s->o(n+e)
+class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        vector<pair<int,int>> adj[n+1];
-        for(auto t:times){
-            int x= t[0], y=t[1], w=t[2];
-            adj[x].push_back({y,w});
+        vector<vector<pair<int,int>>> adj(n+1);
+        for(auto time:times){
+            int u= time[0];
+            int v=time[1];
+            int w= time[2];
+            adj[u].push_back({v,w});
         }
-        priority_queue<pair<int,int>, vector<pair<int,int>> , greater<pair<int,int>>> pq;
-        vector<int> dist(n+1,INT_MAX);
-        dist[k]=0; // src
-        pq.push({0,k}); // dist,node
-
+        vector<int> distance(n+1,INT_MAX);
+        distance[k]=0;
+        priority_queue<pair<int,int> , vector<pair<int,int>> , greater<pair<int,int>>> pq;
+        pq.push({0,k}); // dist node
         while(!pq.empty()){
-            int prevDist= pq.top().first;
-            int prevNode=pq.top().second;
+            int dist= pq.top().first;
+            int node= pq.top().second;
             pq.pop();
-            for(auto itr:adj[prevNode]){
-                int nextNode= itr.first;
-                int nextDist= itr.second;
-                if(dist[nextNode]>dist[prevNode]+nextDist){
-                    dist[nextNode] = dist[prevNode]+nextDist;
-                    pq.push({dist[nextNode],nextNode});
+            for(auto itr:adj[node]){
+                int next= itr.first;
+                int ndist= itr.second;
+                if(distance[next] > ndist+ dist){
+                    distance[next]= ndist+ dist;
+                    pq.push({distance[next],next});
                 }
             }
         }
-        int ans =INT_MIN;
+        int ans=INT_MIN;
         for(int i=1;i<=n;i++){
-            ans = max(ans, dist[i]); // we need max time 
+            ans= max(ans,distance[i]);
         }
-        return ans == INT_MAX ? -1:ans; // if ans == int max ie infinity
-        // menas no path exist 
+        return ans == INT_MAX ? -1 :ans;
     }
 };
+
+
+class Solution { 
+public:
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        vector<vector<pair<int,int>>> adj(n+1);
+        for(auto time:times){
+            int u= time[0];
+            int v=time[1];
+            int w= time[2];
+            adj[u].push_back({v,w});
+        }
+        vector<int> distance(n+1, INT_MAX);
+        queue<int> q;
+        q.push(k);
+        distance[k]=0;
+        while(!q.empty()){
+            int node= q.front();
+            q.pop();
+            for(auto itr:adj[node]){
+                int next= itr.first;
+                int ndist= itr.second;
+                if(distance[next] > distance[node]+ ndist){
+                    distance[next] = distance[node]+  ndist;
+                    q.push(next);
+                }
+            }
+        }
+        int res=0;
+        for(int i=1;i<=n;i++){
+            if(distance[i]==INT_MAX)
+                return -1;
+            res = max(res, distance[i]);
+        }
+        return res;
+    }
+};
+
 // @lc code=end
 
 

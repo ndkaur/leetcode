@@ -32,6 +32,7 @@ public:
             adj[a][b]= weight;
             adj[b][a]= weight;
         }
+        //self distance 2->2 =0 , 3->3=0
         for(int i=0;i<n;i++){
             adj[i][i]=0;
         }
@@ -63,7 +64,7 @@ class Solution {  // dijkstar algo
 public:
     int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
         unordered_map<int,vector<pair<int,int>>> g;
-        for(auto edge:edges){
+        for(auto& edge:edges){
             g[edge[0]].push_back({edge[1],edge[2]});
             g[edge[1]].push_back({edge[0],edge[2]});
         }
@@ -83,8 +84,8 @@ public:
                     int next= it.first;
                     int nextDist= it.second;
 
-                    if(distance[next]>distance[prevNode]+nextDist){
-                        distance[next]= nextDist+distance[prevNode];
+                    if(distance[next]> dist+nextDist){
+                        distance[next]= nextDist+dist;
                         pq.push({distance[next],next});
                     }
                 }
@@ -109,6 +110,69 @@ public:
         return mxans;
     }
 };
+
+class Solution {
+public:
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+        // make adj list
+        vector<pair<int,int>> adj[n];
+        for(auto it:edges){
+            vector<int> temp=it;
+            int u= temp[0];
+            int v= temp[1];
+            int wt= temp[2];
+            adj[u].push_back({v,wt});
+            adj[v].push_back({u,wt});
+        }
+        
+        int res = INT_MAX;
+        int ans=0;
+        for(int i=0;i<n;i++){
+            vector<int> count = dijkstra(adj,i,n);
+            int cnt=0;
+            for(auto it:count){
+                if(it<=distanceThreshold)
+                    cnt++;
+            }
+            if(cnt<=res){
+                res= cnt;
+                ans=i;
+            }
+        }
+        return ans;
+    }
+        
+    vector<int> dijkstra(vector<pair<int,int>>adj[], int i, int n){ 
+            vector<int> distance(n,1e8);
+            distance[i]=0;
+            priority_queue<pair<int,int> , vector<pair<int,int>> , greater<pair<int,int>>> pq;
+            
+            
+            pq.push({0,i}); // {wt, node}
+            
+            // filling the dist array 
+            while(!pq.empty()){
+                int dist= pq.top().first;
+                int pnode= pq.top().second;
+                pq.pop();
+                
+                for(auto it:adj[pnode]){
+                    int next= it.first;
+                    int ndist= it.second;
+                    if( distance[next] > ndist+ dist){
+                        distance[next]= distance[pnode]+ ndist;
+                        pq.push({distance[next],next});
+                    }
+                }
+            }
+            return distance;
+    }
+};
+
+
+
+
+
 // @lc code=end
 
 

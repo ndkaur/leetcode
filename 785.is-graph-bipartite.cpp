@@ -21,6 +21,8 @@ cout<<endl;
 }
 
 // @lc code=start
+
+// bfs
 class Solution {
 public:
     bool isBipartite(vector<vector<int>>& graph) {
@@ -53,6 +55,40 @@ public:
         return true;
     }
 };
+
+// dfs
+class Solution {
+public:
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n= graph.size();
+        vector<int> color(n,-1);
+        for(int i=0;i<n;i++){
+            if(color[i]==-1){
+                if(!dfs(graph,color,i))
+                    return false;
+            }
+        }
+        return true;
+    }
+    bool dfs(vector<vector<int>>& graph, vector<int>& color, int i){
+        if(color[i]==-1)
+            color[i]=1;
+        for(auto itr: graph[i]){
+            if(color[itr]==-1){
+                color[itr]= 1- color[i];
+                if(!dfs(graph, color, itr))
+                    return false;
+            }
+            else if(color[itr]==color[i])
+                return false;
+        }
+        return true;
+    }
+};
+    
+    
+
+
 // @lc code=end
 
 
