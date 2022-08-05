@@ -46,5 +46,55 @@ public:
        return clone(copy,node);
     }
 };
+
+
+//dfs
+class Solution {
+public:
+    unordered_map<Node*, Node*> mp; // node , cnt .. to check if node exist or not
+    Node* cloneGraph(Node* node) {
+       if(!node) return node;
+       // check if node already exist in clone graph or not
+       if(mp.find(node)==mp.end()){ // if copy of the required node doesnot exist 
+            mp[node] = new Node(node->val,{}); // make a new node
+            // adding its adjacent elements also in map
+            for(auto adj:node->neighbors){ 
+                mp[node]->neighbors.push_back(cloneGraph(adj));
+            }
+       }
+       return mp[node];
+    }
+};
+
+//bfs
+class Solution {
+public:
+    unordered_map<Node*, Node*> mp; // node , cnt .. to check if node exist or not
+    Node* cloneGraph(Node* node) {
+        if(!node) return node;
+        // creating the first node of graph 
+        Node* first= new Node(node->val,{});
+        mp[node]= first;
+
+        queue<Node*> q;
+        q.push(node);
+        while(!q.empty()){
+            Node* curr= q.front();
+            q.pop();
+            // visiting the adjacents 
+            for(auto adj: curr->neighbors){
+                // if not visited check 
+                if(mp.find(adj)== mp.end()){
+                    mp[adj] = new Node(adj->val,{});
+                    q.push(adj);
+                }
+                mp[curr]->neighbors.push_back(mp[adj]);
+            }
+        }
+        return mp[node];
+    }
+};
+
+
 // @lc code=end
 

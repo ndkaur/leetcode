@@ -48,6 +48,45 @@ public:
         return ans;
     }
 };
+
+// using concept of colouring birpartite graph 
+class Solution {
+public:
+    vector<int> gardenNoAdj(int n, vector<vector<int>>& paths) {
+        vector<vector<int>> adj(n+1);
+        for(int i=0;i<paths.size();i++){
+            int u= paths[i][0];
+            int v= paths[i][1];
+            // zero based indexing in adj list but the garph has nodes starting from 1 
+            adj[u-1].push_back(v-1);
+            adj[v-1].push_back(u-1);
+        }
+        vector<int> color(n,0);
+        for(int i=0;i<n;i++){
+            if(color[i]!=0){
+               continue;
+            }
+            queue<int> q;
+            q.push(i);
+            color[i]=1;
+            while(!q.empty()){
+                int node= q.front();
+                q.pop();
+                for(auto it:adj[node]){
+                    if(color[it]==0){
+                        color[it] = (color[node]==4) ? 1 : color[node]+1;
+                        q.push(it);
+                    }
+                    else if(color[it]==color[node])
+                        color[it] = (color[node]== 4) ? 1 : color[node]+1;
+                }
+            }
+        }
+        return color;
+    }
+};
+
+
 // @lc code=end
 
 
