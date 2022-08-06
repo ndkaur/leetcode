@@ -19,6 +19,8 @@ void print(vi &out){
     cout<<endl;
 }
 // @lc code=start
+
+// using map
 class Solution {
 public:
     bool containsDuplicate(vector<int>& nums) {
@@ -33,6 +35,20 @@ public:
         return false;
     }
 };
+
+// using set
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        set<int> s;
+        for(auto n:nums)
+            s.insert(n);
+        if(s.size()<nums.size())
+            return true;
+        return false;
+    }
+};
+
 // @lc code=end
 
 

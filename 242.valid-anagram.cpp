@@ -20,24 +20,26 @@ void print(vi &out){
 }
 
 // @lc code=start
+
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        int n= s.size();
-        int m = t.size();
-        if(n!=m) return false;
-        map<char,char> count;
-        for(int i=0;i<n;i++){
-            count[s[i]]++;
-            count[t[i]]--;
+        if(s==t) return true;
+        if(s.size()!=t.size())
+            return false;
+        unordered_map<char,int> mp;
+        for(int i=0;i<s.size();i++){
+            mp[s[i]]++;
+            mp[t[i]]--;
         }
-        for(auto c:count){
-            if(c.second)
+        for(auto itr:mp){
+            if(itr.second)
                 return false;
         }
         return true;
     }
 };
+
 // @lc code=end
 
 

@@ -77,6 +77,7 @@ public:
         unordered_set<int> list(nums.begin(),nums.end());
         int cnt=0;
         for(int num:list){
+            // starting elemt of sorted list will never have count of num-1
             if(!list.count(num-1)){
                 int cur=num;
                 int curcnt=1;

@@ -18,6 +18,8 @@ void print(vi &out){
     cout<<endl;
 }
 // @lc code=start
+
+// O(n log(n-k))
 class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
@@ -26,7 +28,7 @@ public:
         
         if(k==nums.size()) return nums;
         
-        map<int,int> count;
+        unordered_map<int,int> count;
         for(int i=0;i<nums.size();i++){
             count[nums[i]]++;
         }
@@ -44,6 +46,30 @@ public:
         return result;
     }
 };
+
+
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        priority_queue<pair<int,int> , vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        unordered_map<int,int> mp;
+        for(auto num:nums)
+            mp[num]++;
+        for(auto itr:mp){
+            pq.push({itr.second, itr.first});
+            while(pq.size()>k)
+                pq.pop();
+        }
+        vector<int> ans;
+        while(!pq.empty()){
+            ans.push_back(pq.top().second);
+            pq.pop();
+        }
+        return ans;
+    }
+};
+
+
 // @lc code=end
 
 
