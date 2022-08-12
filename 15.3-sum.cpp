@@ -50,6 +50,48 @@ public:
         return out;
     }
 };
+
+
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        int n= nums.size();
+        vector<vector<int>> ans;
+        sort(nums.begin(),nums.end());
+        
+        for(int i=0;i<n;i++){
+            // fix x , find y and z
+            //x+ y+ z = 0 , y+z = 0-x = target
+            int target= 0-nums[i]; //0-x
+            int ptr1= i+1;
+            int ptr2= n-1;
+            
+            while(ptr1<ptr2){
+                int sum = nums[ptr1]+nums[ptr2];
+                if(sum == target){
+                    vector<int> temp = {nums[i],nums[ptr1],nums[ptr2]};
+                    ans.push_back(temp);
+                    // duplicates of ptr1
+                    while(ptr1< ptr2 && nums[ptr1] == temp[1])
+                        ptr1++;
+                    // duplicated of ptr2
+                    while(ptr1<ptr2 && nums[ptr1] == temp[2])
+                        ptr2--;
+                }
+                else if(sum > target){
+                    ptr2--;
+                }
+                else 
+                    ptr1++;
+            }
+            // duplicated of 
+            while(i+1< n && nums[i+1] == nums[i])
+                i++;
+        }
+        return ans;
+    }
+};
+
 // @lc code=end
 
 

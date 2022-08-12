@@ -18,7 +18,7 @@ void print(vi &out){
     cout<<endl;
 }
 // @lc code=start
-class Solution {
+class Solution { //O(N)
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
         int n=nums.size();
@@ -36,6 +36,25 @@ public:
                 l++;
         }
         return out;
+    }
+};
+
+class Solution { //O(N)
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        int n= nums.size();
+        vector<int> ans;
+        unordered_map<int,int> mp;
+        for(int i=0;i<n;i++){
+            int dif= target - nums[i];
+            if(mp.count(dif)){
+                ans.push_back(mp[dif]+1);
+                ans.push_back(i+1);
+                
+            }
+            mp[nums[i]]=i;
+        }
+        return ans;
     }
 };
 // @lc code=end

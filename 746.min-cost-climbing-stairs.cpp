@@ -62,6 +62,75 @@ public:
 };
 // @lc code=end
 
+// rcursion 
+class Solution {
+public:
+    int minCostClimbingStairs(vector<int>& cost) {
+        int n= cost.size();
+        return f(n,cost);
+    }
+    int f(int i, vector<int>& cost){
+        int n= cost.size();
+        if(i==0 || i==1)
+            return 0;
+        
+        int one = cost[i-1] + f(i-1,cost);
+        int two= cost[i-2] + f(i-2,cost);
+        return min(one,two);
+    }
+};
+
+// memoization 
+class Solution {
+public:
+    int minCostClimbingStairs(vector<int>& cost) {
+        int n= cost.size();
+        vector<int> dp(n+1,-1);
+        return f(n,cost,dp);
+    }
+    int f(int i, vector<int>& cost,vector<int>& dp){
+        int n= cost.size();
+        if(i==0 || i==1)
+            return 0;
+        if(dp[i]!=-1) 
+            return dp[i];
+        
+        int one = cost[i-1] + f(i-1,cost,dp);
+        int two= cost[i-2] + f(i-2,cost,dp);
+        return dp[i]= min(one,two);
+    }
+};
+
+//tabulation 
+class Solution {
+public:
+    int minCostClimbingStairs(vector<int>& cost) {
+        int n= cost.size();
+        vector<int> dp(n+1,0);
+        dp[0]=0;
+        dp[1]=0;
+        for(int i=2;i<dp.size();i++){
+            dp[i] = min( cost[i-1]+ dp[i-1] , cost[i-2]+ dp[i-2]);
+        }
+        return dp[dp.size()-1];
+    }
+};
+
+class Solution {
+public:
+    int minCostClimbingStairs(vector<int>& cost) {
+        int n= cost.size();
+        return min(f(0,cost),f(1,cost));
+    }
+    int f(int i, vector<int>& cost){
+        int n= cost.size();
+        if(i>=n)
+            return 0;
+        int one= cost[i] + f(i+1,cost);
+        int two = cost[i] + f(i+2,cost);
+        return min(one,two);
+    }
+};
 
 int main(){
     Solution sol;

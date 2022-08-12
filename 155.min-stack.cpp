@@ -23,13 +23,13 @@ public:
         if(s.size()==0){
             s.push(x);
             minn.push(x);
-            ans=x;
+            ans=x; // ans is used for storing the min val 
         }
         else{
             s.push(x);
-            if(x<ans){
+            if(x<ans){ // one more val came which is min than the prev min ie ans
                 minn.push(x);
-                ans=x;
+                ans=x;// marking the new min 
             }
         }
     }
@@ -38,11 +38,11 @@ public:
         if(s.size()==0)
             return;
         if(s.top()==minn.top()){
-            minn.pop();
+            minn.pop(); // poped the min ele 
             if(minn.size())
-                ans=minn.top();
-            else 
-                ans=INT_MIN;
+                ans=minn.top(); // marking the new min ele 
+            else // if no size 
+                ans=INT_MIN; // new min val
         }
         s.pop();
     }
@@ -57,6 +57,63 @@ public:
         if(s.size())
             return minn.top();
         return INT_MIN;
+    }
+};
+
+class MinStack { //O(1)  space->O(N)
+public:
+    vector<pair<int,int>> stk; // {val, minval}
+    MinStack() {
+        
+    }
+    
+    void push(int val) {
+        if(stk.size()==0) // empty array
+            stk.push_back({val,val});
+        else  // not empty , insert val and the min of curr val and prev val
+            stk.push_back({val,min(val,stk.back().second)});
+    }
+    
+    void pop() {
+        stk.pop_back();
+    }
+    
+    int top() { 
+        return stk.back().first;
+    }
+    
+    int getMin() { // return the min ele , min elem is the second val of pair
+        return stk.back().second;
+    }
+};
+
+class MinStack {
+public:
+    stack<int> s1;
+    stack<int> s2;
+    /** initialize your data structure here. */
+    MinStack() {
+        
+    }
+    
+    void push(int x) {
+        s1.push(x);
+        if(s2.empty() || x <= getMin()) // empty or new min val found
+            s2.push(x);
+    }
+    
+    void pop() {
+        if(s1.top() == getMin())
+            s2.pop();
+        s1.pop();
+    }
+    
+    int top() {
+        return s1.top();
+    }
+    
+    int getMin() {
+        return s2.top();
     }
 };
 

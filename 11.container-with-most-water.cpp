@@ -21,6 +21,8 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+// we need to find the min height and multiply it with the number of lines inbetween the two ptrs 
 class Solution {
 public:
     int maxArea(vector<int>& height) {
@@ -29,10 +31,10 @@ public:
         int right= n-1;
         int mx=0;
         while(left<right){
-            int w= right-left;
-            int h= min(height[left],height[right]);
-            int area= w*h;
-            mx= max(mx,area);
+            int w= right-left; // no of lines in between 
+            int h= min(height[left],height[right]); // min height from both lines of ptrs 
+            int area= w*h; // area 
+            mx= max(mx,area); // storing the max area 
             if(height[left]>height[right])
                 right--;
             else if(height[left]<height[right])
