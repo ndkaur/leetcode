@@ -20,7 +20,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+class Solution { //O(logn + logm)
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
         
@@ -41,6 +41,33 @@ public:
         return false;
     }
 };
+
+
+class Solution { //O(N^2)+ O(nlogn)
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int n= matrix.size();
+        vector<int> arr;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<matrix[0].size();j++){
+                arr.push_back(matrix[i][j]);
+            }
+        }
+        int l=-1;
+        int r= arr.size();
+        while(1+l<r){
+            int mid = l+(r-l)/2;
+            if(arr[mid]== target)
+                return true;
+            else if (arr[mid]<target)
+                l= mid;
+            else 
+                r= mid;
+        }
+        return false;
+    }
+};
+
 // @lc code=end
 
 
