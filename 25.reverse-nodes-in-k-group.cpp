@@ -74,22 +74,22 @@ public:
     }
 };
 
+
+
 class Solution { //t-> O(n)  sc-> O(n/k)
 public:
-    void reverse(ListNode* s, ListNode* e){
-        ListNode* curr= s;
+    void reverse(ListNode* start, ListNode* end){
+        ListNode* curr= start;
+        ListNode* nxt;
         ListNode* prev= NULL;
-        ListNode* nxt= s->next;
-        // cant use curr!= null conditon cause it can be possible that the list is remaining so we use other condtion  ,,, after reverse curr reaches null and prev reaches last idx 
-        while(prev!=e){
+        while(prev!=end){
+            nxt= curr->next;
             curr->next= prev;
-            prev= curr; 
+            prev= curr;
             curr= nxt;
-            if(nxt!=NULL)
-                nxt= nxt->next;
-        }
-            
+        }        
     }
+
     ListNode* reverseKGroup(ListNode* head, int k) {
         if(head==NULL || head->next==NULL || k==1)
             return head;
@@ -112,6 +112,32 @@ public:
         return end;
     }
 };
+
+
+class Solution {  //space->O(N)
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode* curr= head;
+        for(int i=0;i<k; i++){
+            if(!curr) return head;
+            curr = curr->next;
+        }
+        ListNode* curr= head;
+        ListNode* prev=NULL;
+        ListNode* nxt = NULL;
+        for(int i=0;i<k; i++){
+            nxt= curr->next;
+            curr->next= prev;
+            prev= curr;
+            curr= nxt;
+        }
+        head->next= reverseKGroup(curr, k);
+        return prev;
+    }
+};
+
+
+
 
 // @lc code=end
 

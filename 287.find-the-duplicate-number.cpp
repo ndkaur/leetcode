@@ -38,38 +38,7 @@ public:
     }
 };
 
-class Solution1 {
-public:
-    int findDuplicate(vector<int>& nums) {
-        int n= nums.size();
-        map<int,int> count;
-        for(int i=0;i<n;i++){
-            count[nums[i]]++;
-        }
-        for(auto itr=count.begin(); itr!=count.end();itr++){
-            if(itr->second>=2)
-                return itr->first;
-        }
-        return -1;
-    }
-};
 
-class Solution2 {
-public:
-    int findDuplicate(vector<int>& nums) {
-        int n= nums.size();
-        unordered_map<int,int> count;
-        int ans;
-        for(int i=0;i<n;i++){
-            count[nums[i]]++;
-            if(count[nums[i]]>1){
-                ans= nums[i];
-                break;
-            }
-        }
-        return ans;
-    }
-};
 
 class Solution { // binary search 
 public:
@@ -92,6 +61,46 @@ public:
         return l;
     }
 };
+
+
+class Solution { //O(N)   sc->O(N)
+public:
+    int findDuplicate(vector<int>& nums) {
+        map<int,int> mp;
+        for(int num:nums)
+            mp[num]++;
+        for(auto itr:mp)
+            if(itr.second>1)
+                return itr.first;
+        return 0;
+    }
+};
+
+// slow and fast ptrs 
+
+class Solution { //O(N)   sc->O(1)
+public:
+    int findDuplicate(vector<int>& nums) {
+        int slow= nums[0];
+        int fast = nums[0];
+        // moving ahead value to inde wise 
+        // i= 0 val = 3 then go to idx 3
+        do{
+            slow= nums[slow];
+            // move by speed of 2
+            fast= nums[nums[fast]];
+        }while(slow!=fast);
+        // again set fast to starting 
+        fast= nums[0];
+        while(slow!=fast){
+            // both move by 1 step ahead 
+            slow= nums[slow];
+            fast= nums[fast];
+        }
+        return fast;
+    }
+};
+
 
 // @lc code=end
 

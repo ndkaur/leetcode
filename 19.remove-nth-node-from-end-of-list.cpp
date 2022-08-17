@@ -30,27 +30,56 @@ void print(vi &out){
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-class Solution {
+class Solution { //O(2n)   O(1)
 public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode *dummy=new ListNode(0);
-        dummy->next=head;
-        ListNode *a=head;
+    ListNode* removeNthFromEnd(ListNode* head, int n) {  
+        ListNode *curr=head;
         int lenght=0;
-        while(a!=NULL){
+        // finding the total len 
+        while(curr!=NULL){
             lenght++;
-            a=a->next;
+            curr = curr->next;
         }
-        lenght=lenght-n;
-        a=dummy;
-        while(lenght>0){
-            lenght--;
-            a=a->next;
+        if(lenght == n) // remove first node
+            return head->next;
+
+        curr= head;
+        for(int i=1; i<lenght-n; i++){
+            curr= curr->next;
         }
-        a->next=a->next->next;
-        return dummy->next;
+        curr->next = curr->next->next;
+       return head;
     }
 };
+
+// using fast and slow concept  .. fast and slow in beginning pointing at null
+// move fast till n 
+// then move slow and fast by one step till fast reaches end 
+// when fast reaches end just remove the connections 
+// slow next node will be the one that we want to delete 
+
+class Solution { //O(n)  O(1)
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        if(!head) return NULL;
+        ListNode* fast = head;
+        ListNode* slow= head;
+
+        for(int i=0;i<n;i++)
+            fast= fast->next;
+        // if fast already reached the end 
+        if(!fast) return head->next;
+        // move both together till fast doesnot reach end 
+        while(fast->next){
+            fast= fast->next;
+            slow= slow->next;
+        }
+        slow->next = slow->next->next;
+        return head;
+    }
+};
+
+
 // @lc code=end
 
 

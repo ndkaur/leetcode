@@ -52,8 +52,9 @@ public:
     }
 };
 
-
-class Solution {
+// tc-> O( max(len of l1, len of l2))
+//sc->O(n)
+class Solution { 
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
         ListNode* dummy= new ListNode(-1);

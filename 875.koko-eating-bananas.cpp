@@ -21,34 +21,92 @@ void print(vi &out){
 }
 
 // @lc code=start
+
 class Solution {
 public:
     int minEatingSpeed(vector<int>& piles, int h) {
         int n= piles.size();
-        int l = 1;
+        int l= 1;
         int r = *max_element(piles.begin(),piles.end());
-        int ans=-1;
+        int ans;
         while(l<=r){
-            int mid=l+(r-l)/2;
-            if(possible(piles, h, mid)== true){
-                ans=mid;
-                r= mid-1;
-            }else 
-                l=mid+1;
+            int mid = l+(r-l)/2;
+            if(possible(mid, h, piles)){
+                ans= mid;
+                r= mid-1;   
+            }
+            else 
+                l= mid+1;
         }
         return ans;
     }
-    bool possible(vector<int>&piles,int h, int mid){
-        int n= piles.size();
+    bool possible(int mid , int h, vector<int>& piles){
         int count=0;
-        for(int i=0;i<n;i++){
-            count+= ceil((piles[i]*1.0)/mid);
+        for(int i=0;i<piles.size(); i++){
+            count += ceil(1.0 * piles[i] / mid);
+            
         }
-        if(count<=h)
-            return true;
-        return false;
+        return count <= h;
     }
 };
+
+class Solution {
+public:
+    int minEatingSpeed(vector<int>& piles, int h) {
+        //time = dist /speed -> piles[i] / h
+        int n= piles.size();
+        
+        int low= 1;
+        int high = 1000000000;
+        int ans = 0;
+        while(low <= high){
+            int speed = low + (high-low)/2;
+            int hours = calculate(piles,speed);
+
+            if(hours > h){
+                low = speed+1; // increase the speed
+            }
+            else if( hours <= h){
+                ans = speed;
+                high = speed-1;
+            }        
+        }
+        return ans;
+    }
+    int calculate(vector<int>& piles, int speed){
+        
+        int time = 0;
+        for(int i=0;i<piles.size();i++){
+            time += (piles[i] % speed == 0) ? piles[i] / speed : (piles[i]/ speed)+1;
+        }
+        return time;
+    }
+};
+
+
+class Solution {
+public:
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int n= piles.size();
+        int l= 1;
+        int r = 1000000000;
+        int ans;
+        while(l <r){
+            int mid = l+(r-l)/2;
+            int count=0;
+            for(int pile:piles){
+                count += ceil(1.0 * pile / mid);
+            }
+            if(count >h)
+                l= mid+1;
+            else 
+                r= mid;
+        }
+        return l;
+    }
+};
+
+
 // @lc code=end
 
 
