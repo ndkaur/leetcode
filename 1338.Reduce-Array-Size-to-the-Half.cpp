@@ -68,6 +68,34 @@ public:
     }
 };
 
+class Solution {
+public:
+    int minSetSize(vector<int>& arr) {
+        int n= arr.size();
+        
+        map<int,int> freq; // {key,occurence}
+        for(auto a:arr)
+            freq[a]++;
+        // multimap cause now our key is the occurence , and there can be same value of occurence of nums 
+        // {occurence , number , decresing order }
+        multimap<int,int, greater<int>> mp;
+        for(auto itr:freq){
+            mp.insert({itr.second, itr.first}); //{count, num}
+        }
+
+         int count=0;
+        int sz= n;
+        for(auto itr:mp){
+            count++;
+            sz= sz- itr.first;
+            if(sz <= n/2)
+                return count;
+        }
+        return count;
+    }
+};
+
+
 int main(){
     Solution sol;
     vector<int> arr ={7,7,7,7,7};

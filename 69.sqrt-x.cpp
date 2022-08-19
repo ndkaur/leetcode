@@ -50,7 +50,7 @@ public:
     }
 }; 
 
-class Solution {
+class Solution { //O(logn)  O(1)
 public:
     int mySqrt(int x) {
         long long l=0;

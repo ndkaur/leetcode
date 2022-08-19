@@ -67,6 +67,29 @@ public:
     }
 };
 
+
+class Solution { //O(N^2)
+public:
+    bool isBalanced(TreeNode* root) {
+        if(!root) return true;
+        int left= findh(root->left);
+        int right = findh(root->right);
+        if(abs(left-right)>1)
+            return false;
+        bool l = isBalanced(root->left);
+        bool r = isBalanced(root->right);
+        if(!l || !r)
+            return false;
+        return true;
+    }
+    int findh(TreeNode* root){
+        if(!root) return 0;
+        int l= findh(root->left);
+        int r= findh(root->right);
+        return 1+max(l,r);
+    }
+};
+
 // @lc code=end
 
 int main(){

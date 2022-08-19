@@ -28,7 +28,7 @@ void print(vi &out){
  */
 
 
-class Solution {
+class Solution { //O(N) O(N)
 public:
     int diameterOfBinaryTree(TreeNode* root) {
         int res= 0;
@@ -45,6 +45,28 @@ public:
         return 1+max(l,r);
     }
 };
+
+class Solution { //O(N^2)   O(N)
+public:
+    int diameterOfBinaryTree(TreeNode* root) {
+        if(!root) return 0;
+        int dia=0;
+        int left= findh(root->left);
+        int right= findh(root->right);
+        dia = max(dia, left+right);
+        int d1= diameterOfBinaryTree(root->left);
+        int d2= diameterOfBinaryTree(root->right);
+        return max(dia,max(d1,d2));
+    }
+    int findh(TreeNode* root){
+        if(!root) 
+            return 0;
+        int left= findh(root->left);
+        int right = findh(root->right);
+        return 1+max(left,right);
+    }
+};
+
 
 
 int main(){

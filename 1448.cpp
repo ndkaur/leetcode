@@ -14,50 +14,55 @@ void print(vi &out){
     cout<<endl;
 }
 
-// class Solution {
-//     int count=0;
-// public:
-//     int goodNodes(TreeNode* root) {
-//         giveCount(root,INT_MIN);
-//         return count;
-//     }
-//     void giveCount(TreeNode* root, int  mx){
-//         if(!root) return ;
-//         //mx=0 in the begining 
-//         if(root->val >= mx){
-//             count++;
-//             mx=root->val;
-//         }
-//         giveCount(root->left,mx);
-//         giveCount(root->right, mx);
-//     }
-// };
+class Solution0 {
+public:
+    int goodNodes(TreeNode* root) {
+        if(!root) return 0;
+        int count=0;
+        int mx=INT_MIN;
+        dfs(root,count,mx);
+        return count;
+    }
+    void dfs(TreeNode* curr, int& count, int mx){
+        if(!curr)
+            return;
+        if(curr->val >= mx){
+            count++;
+            mx= curr->val;
+        }
+        dfs(curr->left, count,mx);
+        dfs(curr->right, count,mx);
+    }
+};
 
+
+        // {node, mx val till then }
 class Solution {
 public:
     int goodNodes(TreeNode* root) {
-        queue<pair<TreeNode *, int>> q;
-        int m = INT_MIN;
-        q.push({root,m});
+        if(!root) return 0;
         int count=0;
-        while(!q.empty()){
-            auto curr = q.front();
+        int mx=INT_MIN;
+        queue<pair<TreeNode*,int>> q;
+        q.push({root, mx});
+        while(q.size()){
+            auto curr= q.front();
             q.pop();
-            TreeNode * node=curr.first;
-            int num=curr.second;
-            if(node->val >= num){
+            
+            TreeNode* cnode= curr.first;
+            int cval = curr.second;
+            
+            if(cnode->val >= cval)
                 count++;
-            }
-            m = max(node->val,num);
-            if(node->left)
-                q.push({node->left,m});
-            if(node->right)
-                q.push({node->right,m});
+            mx= max(cnode->val, cval);
+            if(cnode->left)
+                q.push({cnode->left, mx});
+            if(cnode->right)
+                q.push({cnode->right, mx});
         }
         return count;
     }
 };
-
 
 int main(){
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
