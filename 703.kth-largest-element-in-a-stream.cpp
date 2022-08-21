@@ -21,6 +21,11 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+// Complexity : Time - O(max(k, n)) for initialising k elements, 
+// O((n-k)logk) for adding the rest ~ O( max(k, n) + nlogk - klogk), 
+// Space - O(k)
+
 class KthLargest {
 public:
 // pq is by default max heap 
