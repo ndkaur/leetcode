@@ -53,6 +53,26 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        int n= nums.size();
+        int l= -1;
+        int r= n;
+        while(1+l<r){
+            int mid = l+(r-l)/2;
+            if(nums[mid]==target)
+                return mid;
+            else if(target < nums[mid])
+                r= mid;
+            else 
+                l= mid;
+        }
+        return r;
+    }
+};
+
 int main(){
     Solution sol;
     vector<int> nums={1,3,5,6};

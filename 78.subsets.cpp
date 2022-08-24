@@ -15,21 +15,41 @@ void print(vi &out){
 
 // @lc code=start
 
+//  Time complexity : O(N*(2^N))
+// Space complexity : O(N*(2^N))
+
 class Solution {
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
-        int n = nums.size();
-        vector<vector<int>> out = {{}};
-        for(int x: nums){
-            vector<vector<int>> cur = out;
-            for(auto &c: cur){
-                c.push_back(x);
-                out.push_back(c);
+        vector<vector<int>> ans = {{}};
+        for(int num:nums){
+            vector<vector<int>> arrays= ans;
+            for(vector<int> temp: arrays){
+                temp.push_back(num);
+                ans.push_back(temp);
             }
         }
-        return out;
+        return ans;
     }
 };
+
+1 2 3
+vvi  ans = { {} }
+num = 1 
+arrays = {{}}
+temp = {1} 
+ans = {} ,{1}
+.................
+num =2 
+arrays = {}, {1}
+temp = {2} ,{1,2}
+ans= {},{1},{2},{1,2}
+.................
+num =3 
+arrays = {} {1} {2} {1,2} 
+temp = {3},{1,3} {2,3} {1,2,3}
+ans = {} {1} {2} {1,2} {3} {1,3} {2,3} {1,2,3}
+
 // @lc code=end
 
 

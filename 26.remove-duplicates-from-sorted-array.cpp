@@ -36,16 +36,24 @@ public:
     int removeDuplicates(vector<int>& nums) {
         int n= nums.size();
         if(n==0) return 0;
-        int i=0; // we used two pointers
-        for(int j=1;j<n;j++){
-            if(nums[j]!=nums[i]){
-                i++; //count increased
-                nums[i]=nums[j]; // inplace replacemnt for the term 
+        int i =0; // start idx 
+        for(int j=1; j<n; j++){
+            // keep on moving j till the duplicate of i exist 
+            if(nums[j]!= nums[i]){ // j is now not at any duplicate 
+                i++; // move i ahead so to replace the duplicate with new num 
+                nums[i]= nums[j];
             }
         }
-        return i+1;
+        // size return
+        return i+1; // 0 based indexing
     }
 };
+//  0 1 2
+//  1 1 2 
+// i=0  j=1   1 == 1 move j 
+// i=0  j=2   1!=2  so replace i next with j 
+//  1 2 
+
 // @lc code=end
 
 
