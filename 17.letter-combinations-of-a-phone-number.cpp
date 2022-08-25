@@ -51,6 +51,41 @@ public:
         }
     }
 };
+
+// O(4^n) - Since most numbers have 4 alphabets as options.
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        map<int,string> mp;
+        vector<string> ans;
+        string temp = "";
+        if(digits == "") return ans;
+        mp[2]="abc";
+        mp[3]= "def";
+        mp[4] = "ghi";
+        mp[5] = "jkl";
+        mp[6] = "mno";
+        mp[7] = "pqrs";
+        mp[8] = "tuv";
+        mp[9] = "wxyz";
+        f(0,digits, temp, ans, mp);
+        return ans;
+    }
+
+    void f(int idx, string& digits, string& temp, vector<string>& ans, map<int,string>& mp ){
+        if(idx== digits.size()){
+            ans.push_back(temp);
+            return;
+        }
+
+        for(auto letter : mp[digits[idx]-'0']){
+            temp.push_back(letter);
+            f(idx+1, digits, temp,ans,mp);
+            temp.pop_back();
+        }
+    }
+};
+
 // @lc code=end
 
 

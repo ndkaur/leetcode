@@ -15,6 +15,31 @@ void print(vi &out){
 
 // @lc code=start
 
+// recursive
+// Time complexity : O(N*(2^N))
+// Space complexity : O(N*(2^N))
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> ans;
+        vector<int> temp;
+        f(0, nums, temp, ans);
+        return ans;
+    }
+    void f(int idx, vector<int>& nums, vector<int>& temp, vector<vector<int>>& ans){
+        int n= nums.size();
+        if(idx==n){
+            ans.push_back(temp);
+            return;
+        }
+        temp.push_back(nums[idx]);
+        f(idx+1, nums, temp, ans);
+        temp.pop_back();
+        f(idx+1, nums, temp, ans);
+    }
+};
+
+
 //  Time complexity : O(N*(2^N))
 // Space complexity : O(N*(2^N))
 
@@ -33,22 +58,22 @@ public:
     }
 };
 
-1 2 3
-vvi  ans = { {} }
-num = 1 
-arrays = {{}}
-temp = {1} 
-ans = {} ,{1}
-.................
-num =2 
-arrays = {}, {1}
-temp = {2} ,{1,2}
-ans= {},{1},{2},{1,2}
-.................
-num =3 
-arrays = {} {1} {2} {1,2} 
-temp = {3},{1,3} {2,3} {1,2,3}
-ans = {} {1} {2} {1,2} {3} {1,3} {2,3} {1,2,3}
+// 1 2 3
+// vvi  ans = { {} }
+// num = 1 
+// arrays = {{}}
+// temp = {1} 
+// ans = {} ,{1}
+// .................
+// num =2 
+// arrays = {}, {1}
+// temp = {2} ,{1,2}
+// ans= {},{1},{2},{1,2}
+// .................
+// num =3 
+// arrays = {} {1} {2} {1,2} 
+// temp = {3},{1,3} {2,3} {1,2,3}
+// ans = {} {1} {2} {1,2} {3} {1,3} {2,3} {1,2,3}
 
 // @lc code=end
 

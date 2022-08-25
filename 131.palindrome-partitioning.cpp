@@ -20,31 +20,39 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+// time-> O( 2^n * k * n/2) // 2^n generat all subseq , k = inserting in ans ,  n/2 = is plaindrome 
+// space-> O(k * x) // k= len of palindrome   , x = no of palindrome 
+
 class Solution {
 public:
     vector<vector<string>> partition(string s) {
         vector<vector<string>> ans;
-        vector<string> curlist;
-        dfs(s,ans,curlist,0);
+        vector<string> path;
+        f(0, path, ans, s);
         return ans;
     }
-    void dfs(string& s,vector<vector<string>>&ans,vector<string> &curlist,int start){
-        int n=s.size();
-        if(start >= n){ 
-            ans.push_back(curlist);
+    
+    void f(int idx, vector<string>& path, vector<vector<string>>& ans, string s){
+        int n= s.size();
+        if(idx == n){
+            ans.push_back(path);
             return;
         }
-        for(int end=start;end<n;end++){
-            if(is_palindrome(s,start,end)){
-                curlist.push_back(s.substr(start,end-start+1));
-                dfs(s,ans,curlist,end+1);
-                curlist.pop_back();
+        for(int i=idx; i<n; i++){
+            if(isPalindrome(idx, i, s)){
+                // adding the palindrome substr( starting idx , ending idx )  idx , i 
+                path.push_back(s.substr(idx, i-idx+1));
+                f(i+1, path, ans, s);
+                path.pop_back();
             }
         }
     }
-    bool is_palindrome(string& s,int left,int right){
-        while(left<right){
-            if(s[left++]!=s[right--]){
+    
+    bool isPalindrome(int start, int end, string& s){
+        while(start<= end){
+            if(s[start++]!=s[end--]){
                 return false;
             }
         }

@@ -84,6 +84,46 @@ public:
         return false;
     }
 };
+
+
+// backtracking + recursion 
+// 2^n 
+class Solution {
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        int m= board.size();
+        int n= board[0].size();
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                if(f(0, i, j, board, word))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    bool f(int idx, int i, int j, vector<vector<char>>& board, string& word){
+        if(idx==word.size())
+            return true;
+        // out of bound + visited check
+        if(i<0 || j<0 || i>=board.size() || j>= board[0].size() || board[i][j] == '.')
+            return false; 
+        // if not equal 
+        if(board[i][j] != word[idx])
+            return false;
+        // save the value before marking as visited 
+        char temp = board[i][j];
+
+        board[i][j] ='.'; // visited
+        // up , down, left , right 
+        if(f(idx+1, i-1, j, board, word) || f(idx+1, i+1,j, board, word) || f(idx+1, i, j-1, board, word) || f(idx+1, i, j+1, board, word))
+            return true;
+        //backtrack 
+        board[i][j] = temp;
+        return false;
+    }
+};
+
 // @lc code=end+
 
 int main(){

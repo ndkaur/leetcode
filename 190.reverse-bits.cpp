@@ -14,7 +14,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+class Solution { //O(logn)
 public:
     uint32_t reverseBits(uint32_t n) {
         uint32_t result=0;

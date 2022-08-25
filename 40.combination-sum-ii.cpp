@@ -21,6 +21,8 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
 class Solution {
 public:
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
@@ -46,6 +48,41 @@ public:
                 help(candidates,target-candidates[i],subpart,sol,i+1);
                 subpart.pop_back();
             }
+        }
+    }
+};
+
+// we cant directly use the same method as combination sum 1 cause in this the char are repeating 
+// we can add our temp values in a set , then take those val out of set 
+// so all this will take  O( 2^n * k * log n)
+
+class Solution { //O(2^n * k)  // k*x   k= length x= combnations 
+public:
+    vector<vector<int>> combinationSum2(vector<int>& cand, int target) {
+        sort(cand.begin(), cand.end());
+        vector<vector<int>> ans;
+        vector<int> temp;
+        f(0, target, cand, temp, ans);
+        return ans;
+    }
+    void f(int idx, int target, vector<int>& cand, vector<int>& temp, vector<vector<int>>& ans){
+        int n= cand.size();
+        if(target == 0){
+            ans.push_back(temp);
+            return;
+        }
+        // for that idx we can pick the remanining values so use for loop
+        for(int i=idx; i<n; i++){
+            // we dont pick the duplicates to avoid the repeatitive combinations 
+            if(i > idx && cand[i] == cand[i-1]) //not pick
+                continue; // move to the next iteration
+            // base condition  
+            if(cand[i] > target) 
+                break; // move out of the loop 
+            // pick  
+            temp.push_back(cand[i]);
+            f(i+1, target- cand[i], cand, temp, ans);
+            temp.pop_back();
         }
     }
 };
