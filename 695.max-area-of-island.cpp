@@ -23,6 +23,8 @@ void print(vi &out){
 // @lc code=start
 
 //DFS
+// time O(R∗ C) 
+// space O(R∗ C)
 class Solution0 {
 public:
     int maxAreaOfIsland(vector<vector<int>>& grid) {
@@ -38,6 +40,7 @@ public:
         return ans;
     }
     int help(vector<vector<int>>& grid, vector<vector<bool>>& seen, int r, int c){
+        // out of bound || a;ready visited || is 0
         if(r<0 || r>=grid.size() || c<0 || c>=grid[0].size() || seen[r][c] || grid[r][c]==0)
             return 0;
         seen[r][c] =true;
@@ -48,42 +51,44 @@ public:
 class Solution {
 public:
     int maxAreaOfIsland(vector<vector<int>>& grid) {
-        int h= grid.size();
-        int w= grid[0].size();
+        int n= grid.size();
+        int m= grid[0].size();
         int ans =0;
-        for(int i=0;i<h;i++){
-            for(int j=0;j<w;j++){
-                if(grid[i][j]==1)
-                    ans= max(ans,area(grid,i,j));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j] == 1)
+                    ans = max(ans, bfs(i,j,grid));
             }
         }
         return ans;
     }
-    int area(vector<vector<int>>& grid,int row, int col){
-        int h=grid.size();
-        int w= grid[0].size();
+    int bfs(int i, int j , vector<vector<int>>& grid){
+        int n= grid.size();
+        int m= grid[0].size();
         int area=1;
-        queue<pair<int,int>> mq;
-        mq.push({row,col});
-        grid[row][col]=2; //visited
-        vector<int> dir={-1,0,1,0,-1};
-        while(!mq.empty()){
-            int z = mq.front().first;
-            int x= mq.front().second;
-            mq.pop();
-            for(int i=0;i<4;i++){
-                int r= z+dir[i];
-                int c= x+dir[i+1];
-                if(r>=0 && r<h && c<w && c>=0 && grid[r][c]==1){
-                    grid[r][c]=2;//visited
+        queue<pair<int,int>> q;
+        q.push({i,j});
+        grid[i][j] = 2;
+        vector<vector<int>> dirs= {{-1,0},{0,1},{1,0},{0,-1}};
+        while(q.size()){
+            auto node = q.front();
+            q.pop();
+            int u= node.first;
+            int v= node.second;
+            for(auto dir:dirs){
+                int nrow= u+ dir[0];
+                int ncol = v+ dir[1];
+                if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && grid[nrow][ncol]==1){
+                    grid[nrow][ncol]=2;
                     area++;
-                    mq.push({r,c});
+                    q.push({nrow,ncol});
                 }
-            } 
+            }
         }
         return area;
     }
 };
+
 
 // @lc code=end
 

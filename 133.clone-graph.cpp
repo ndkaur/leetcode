@@ -47,7 +47,8 @@ public:
     }
 };
 
-
+// O(V + E) - for BFS
+// Space: O(V) - for the hashmap
 //dfs
 class Solution {
 public:
