@@ -21,34 +21,45 @@ cout<<endl;
 }
 
 // @lc code=start
-class Solution0 { // khans algo 
+
+// find the cycle -> dfs = vis and dfs visi array 
+//  topo sort method 
+
+ // o(n+e) // o(n)
+// if there is no cycle then only we can traverse each node 
+// khans algo -> topo sort order tells if no cycle 
+class Solution {
 public:
-    bool canFinish(int num, vector<vector<int>>& pre) {
-        vector<vector<int>> adj(num);
-        vector<int> indegree(num,0);
+    bool canFinish(int n, vector<vector<int>>& pre) {
+        vector<vector<int>> adj(n);
+        vector<int> indeg(n,0);
         for(auto p:pre){
-            int course= p[0];
-            int depend= p[1];
-            adj[course].push_back(depend);
-            indegree[depend]++;
+            // a->b
+            int u= p[0];
+            int v= p[1];
+            adj[u].push_back(v);
+            indeg[v]++;
         }
         queue<int> q;
-        for(int i=0;i<num;i++){
-            if(indegree[i]==0)
+        for(int i=0;i<indeg.size(); i++){
+            if(indeg[i]==0)
                 q.push(i);
         }
-        int count=0;
+        int cnt=0;
         while(!q.empty()){
-            int node=q.front();
+            int node= q.front();
             q.pop();
-            count++;
-            for(auto it:adj[node]){
-                indegree[it]--;
-                if(indegree[it]==0)
-                    q.push(it);
+            cnt++;
+            for(auto itr:adj[node]){
+                indeg[itr]--;
+                if(indeg[itr]==0){
+                    q.push(itr);
+                }
             }
         }
-        return count==num;
+        if(cnt==n)// topo sort order found no cycle present so all nodes are covered 
+            return true;
+        return false;
     }
 };
 

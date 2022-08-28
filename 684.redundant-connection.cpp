@@ -21,8 +21,11 @@ cout<<endl;
 }
 
 // @lc code=start
-class Solution {
+// o(n^2)
+//O(N)
+class Solution { 
 public:
+// dont pass visited with reference as we want new copy of visited each time 
     bool hasCycle(int node, int parent, vector<bool> visited, vector<vector<int>>& graph){
         visited[node]=1;
         for(auto it:graph[node]){
@@ -39,6 +42,8 @@ public:
         int a,b;
         vector<vector<int>> graph(n+1);
         vector<bool> visited(n+1,0);
+        // doing everything in one loop as we have to check that after adding which node to adj the cycle is formed
+        // if we check cycle in other loop then it will just tell us if cycel exist or not and not tell where it exist 
         for(int i=0;i<n;i++){
             int u=edges[i][0];
             int v= edges[i][1];
@@ -47,6 +52,7 @@ public:
             if(hasCycle(u,-1,visited,graph)){
                 a=u;
                 b=v;
+                // th one causing the formation of cycle remove it so it is no cycle tre
                 graph[u].pop_back();
                 graph[v].pop_back();
             }
@@ -69,8 +75,10 @@ public:
     vector<int> rank;
 
     int findParent(int node){
+        // node is parent of itself
         if(parent[node]== node)
             return node;
+        // node's parent will be  the parent of its parent node  
         return parent[node]= findParent(parent[node]);
     }
     bool unionFind(int a, int b){
@@ -99,7 +107,7 @@ public:
         }
         vector<int> ans;
         for(int i=0;i<n;i++){
-            //  when both the nodes share a common parent that means a cycyle exist
+            //  when both the nodes share a common parent that means a cycle exist
             if(!unionFind(edges[i][0], edges[i][1])){
                 ans= edges[i];
             }

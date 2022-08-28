@@ -21,16 +21,21 @@ void print(vi &out){
 }
 // @lc code=start
 
+// Time Complexity - O(n * m)
+// Space Complexity - O(n * m)
+
 class Solution {
 public:
     void solve(vector<vector<char>>& board) {
         int n = board.size();
         int m= board[0].size();
         if(n==0) return;
+        // all those  adjacent to boundary values mark them # then convert them back to O  as hey cant be marked as X
+        // those who are left as O after the dfs calls will be converted into X
 
         // if the O is present at first and last colm 
         for(int i=0; i<n; i++){ //
-            if(board[i][0] == 'O') // first col
+            if(board[i][0]) // first col
                 dfs(i,0, board);
             if(board[i][m-1]) // last col
                 dfs(i, m-1, board);
@@ -38,7 +43,7 @@ public:
 
         // if the O  is present at the first and last row
         for(int j=0; j<m; j++){
-            if(board[0][j] =='O') // first row
+            if(board[0][j] ) // first row
                 dfs(0, j, board);
             if(board[n-1][j]) // last row
                 dfs(n-1, j, board);
