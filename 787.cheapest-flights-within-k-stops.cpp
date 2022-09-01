@@ -21,6 +21,8 @@ cout<<endl;
 }
 
 // @lc code=start
+// k min flight -> so use max heap 
+
 class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
@@ -50,6 +52,39 @@ public:
             }
         }
         return dist[dst]==INT_MAX ? -1:dist[dst];
+    }
+};
+
+// O(E+V)*O(LogV) which is O((E+V)*LogV) = O(ELogV)
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        vector<vector<pair<int,int>>> adj(n);
+        for(auto &f:flights){
+            adj[f[0]].push_back({f[1],f[2]});
+        }
+        // pq is of vi form {dist, node, k}
+        priority_queue<vector<int> , vector<vector<int>>, greater<vector<int>>> pq;
+        pq.push({0, src, k+1});
+
+        while(pq.size()){
+            auto t= pq.top();
+            pq.pop();
+            int dist = t[0];
+            int node = t[1];
+            int stop = t[2];
+            if(node== dst)
+                return dist;
+
+            if(stop>0){ // k still exist 
+                for(auto itr : adj[node]){
+                    int nxtnode= itr.first;
+                    int nxtdist= itr.second;
+                    pq.push({dist+ nxtdist, nxtnode, stop-1});
+                }
+            }
+        }
+        return -1;
     }
 };
 

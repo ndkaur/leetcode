@@ -15,28 +15,90 @@ void print(vi &out){
     cout<<endl;
 }
 
+// recursion //O(2^n)
 class Solution {
 public:
-    bool wordBreak(string s, vector<string>& wd) {
-        int n= wd.size();
-        int m= s.size();
+    bool wordBreak(string s, vector<string>& wordDict) {
+        set<string> st;
+        for(auto word:wordDict){
+            st.insert(word);
+        }
+        return f(0,s, st);
+    }
+    int f(int i, string& s, set<string>& st){
+        int n= s.size();
+        if(i==n)
+            return 1;
+        string temp;
+        for(int j=i; j<n; j++){
+            temp += s[j];
+            if(st.find(temp)!= st.end()){
+                if(f(j+1, s, st))
+                    return 1;
+            }
+        }
+        return 0;
+    }
+}; 
+
+// memoization  time->O(n)  space->O(n)+O(n)
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        set<string> st;
+        for(auto word:wordDict){
+            st.insert(word);
+        }
+        int n = s.size();
+        vector<int> dp(n,-1);
+        return f(0,s, st,dp);
+    }
+    int f(int i, string& s, set<string>& st, vector<int>& dp){
+        int n= s.size();
+        if(i==n)
+            return 1;
+        if(dp[i]!=-1) return dp[i];
+        string temp;
+        for(int j=i; j<n; j++){
+            temp += s[j];
+            if(st.find(temp)!= st.end()){
+                if(f(j+1, s, st,dp))
+                    return dp[i] = 1;
+            }
+        }
+        return dp[i] = 0;
+    }
+}; 
+
+// tabulation 
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int n = s.size();
         if(n==0) return false;
-        vector<bool>dp(m+1,false);
-        dp[0]=true;
-        for(int i=1;i<=m;i++){
-            for(int j=i-1;j>=0;j--){
-                if(dp[j]){
-                    string word = s.substr(j,i-j); // taking char and finding if present 
-                    if(find(wd.begin(),wd.end(),word)!=wd.end()){
-                        dp[i]=true;
-                        break;
-                    }
+
+        set<string> st;
+        for(auto word:wordDict){
+            st.insert(word);
+        }
+        
+        vector<int > dp(n+1,0);
+        dp[n] = 1;
+
+        for(int i= n-1; i>=0; i--){
+            string temp ="";
+            for(int j=i; j<n; j++){
+                temp += s[j];
+                if(st.find(temp) != st.end()){
+                    if(dp[j+1])
+                        dp[i]=1;
                 }
             }
         }
-        return dp[m];
+        return dp[0];
     }
-};
+}; 
+ 
 
 
 int main(){

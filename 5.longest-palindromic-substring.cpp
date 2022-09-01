@@ -21,51 +21,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
-public:
-    string longest_common_substring(string str1, string str2) 
-    {   
-        int s1 = str1.size(); int s2 = str2.size();
-        int dp[s1+1][s2+1];
-        string res ; int max = 0 ;
-
-        for(int i=0; i<=s1; i++)
-        {
-            for(int j=0; j<=s2; j++)
-            {   if(i==0 || j==0){ dp[i][j] = 0;}
-             
-                else if(str1[i-1] == str2[j-1])
-                {
-                    dp[i][j] = 1 + dp[i-1][j-1];
-                    
-                    if(dp[i][j]>max)
-                    {
-                        string temp = str1.substr(i-dp[i][j], dp[i][j]) ;
-                        
-                        string revtemp = string(temp.rbegin(),temp.rend());
-                        if(revtemp==temp)
-                        {
-                            max = dp[i][j] ;
-                            res = temp ;
-                        }
-                    }
-                }
-                else
-                { dp[i][j] = 0 ; }
-            }
-        }
-
-        return res;
-    }
-    string longestPalindrome(string s)
-    {
-        string srev = string(s.rbegin(),s.rend());
-        return longest_common_substring(s, srev); 
-    }
-};
-
-//  lcs code doesnot work 
-class Solution {
+class Solution { //n^2
 public:
     string longestPalindrome(string s) {
         string s2=s;
@@ -83,33 +39,25 @@ public:
         for(int j=0;j<m;j++){
             dp[0][j]=0;
         }
+        string ans; 
+        int mx=0;
         for(int i=1;i<=n;i++){
             for(int j=1;j<=m;j++){
-                if(s1[i-1]==s2[j-1])
+                if(s1[i-1]==s2[j-1]){
                     dp[i][j]= 1+ dp[i-1][j-1];
+                    if(dp[i][j] > mx){
+                        string temp = s1. substr(i- dp[i][j], dp[i][j]);
+                        string revtemp =temp;
+                        reverse(temp.begin(), temp.end());
+                        if(temp == revtemp){
+                            mx= dp[i][j];
+                            ans= temp;
+                        }
+                    }
+                }  
                 else
-                    dp[i][j]= max(dp[i-1][j], dp[i][j-1]);
+                    dp[i][j]= 0;
             }
-        }
-        int len= dp[n][m];
-        string ans="";
-        // for(int i=0;i<len;i++){
-        //     ans+='$'; 
-        // }
-        int idx= len-1;
-        int i=n;
-        int j=m;
-        while(i>0 && j>0){
-            if(s1[i-1]==s2[j-1]){
-                ans+= s1[i-1];
-                idx--;
-                i--;
-                j--;
-            }
-            else if(dp[i-1][j]> dp[i][j-1])
-                i--;
-            else
-                j--;
         }
         return ans;
     }
@@ -145,6 +93,44 @@ public:
             r++;
         }
         return r-l-1;
+    }
+};
+
+// check outer then on basis on inner already checked 
+class Solution { //O(n^2)
+public:
+    string longestPalindrome(string s) {
+        int n= s.size();
+        string ans;
+        int mxlen=0;
+        vector<vector<int>> dp(n,vector<int>(n,0));
+        // our choosing of diagonal depends on the diffrence btw i and j 
+        for(int diff=0 ; diff<n; diff++){
+            for(int i=0, j= i+diff; j<n; i++, j++){
+                // diag with diff = 0
+                if(i==j){ // diff==0
+                    dp[i][j] =1;
+                }
+                else if( diff==1){
+                    // check if last elem are equal 
+                    dp[i][j] = (s[i]==s[j]) ? 2 : 0;
+                }
+                else{ // for all other diff >1
+                    if(s[i] == s[j] &&  dp[i+1][j-1]){
+                        dp[i][j] = dp[i+1][j-1] + 2; // add 2 cause the outer char are 2 make len of 2
+                    }
+                }
+                // we need to calculate the max len so to return the ans string 
+                // len of string at any position is = j-i+1
+                if(dp[i][j]){
+                    if(j-i+1 > mxlen){
+                        mxlen = j-i+1;
+                        ans = s.substr(i, mxlen);
+                    }
+                }
+            }
+        }
+        return ans;
     }
 };
 // @lc code=end

@@ -62,7 +62,7 @@ public:
 };
 // @lc code=end
 
-// rcursion 
+// recursion 
 class Solution {
 public:
     int minCostClimbingStairs(vector<int>& cost) {

@@ -21,11 +21,12 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution0  {
+class Solution0  { //O(n^3) 
 public:
     int countSubstrings(string s) {
         int n = s.size();
-        int count = 0;
+        int count = 0; 
+        //O(n^2)
         for(int i=0;i<n;i++){
             for(int j=i;j<n;j++){
                 count += help(s,i,j);
@@ -33,6 +34,7 @@ public:
         }
         return count;
     }
+    //O(N)
     int help(string &s ,int i , int j){
         if(i>=j) return 1;
         return s[i]==s[j] ? help(s,i+1,j-1):0;
@@ -62,7 +64,7 @@ public:
 
 // g is gap , to traverse through diagonals 
 // when i=5 j=1 its not valid case so we move in half of the matrix 
-class Solution {
+class Solution { //O(n^2)
 public:
     int countSubstrings(string s) {
         int n= s.size();
