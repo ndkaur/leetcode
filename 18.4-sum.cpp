@@ -63,6 +63,59 @@ public:
         return ans;
     }
 };
+
+// exactly using 3 sum code 
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        int n= nums.size();
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> ans;
+        
+        for(int i=0; i<n; i++){
+            long long tar1 = target - nums[i];
+            for(int j=i+1; j<n; j++){
+                long long tar = tar1 - nums[j];
+                int ptr1= j+1;
+                int ptr2 = n-1;
+                
+                while(ptr1<ptr2){
+                    long long sum = nums[ptr1] + nums[ptr2];
+                    if(tar == sum){
+                        vector<int> temp = {nums[i], nums[j], nums[ptr1], nums[ptr2]};
+                        ans.push_back(temp);
+                        // making sure that no dulpicates of ptr1 are choosen 
+                        while(ptr1<ptr2 && nums[ptr1] == temp[2]){
+                            ptr1++;
+                        }
+                        // making sure that no duplicates of ptr2 are choosen 
+                        while(ptr1<ptr2 && nums[ptr2] == temp[3]){
+                            ptr2--;
+                        }
+                    }
+                    else if(sum < tar){
+                        ptr1++;
+                    }
+                    else{
+                        ptr2--;
+                    }
+                }
+                // making sure that not duplicates of j are taken 
+                while(j+1<n  && nums[j+1] == nums[j]){
+                    j++;
+                }
+            }
+            // making sure that no duplicates of i are taken 
+            while(i+1<n && nums[i+1] == nums[i]){
+                i++;
+            }
+        }
+        return ans;
+    }
+};
+
+
+
 // @lc code=end
 
 

@@ -57,7 +57,7 @@ public:
 // 0,1   1,1   2,1
 // l     l     l   -> count=2
 // 0,2   1,2   2,2
-// o     o     i    not match  return the substr till that count 
+// o     o     i    not match return the substr till that count 
 
 // @lc code=end
 
