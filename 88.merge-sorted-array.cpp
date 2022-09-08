@@ -20,23 +20,64 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+//O(n)  O(n)
 class Solution {
 public:
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        int index = m+n-1; // last pos of nums1 
-        //to put greatest number in the end 
-        while(m && n){
-            if(nums1[m-1]>nums2[n-1]){
-                nums1[index--] = nums1[--m];
+        vector<int> ans;
+        int i=0;
+        int j=0;
+        while(i<m && j<n){
+            if(nums1[i] < nums2[j]){
+                ans.push_back(nums1[i]);
+                i++;
             }
-            else {
-                nums1[index--]=nums2[--n];
+            else{
+                ans.push_back(nums2[j]);
+                j++;
             }
         }
-        while(m)
-            nums1[index--]=nums1[--m];
-        while(n)
-            nums1[index--]=nums2[--n];
+        while(i<m){
+            ans.push_back(nums1[i]);
+            i++;
+        }
+        while(j<n){
+            ans.push_back(nums2[j]);
+            j++;
+        }      
+        nums1 = ans;
+    }
+};
+
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int idx = m+n-1; 
+        int i= m-1;
+        int j = n-1;
+        while(i>=0 && j>=0){
+            if(nums1[i]>nums2[j]){
+                nums1[idx] = nums1[i];
+                idx--;
+                i--;
+            }
+            else {
+                nums1[idx]=nums2[j];
+                idx--;
+                j--;
+            }
+        }
+        while(i>=0){
+            nums1[idx]=nums1[i];
+            idx--;
+            i--;
+        }
+        while(j>=0){
+            nums1[idx]=nums2[j];
+            idx--;
+            j--;
+        }
     }
 };
 // @lc code=end

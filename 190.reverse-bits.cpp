@@ -27,6 +27,10 @@ public:
         return result;
     }
 };
+
+// we use a for loop as the size of n is 32 
+// if we use while loop then it will not add the 0 only 1s will be added 
+
 // @lc code=end
 
 int main(){

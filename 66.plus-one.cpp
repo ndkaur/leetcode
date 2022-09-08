@@ -52,6 +52,25 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        int n= digits.size();
+        int rem = 1;
+        for(int i=n-1; i>=0; i--){
+            int sum = digits[i] + rem;
+            digits[i] = sum % 10;
+            rem = sum/10;
+            if(rem==0) 
+                break;
+        }
+        if(rem>0)
+            digits.insert(digits.begin()+0, rem);
+        return digits;
+    }
+};
+
 // @lc code=end
 
 

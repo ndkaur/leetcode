@@ -20,6 +20,21 @@ void print(vi &out){
 
 // @lc code=start
 
+// tle
+class Solution0 {
+public:
+    int mySqrt(int x) {
+        if(x<2) return x;
+        int ans=1;
+        for(long long i=2; i<=x/2; i++){
+            if(i*i <= x){
+                ans = i;
+            }
+        }
+        return ans;
+    }
+};
+
 // binary search
 class Solution0 {
 public:

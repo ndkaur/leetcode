@@ -35,6 +35,7 @@ void print(vi &out){
 
 //  inorder :-  left root right 
 //  recursive
+// O(n)  O(n)
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
@@ -51,6 +52,7 @@ public:
 };
 
 //  iterative 
+//O(n) O(n)
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
@@ -69,6 +71,77 @@ public:
         return ans;
     }
 };
+
+
+// moris traversal
+//O(n)  O(1)
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        if(!root) return {};
+        // left root right
+        vector<int> ans;
+        TreeNode* curr = root;
+        while(curr!=NULL){
+            if(curr->left == NULL){
+                ans.push_back(curr->val);
+                curr = curr->right;
+            }
+            else{
+                TreeNode* prev= curr->left;
+                while(prev->right!=NULL){
+                    prev= prev->right;
+                }
+                prev->right = curr;
+                TreeNode* temp = curr;
+                curr= curr->left;
+                temp->left = NULL; 
+            }
+        }
+        return ans;
+    }
+};
+
+// striver moris traversal 
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        if(!root) return {};
+        // left root right
+        vector<int> ans;
+        TreeNode* curr = root;
+        while(curr!=NULL){
+            // if curr left not exist 
+            if(curr->left == NULL){
+                ans.push_back(curr->val);
+                curr= curr->right;
+            }
+            // if curr left exist 
+            else{
+                // we have to move one left and extreme right 
+                TreeNode* prev = curr->left;
+                while(prev->right!=NULL && prev->right!=curr){
+                    prev = prev->right;
+                }
+                // prev is at extreme right
+                // prev->right  is null then make a connection
+                if(prev->right == NULL){
+                    prev->right = curr;
+                    curr = curr->left; 
+                }
+                // prev->right != null then break a connection 
+                else{
+                    prev->right = NULL;
+                    ans.push_back(curr->val);
+                    curr = curr->right;
+                }
+            }
+        }
+        return ans;
+    }
+};
+
+
 // @lc code=end
 
 

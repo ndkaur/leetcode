@@ -30,6 +30,7 @@ void print(vi &out){
  */
 
 //  brute force :- for headA travel each headB
+//O(m*n)
 class Solution0 {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
@@ -49,16 +50,17 @@ public:
 
 
 //  use extra space make map
+//O(n+m)  //O(n) for map
 class Solution1 {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        unordered_map<ListNode* , int> mp;
+        unordered_map<ListNode* , int> mp; // stores the address 
         while(headA){
             mp[headA]++;
             headA=headA->next;
         } 
         while(headB){
-            if(mp[headB]>0)  // count more that 0 
+            if(mp[headB]>0)  // address already exist 
                 return headB;
             headB=headB->next;
         }
@@ -68,6 +70,7 @@ public:
 
 // making the lenghts sync in together then moving together
 //  reducing the large lenght so it get equal 
+// time > O(len of longest list ) + O( len 1 - len2) + O( len of shorter list) = O(2 len of longest list )  // space -> O(1)
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {

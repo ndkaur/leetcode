@@ -50,7 +50,7 @@ class Solution {
         while(!q.empty()){
             depth++;
             int len =q.size();
-            for(i=0;i<len;i++){
+            for(int i=0;i<len;i++){
                 TreeNode *curr=q.front();
                 q.pop();
                 if(curr->left !=NULL)
