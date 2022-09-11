@@ -116,6 +116,22 @@ public:
 
 // @lc code=end
 
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        // fill the full dp with 1 
+        // int first row and first col i=0 and j=0 our dp = 1 
+        // cause we have 1 way to reach to it 
+        vector<vector<int>> dp(m, vector<int>(n,1));
+        for(int i=1; i<m; i++){
+            for(int j=1; j<n; j++){
+                dp[i][j] = dp[i-1][j] + dp[i][j-1];
+            }
+        }
+        return dp[m-1][n-1];
+    }
+};
+
 
 int main(){
     Solution sol;

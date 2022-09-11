@@ -169,3 +169,50 @@ int main(){
     cout<<ans;
     return 0;
 }
+
+// tle with 3d dp  //time -> O(n*2*k)   space ->O(n*2*k) + O(n)
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<vector<int>>> dp(n, vector<vector<int>>(2, vector<int>(k+1,-1)));
+        return f(0,0,k, prices, dp);
+    }
+    int f(int idx, int buy , int k , vector<int>& prices, vector<vector<vector<int>>>& dp){
+        int n= prices.size();
+        if(k==0 || idx==n) 
+            return 0;
+        int ans ;
+        if(dp[idx][buy][k]!=-1) return dp[idx][buy][k];
+        if(buy==0){ // can buy 
+            ans =  max(-prices[idx] + f(idx+1,1,k, prices,dp) , f(idx+1,0,k, prices,dp));
+        }
+        if(buy == 1){ // can sell
+            ans= max(prices[idx] + f(idx+1, 0, k-1, prices, dp) , f(idx+1, 1, k, prices, dp));
+        }
+        
+        return ans;
+    }
+};
+
+// tabulation with 3d dp // time = space = O( n*2*k) 
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<vector<int>>> dp(n+1, vector<vector<int>>(2, vector<int>(k+1,0)));
+        
+        for(int i=n-1; i>=0; i--){
+            for(int buy=0; buy<=1; buy++){
+                for(int cap= 1; cap<=k; cap++){
+                    if(buy==0)
+                        dp[i][buy][cap] = max(-prices[i]+ dp[i+1][1][cap] , dp[i+1][0][cap]);
+                    if(buy==1)
+                        dp[i][buy][cap] = max(prices[i] + dp[i+1][0][cap-1] , dp[i+1][1][cap]);
+                }
+            }
+        }
+        
+        return dp[0][0][k];
+    }
+};

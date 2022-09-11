@@ -115,6 +115,31 @@ public:
 };
 // @lc code=end
 
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n= nums.size();
+        if(n==1)
+            return nums[0];
+        if(n==2) 
+            return max(nums[0], nums[1]);
+        // make same dp as size of num 
+        // aply simple logic 
+        // can pick prev1 or prev2
+        vector<int> dp(n);
+        dp[0] = nums[0];
+        dp[1] = max(nums[0], nums[1]);
+        
+        for(int i=2; i<n; i++){
+            // prev2 prev1 num[i]
+            int prev1= dp[i-1];
+            int prev2 = nums[i] + dp[i-2];
+            dp[i] = max(prev1, prev2);
+        }
+        return dp[n-1];
+    }
+};
+
 
 int main(){
     Solution sol;

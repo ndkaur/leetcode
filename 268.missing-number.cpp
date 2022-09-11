@@ -37,6 +37,35 @@ public:
         return -1;
     }
 };
+
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int n= nums.size();
+        vector<int> arr(n+1,0);
+        for(int i=0; i<n; i++){
+            arr[nums[i]] = 1;
+        }
+        int ans =0;
+        for(int i=0; i<arr.size(); i++){
+            if(arr[i]==0)
+                ans= i;
+        }
+        return  ans;
+    }
+};
+
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int n= nums.size();
+        int total = n* (n+1) /2;
+        int sum =0;
+        for(auto num:nums)
+            sum+= num;
+        return total - sum;
+    }
+};
 // @lc code=end
 
 

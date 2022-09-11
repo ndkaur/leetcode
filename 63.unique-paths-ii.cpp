@@ -85,6 +85,48 @@ public:
 
 // @lc code=end
 
+// grid 
+0 0 0
+0 1 0
+0 0 0
+
+// dp 
+1 1 1
+1 0 1
+1 1 2
+
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int>>& grid) {
+        int n= grid.size();
+        int m= grid[0].size();
+        vector<vector<int>> dp(n, vector<int>(m,0));
+        // first row i==0  if any stone come then we cant visite rest of the coordinates 
+        for(int j=0; j<m; j++){
+            if(grid[0][j]!=1) // no stone present 
+                dp[0][j]=1; // 
+            else // stone present 
+                break;
+        }
+        // first col j==0 if any stone come then we cant visite rest of the coordinates 
+        for(int i=0; i<n; i++){
+            if(grid[i][0]!=1) // no stone 
+                dp[i][0] =1; // one path possible to reach that coordinate 
+            else  // stone came 
+                break; // can fill the remaining 
+        }
+        
+        for(int i=1; i<n; i++){
+            for(int j=1; j<m ; j++){
+                if(grid[i][j]==1) // stone in grid
+                    dp[i][j] =0;
+                else 
+                    dp[i][j] = dp[i-1][j] + dp[i][j-1];
+            }
+        }
+        return dp[n-1][m-1];
+    }
+};
 
 int main(){
     Solution sol;

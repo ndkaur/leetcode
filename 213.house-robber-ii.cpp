@@ -109,6 +109,29 @@ public:
 }; 
 // @lc code=end
 
+class Solution {
+public:
+    int rob(vector<int>& nums){
+        int n= nums.size();
+        if(n==1) return nums[0];
+        if(n==2) return max(nums[0], nums[1]);
+        vector<int> dp(n);
+                   // remove last ele         // remove fisrt ele 
+        return max(solve(0, n-2, nums, dp) , solve(1, n-1, nums, dp));
+    }
+    int solve(int first, int last, vector<int>& nums, vector<int>& dp){
+        dp[first] = nums[first];
+        dp[first+1] = max(nums[first],nums[first+1]);
+        
+        for(int i=first+2; i<=last; i++){
+            int prev = dp[i-1];
+            int prevv = nums[i] + dp[i-2];
+            dp[i] = max(prev, prevv);
+        }
+        return dp[last];
+    }
+};
+
 
 int main(){
     Solution sol;

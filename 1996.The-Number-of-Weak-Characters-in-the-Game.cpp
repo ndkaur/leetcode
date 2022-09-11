@@ -33,8 +33,8 @@ public:
          return count;
     }
     static bool comp(vector<int>&a, vector<int> & b ){
-            if(a[0]==b[0])
-               return a[1]>b[1];
+            if(a[0]==b[0]) // if first elem equal 
+               return a[1]>b[1]; // then pick the greater elem first 
             return a[0]<b[0]; // assending order acc to first element
     }
 };
