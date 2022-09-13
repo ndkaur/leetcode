@@ -153,6 +153,36 @@ public:
 // @lc code=end
 
 
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& tri) {
+        int n= tri.size();
+        int m= tri[0].size();
+        
+        vector<vector<int>> dp(n, vector<int>(n));
+        dp[0][0] = tri[0][0];
+        
+        for(int i=1; i<n; i++){
+            for(int j=0; j<=i; j++){
+                int diag = INT_MAX;
+                if(j>0)
+                    diag = tri[i][j] +  dp[i-1][j-1];
+                int up =INT_MAX;
+                if(j<i)
+                    up = tri[i][j] + dp[i-1][j];
+               
+                dp[i][j] = min(up, diag);
+            }
+        }
+        
+        int ans =INT_MAX;
+        for(int j=0; j<n; j++){
+            ans = min(ans, dp[n-1][j]);
+        }
+        return ans;
+    }
+};
+
 int main(){
     Solution sol;
     vector<vector<int>> tri={{2},{3,4},{6,5,7},{4,1,8,3}};

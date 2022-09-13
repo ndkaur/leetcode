@@ -109,6 +109,89 @@ public:
 };
 // @lc code=end
 
+// i= sum and j= n
+class Solution {
+public:
+    int minimumDifference(vector<int>& nums) {
+        int n= nums.size();
+        int sum = 0;
+        for(int num:nums){
+            sum+= num;
+        }
+        
+        vector<vector<bool>> dp(sum+1, vector<bool>(n+1,0));
+        for(int j=0; j<=n; j++){
+            dp[0][j] = 1;
+        }
+
+        for(int i=1; i<=sum; i++){
+            dp[i][0] =0;
+        }
+
+        for(int i=1; i<=sum; i++){
+            for(int j=1; j<=n; j++){
+                dp[i][j] = dp[i][j-1];
+
+                if(i >= nums[j-1])
+                    dp[i][j] = dp[i][j] || dp[i-nums[j-1]][j-1];
+            }
+        }
+        int ans=INT_MAX;
+        for(int i=sum/2; i>=0; i--){
+            if(dp[i][n]==1){
+                // int s1= i;
+                // int s2= sum-s1;
+                // ans = min(ans, abs(s1-s2));
+                ans = sum - 2*i;
+                break;
+            }
+        }
+        return ans;
+    }
+};
+
+// i-> n  and j = sum
+class Solution {
+public:
+    int minimumDifference(vector<int>& nums) {
+        int n= nums.size();
+        int sum = 0;
+        for(int num:nums){
+            sum+= num;
+        }
+        
+       vector<vector<bool>> dp(n+1, vector<bool>(sum+1,0));
+        for(int i=0; i<=n; i++){
+            dp[i][0] = 1;
+        }
+        
+        for(int j=1; j<=sum; j++){
+            dp[0][j] = 0;
+        }
+        for(int i=1; i<=n; i++){
+            for(int j=1; j<=sum; j++){
+                dp[i][j] = dp[i-1][j];
+
+                if(nums[i-1] <= j)
+                    dp[i][j] = dp[i][j] || dp[i-1][j-nums[i-1]];
+            }
+        }
+        int ans = INT_MAX;
+        for(int j=sum/2; j>=0; j--){
+            if(dp[n][j]== true){
+                // int s1= i;
+                // int s2= sum-s1;
+                // ans = min(ans, abs(s1-s2));
+                ans = sum - 2*j;
+                break;
+            }
+        }
+        return ans;
+    }
+};
+
+
+
 
 int main(){
     Solution sol;

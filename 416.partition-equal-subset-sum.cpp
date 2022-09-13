@@ -97,7 +97,7 @@ public:
             int target= sum/2;
             vector<vector<bool>> dp(n,vector<bool>(target+1,false));
 
-            for(int i=0;i<n;i++)
+            for(int i=0;i<n;i++) // target =0 
                 dp[i][0]= true;
 
             if(nums[0]<= target)
@@ -121,6 +121,37 @@ public:
 
 // @lc code=end
 
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int n=  nums.size();
+        int sum =0;
+        for(int i=0; i<n; i++){
+            sum+=  nums[i];
+        }
+        if(sum%2 ==1)
+            return false;
+        int target = sum/2;
+    
+        vector<vector<bool>> dp(target+1, vector<bool>(n+1,0));
+        for(int j=0; j<=n; j++){
+            dp[0][j] = 1;
+        }
+        for(int i=1; i<=target; i++){
+            dp[i][0] = 0;
+        }
+        
+        for(int i=1; i<=target; i++){
+            for(int j=1; j<=n; j++){
+                if(i < nums[j-1]) // sum < arr
+                    dp[i][j] = dp[i][j-1];
+                if(i >= nums[j-1]) // sum >= arr
+                    dp[i][j] = dp[i][j-1] || dp[i-nums[j-1]][j-1];
+            }
+        }
+        return dp[target][n];
+    }
+};
 
 int main(){
     Solution sol;
