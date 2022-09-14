@@ -21,10 +21,11 @@ void print(vi &out){
 }
 
 // @lc code=start
+// we only want to count ways 
 class Solution {
 public:
     int f(vector<int>& coins , int idx, int amount){
-        if(idx==0){
+        if(idx==0){ // if exactly divisible then add 1 
              return (amount % coins[0]==0);
         }
      
@@ -70,7 +71,7 @@ public:
         int n= coins.size();
         vector<vector<int>> dp(n, vector<int>(amount+1,0));
         for(int t=0 ;t<=amount;t++){
-            dp[0][t]= (t%coins[0]==0);
+            dp[0][t]= (t%coins[0]==0); 
         }
         for(int i=1;i<n;i++){
             for(int t= 0;t<= amount ;t++){
@@ -91,3 +92,12 @@ int main(){
 
     return 0;
 }
+
+
+5
+[1,2,5]
+
+    0 1 2 3 4 5
+1   1 1 1 1 1 1 
+2   1 1 2 2 3 3 
+5   1 1 2 2 3 4  

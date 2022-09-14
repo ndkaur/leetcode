@@ -23,6 +23,8 @@ void print(vi &out){
 
 
 // @lc code=start
+
+// number of ways to find 
 class Solution0 {
 public:
     int coinChange(vector<int>& coins, int amount) {
@@ -33,7 +35,7 @@ public:
         return ans;
     }
     int f(int idx, int amount, vector<int>& coins){
-        if(idx==0){
+        if(idx==0){ // exactly divisble then just count how many coins make the amount 
             if(amount % coins[idx] ==0){
                 return amount / coins[idx];
             }
@@ -134,3 +136,10 @@ int main(){
 // else 
 //     dp[i][j]=dp[i-1][j];
 
+
+// [1,2,5]
+// 11
+// target ->
+//  1   0 1 2 3 4 5 6 7 8 9 10 11 
+//  2   0 1 1 2 2 3 3 4 4 5 5   6 
+//  5   0 1 1 2 2 1 2 2 3 3 2   3 

@@ -170,3 +170,30 @@ int main(){
     cout<<ans;
    return 0;
 }
+
+"babgbag"
+"bag"
+
+
+     0 b a g
+0    1 0 0 0 
+b    1 1 0 0 
+a    1 1 1 0 
+b    1 2 1 0 
+g    1 2 1 1 
+b    1 3 1 1 
+a    1 3 4 1 
+g    1 3 4 5  
+
+i= b a b g
+j= b   
+no of ways = 2
+
+i= b a b g a
+j= b a
+no of ways = 4
+
+if equal -> [i-1][j-1]  + [i-1][j]
+not equal  -> [i-1][j]
+
+every box tells no of way to make till i in j 
