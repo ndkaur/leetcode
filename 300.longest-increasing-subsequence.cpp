@@ -213,6 +213,31 @@ public:
     }
 };
 
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n= nums.size();
+        vector<int> dp(n,1);
+        dp[0] =1;
+        for(int i=1; i<n; i++){
+            int mxlen = 0;
+            for(int j=0; j<i; j++){
+                if(nums[j]< nums[i]){
+                    if(dp[j] > mxlen){
+                        mxlen = dp[j];
+                    }
+                }
+            }
+            dp[i] = mxlen+1;
+        }
+        int ans =INT_MIN;
+        for(int i=0; i<dp.size(); i++){
+            ans = max(ans, dp[i]);
+        }
+        return ans;
+    }
+};
+
 //  to print the lis
 
 class Solution {
