@@ -22,7 +22,7 @@ cout<<endl;
 
 // @lc code=start
 
-
+// topo order but for outdegre
 // a node is safe if its outdegree =0
 // those nodes with outdegree 0 we can visit there adjacent node and make there degree also 0 
 class Solution { // t->O(n+e)  s->O(n)
@@ -68,6 +68,42 @@ public:
     }
 };
 
+
+
+class Solution {
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n= graph.size();
+        // reverse the direction of edges of graph 
+        vector<int> indeg(n,0);
+        vector<vector<int>> adj(n);
+        for(int i=0; i<n; i++){
+            for(auto j: graph[i]){
+                adj[j].push_back(i);
+                indeg[i]++;
+            }
+        }
+        queue<int> q;
+        for(int i=0; i<n; i++){
+            if(indeg[i] == 0)
+                q.push(i);
+        }
+        vector<int> topo;
+        while(q.size()){
+            int node= q.front();
+            q.pop();
+            topo.push_back(node);
+            for(auto itr:adj[node]){
+                indeg[itr]--;
+                if(indeg[itr]== 0)
+                    q.push(itr);
+            }
+        }
+       
+        sort(topo.begin(), topo.end());
+        return topo;
+    }
+};
 
 // we made adjacent list in form of adj(val).push_back(idx)
 // because there are cases when idx = 5 and val ={}  but it is possible that idx 5 is adjcaent to someone else  eg idx= 3 val={5}
