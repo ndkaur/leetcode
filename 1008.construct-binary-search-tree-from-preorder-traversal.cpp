@@ -65,27 +65,25 @@ public:
 };
 
 
-
 class Solution {
 public:
     TreeNode* bstFromPreorder(vector<int>& preorder) {
         int n= preorder.size();
-        int idx=0;
-        return bst(preorder, idx, INT_MIN, INT_MAX);
+        if(n==0) return NULL;
+        int i=0;
+        return build(preorder, i, INT_MAX);
     }
-    TreeNode* bst(vector<int>& preorder, int &idx, int min, int max){
-        if(idx>=preorder.size())
+    TreeNode* build(vector<int>& pre , int& i, int mx){
+        if(i == pre.size() || pre[i] > mx){
             return NULL;
-        int val= preorder[idx];
-        if(val>max || val<min) 
-            return NULL;
-        idx++;
-        TreeNode* root= new TreeNode(val);
-        root->left= bst(preorder,idx, min, val);
-        root->right = bst(preorder,idx, val, max);
+        }
+        TreeNode* root= new TreeNode(pre[i++]);
+        root->left = build(pre, i, root->val);
+        root->right = build(pre, i, mx);
         return root;
     }
 };
+
 
 
 class Solution {
@@ -95,34 +93,30 @@ public:
         if(n==0) return NULL;
         TreeNode* root = new TreeNode(preorder[0]);
 
-        for(int i=1;i<n;i++){
-            bool visited= false;
-            TreeNode* curr= root;
-            while(!visited){
-                if(preorder[i]<curr->val){ // key< root
-                // if no left exist make new left node 
-                    if(curr->left ==NULL){
-                        curr->left= new TreeNode(preorder[i]);
-                        visited=true;
+        for(int i=1; i<n; i++){
+            TreeNode* curr = root;
+            while(true){
+                if(curr->val > preorder[i]){ // root > key  small key can be found on left side 
+                    if(curr->left == NULL){
+                        curr->left = new TreeNode(preorder[i]);
+                        break;
                     }
-                    // if left already exists 
-                    else 
+                    else
                         curr= curr->left;
                 }
-                else{ // key> root
-                    if(curr->right==NULL){
+                else{ // root < key   greater key can be found on the right side 
+                    if(curr->right == NULL){
                         curr->right = new TreeNode(preorder[i]);
-                        visited= true;
+                        break;
                     }
                     else 
-                        curr= curr->right;
+                        curr = curr->right;
                 }
             }
         }
         return root;
     }
 };
-
 
 // @lc code=end
 

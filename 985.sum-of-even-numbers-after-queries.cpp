@@ -22,20 +22,26 @@ void print(vi &out){
 // @lc code=start
 class Solution {
 public:
-    vector<int> sumEvenAfterQueries(vector<int>& A, vector<vector<int>>& queries) {
-        int sum=0;
-        for(auto x:A){
-            if(x%2==0) sum=sum+x;
+    vector<int> sumEvenAfterQueries(vector<int>& nums, vector<vector<int>>& queries) {
+        int n= nums.size();
+        int sum =0;
+        for(int i:nums){
+            if(i % 2 ==0)
+                sum += i;
         }
-        int n=queries.size();
-        vector<int> ans(n);
-        for(int i=0;i<queries.size();i++){
-            int val=queries[i][0];
-            int idx=queries[i][1];
-            if(A[idx]%2==0) sum=sum-A[idx];
-            A[idx]=A[idx]+val;
-            if(A[idx]%2==0)  sum=sum+A[idx];
-            ans[i]=sum;
+        vector<int> ans(queries.size());
+        for(int i=0; i<queries.size(); i++){
+            int val = queries[i][0];
+            int idx = queries[i][1];
+            // already even 
+            if(nums[idx] % 2 ==0)
+                sum -= nums[idx];
+            // add the val
+            nums[idx] += val;
+            // after adding val even 
+            if(nums[idx] % 2 ==0)
+                sum+= nums[idx];
+            ans[i] = sum;
         }
         return ans;
     }

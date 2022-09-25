@@ -69,6 +69,7 @@ public:
             g[edge[1]].push_back({edge[0],edge[2]});
         }
         vector<int> count(n+1,0);
+        // we want for all i as source
         for(int i=0;i<=n-1;i++){
             priority_queue<pair<int,int>, vector<pair<int,int>> , greater<pair<int,int>>> pq;
             vector<int> distance(n+1,INT_MAX);

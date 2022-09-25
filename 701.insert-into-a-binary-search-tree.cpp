@@ -77,6 +77,7 @@ public:
     }
 };
 
+// recursive  O(N)
 class Solution {
 public:
     TreeNode* insertIntoBST(TreeNode* root, int val) {
@@ -92,6 +93,36 @@ public:
     }
 };
 
+// iterative
+// log base 2 N  -> height balenced tree
+class Solution {
+public:
+    TreeNode* insertIntoBST(TreeNode* root, int val) {
+        if(!root) return new TreeNode(val);
+        TreeNode* curr=  root;
+        while(true){
+            if(curr->val <= val){
+                if(curr->right){
+                    curr = curr->right;
+                } 
+                else{
+                    curr->right = new TreeNode(val);
+                    break;
+                }
+            }
+            else{ // curr->val > val
+                if(curr->left){
+                    curr= curr->left;
+                }
+                else{
+                    curr->left = new TreeNode(val);
+                    break;
+                }
+            }
+        }
+        return root;
+    }
+};
 // @lc code=end
 
 

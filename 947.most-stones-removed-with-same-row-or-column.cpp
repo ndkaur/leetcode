@@ -75,7 +75,7 @@ public:
             rank[u]++;
         }
     }
-    int removeStones(vector<vector<int>>& stones) {
+    int removeStones(vector<vector<int>>& stones){
         int n= stones.size();
         parent.resize(n);
         rank.resize(n);
@@ -87,7 +87,7 @@ public:
         for(int i=0;i<n;i++){
             for(int j=i+1;j<n;j++){
                 // when equal then only we can put in same group 
-                if(stones[i][0]== stones[j][0] || stones[i][1] == stones[j][1]){
+                if(stones[i][0] == stones[j][0] || stones[i][1] == stones[j][1]){
                     // both lie in same component so attach them together 
                     unionf(i,j);
                 }
@@ -100,7 +100,7 @@ public:
         for(int i=0;i<n;i++){
             // parent i and i equal means belong to same group 
             // i=0  p[0]=0  (0 == 0)  cnt=1
-            //i=1 p[1] = 1  (1 == 1) cnt=2
+            //i=1  p[1] = 1  (1 == 1) cnt=2
             // i=2  p[2]=0  (0!=2)
             if(parent[i]==i)
                 cnt++;

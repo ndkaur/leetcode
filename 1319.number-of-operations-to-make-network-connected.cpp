@@ -72,7 +72,7 @@ public:
     void unionn(int u,int v){
         int pu= findParent(u);
         int pv= findParent(v);
-        if(pu==pv) return ;
+        if(pu==pv) return ; // already attached
         if(rank[pu]<rank[pv])
             parent[pu]=pv;
         else if(rank[pu]>rank[pv])

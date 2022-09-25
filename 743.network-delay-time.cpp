@@ -28,31 +28,31 @@ public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
         vector<vector<pair<int,int>>> adj(n+1);
         for(auto time:times){
-            int u= time[0];
-            int v=time[1];
-            int w= time[2];
-            adj[u].push_back({v,w});
+            adj[time[0]].push_back({time[1], time[2]});
         }
-        vector<int> distance(n+1,INT_MAX);
-        distance[k]=0;
-        priority_queue<pair<int,int> , vector<pair<int,int>> , greater<pair<int,int>>> pq;
-        pq.push({0,k}); // dist node
+        vector<int> dist(n+1,INT_MAX);
+        dist[k]= 0;
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        pq.push({0,k});
+        
         while(!pq.empty()){
-            int dist= pq.top().first;
-            int node= pq.top().second;
+            int time  = pq.top().first;
+            int node = pq.top().second;
             pq.pop();
+            
             for(auto itr:adj[node]){
-                int next= itr.first;
-                int ndist= itr.second;
-                if(distance[next] > ndist+ dist){
-                    distance[next]= ndist+ dist;
-                    pq.push({distance[next],next});
+                int newNode = itr.first;
+                int newTime = itr.second;
+                if(dist[newNode] > dist[node] + newTime){
+                    dist[newNode] = dist[node] + newTime;
+                    pq.push({dist[newNode], newNode});
                 }
             }
         }
-        int ans=INT_MIN;
-        for(int i=1;i<=n;i++){
-            ans= max(ans,distance[i]);
+        int ans = 0 ;
+        // min time to recive all signals will actually be the max of all 
+        for(int i=1; i<dist.size(); i++){
+            ans = max(ans, dist[i]);
         }
         return ans == INT_MAX ? -1 :ans;
     }
