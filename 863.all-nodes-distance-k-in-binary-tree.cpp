@@ -32,9 +32,11 @@ void print(vi &out){
 class Solution {
 public:
     vector<int> ans;
+    // child ->parent 
     map<TreeNode*,TreeNode*> parent; // to save the value of parent and its child
     set<TreeNode*> visit; // to mark the visit or not 
 
+    // ditance k can be left right or in upward direction ie from root to its parent 
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
         if(!root) return {};
         find_parent(root);
@@ -54,12 +56,14 @@ public:
             distance_ans(root->left,k-1);
         if(root->right)
             distance_ans(root->right,k-1);
+        // if parent exisit then we can move upward till k 
         TreeNode* p = parent[root];
         if(p) 
             distance_ans(p,k-1);
     }
 
     void find_parent(TreeNode* root){
+        // filling the map of child ->parent values
         if(!root) return;
         if(root->left) {
             parent[root->left] = root; // saved value of root in place of root->left
@@ -71,6 +75,68 @@ public:
         }
     }
 };
+
+// bfs  ->O(n) + O(n)
+class Solution {
+public:
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        if(!root) return {};
+        // map to store parent for each children so that we can move upward at k distance too
+        map<TreeNode* , TreeNode*> mp; // child parent 
+        findParentmp(root, mp);
+        // visited
+        unordered_map<TreeNode*, bool> visited;
+        queue<TreeNode*> q;
+        q.push(target);
+        visited[target] = true;
+        int curr =0;
+        while(!q.empty()){
+            int sz = q.size();
+            if(curr == k)
+                break;
+            curr++;
+            for(int i=0; i<sz; i++){
+                TreeNode* node= q.front();
+                q.pop();
+                if(node->left && !visited[node->left]){
+                    q.push(node->left);
+                    visited[node->left] = true;
+                }
+                if(node->right && !visited[node->right]){
+                    q.push(node->right);
+                    visited[node->right] = true;
+                }
+                if(mp[node] && !visited[mp[node]]){
+                    q.push(mp[node]);
+                    visited[mp[node]] = true;
+                }
+            }
+        }
+        vector<int> ans;
+        while(!q.empty()){
+            TreeNode* f= q.front();
+            q.pop();
+            ans.push_back(f->val);
+        }
+        return ans;
+    }
+    
+    void findParentmp(TreeNode* root, map<TreeNode*, TreeNode*>& mp){
+        if(!root)
+            return;
+        if(root->left){
+            mp[root->left] = root;
+            findParentmp(root->left, mp);
+        }    
+        if(root->right){
+            mp[root->right] = root;
+            findParentmp(root->right, mp);
+        }
+    }
+    
+};
+
+
 // @lc code=end
 
 

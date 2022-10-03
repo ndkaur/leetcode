@@ -65,8 +65,9 @@ public:
         ListNode* fast = head;
         ListNode* slow= head;
 
-        for(int i=0;i<n;i++)
+        for(int i=0;i<n;i++){
             fast= fast->next;
+        }
         // if fast already reached the end 
         if(!fast) return head->next;
         // move both together till fast doesnot reach end 

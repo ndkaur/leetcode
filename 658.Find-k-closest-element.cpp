@@ -29,7 +29,7 @@ public:
                 left= mid+1;
             }
             else 
-                right=mid;
+                right=mid; 
         }
         for(int i=left;i<left+k;i++){
             ans.push_back(arr[i]);
@@ -38,6 +38,26 @@ public:
     }
 };
 
+
+
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        int n = arr.size();
+        vector<int> ans;
+        priority_queue<pair<int,int> , vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        // pq -> diff , elem 
+        for(int i=0; i<n; i++){
+            pq.push({abs(arr[i]-x), arr[i]});
+        }
+        for(int i=0; i<k; i++){
+            ans.push_back(pq.top().second);
+            pq.pop();
+        }
+        sort(ans.begin(), ans.end());
+        return ans;
+    }
+};
 
 int main(){
     Solution sol;

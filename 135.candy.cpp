@@ -29,13 +29,13 @@ class Solution {  // tc->O(n)  sc-> o(n)
 public:
     int candy(vector<int>& ratings) {
         int n= ratings.size();
-        // left to right 
+        // left to right increasing rder 
         vector<int> left(n,1);
         for(int i=1;i<n;i++){
             if(ratings[i-1] < ratings[i])
                 left[i]= 1+ left[i-1];
         }
-        //  right to left
+        //  right to left increasing order 
         vector<int> right(n,1);
         for(int i=n-2;i>=0;i--){
             if(ratings[i+1] < ratings[i])

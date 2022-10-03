@@ -76,6 +76,29 @@ public:
     }
 };
 //  not all nodes are getting traversed 
+
+class Solution {
+public:
+    int countNodes(TreeNode* root) {
+        int lh =0;
+        int rh =0;
+        TreeNode* l = root; 
+        while(l){
+            lh++;
+            l= l->left;
+        }
+        TreeNode* r= root;
+        while(r){
+            rh++;
+             r= r->right;
+        }
+        if(lh == rh){ // 2^ h-1
+            return (1<<lh) - 1;
+        }
+        return 1 +  countNodes(root->left) + countNodes(root->right);
+    }
+};
+
 // @lc code=end
 
 

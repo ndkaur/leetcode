@@ -41,6 +41,26 @@ public:
         return step;
     }
 };
+
+
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int n = nums.size();
+        int step = 0;
+        int curr= 0;
+        int far =0;
+        for(int i=0; i<n-1; i++){
+            far = max(far, nums[i]+i);
+            // when we have traveled those most far steps then its time to change our curr 
+            if(i == curr){
+                curr = far;
+                step++;
+            }
+        }
+        return step;
+    }
+};
 // @lc code=end
 
 
