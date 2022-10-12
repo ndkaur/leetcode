@@ -14,6 +14,51 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+// uding 2 stacks
+// push all elem of s1 to s2
+// add the new elem to s1
+// then again push back all ele of s2 to s1
+class MyQueue {
+public:
+    stack<int> s1;
+    stack<int> s2;
+
+    MyQueue() {
+        
+    }
+    
+    void push(int x) {
+        while(s1.size()){
+            s2.push(s1.top());
+            s1.pop();
+        }        
+        s1.push(x);
+        while(s2.size()){
+            s1.push(s2.top());
+            s2.pop();
+        }
+    }
+    
+    int pop() {
+        int ans = s1.top();
+        s1.pop();
+        return ans;
+    }
+    
+    int peek() {
+        return s1.top();
+    }
+    
+    bool empty() {
+        return s1.empty();
+    }
+};
+
+
+
+
 class MyQueue {
     stack<int> input,output;
 public:

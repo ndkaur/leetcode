@@ -57,6 +57,46 @@ public:
         return ans;
     }
 };
+
+
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& ast) {
+        // use basic stack idea 
+        int n = ast.size();
+        stack<int> stk;
+        for(int i= 0; i<n; i++){
+            // can addd in stack if empty or positive 
+            if(stk.empty() || ast[i] > 0)
+                stk.push(ast[i]);
+            // stak not empty already have elements 
+            else{
+                // stk not empty and top elem is +ve and smaller then next elem
+                while(!stk.empty() && stk.top() > 0 && stk.top() < abs(ast[i])){
+                    stk.pop();
+                }
+                // stk not empty and top elem is +ve and equal to next elem
+                if(!stk.empty() && stk.top() == abs(ast[i]))
+                    stk.pop();
+                // stk not empty and top ele is +ve and greater than next elem then
+                // dont do anything cause no pop require 
+                
+                // stk not empty but later got empty or a negative number comes by
+                else {
+                    if(stk.empty() || stk.top()<0)
+                        stk.push(ast[i]);
+                }
+            }
+            
+        }
+        vector<int> ans(stk.size());
+        for(int i=(int)stk.size()-1; i>=0; i--){
+            ans[i] = stk.top();
+            stk.pop();
+        }
+        return ans;
+    }
+};
 // @lc code=end
 
 

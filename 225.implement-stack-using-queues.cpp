@@ -14,6 +14,46 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+// using 2 queues
+// add ele to q2 
+// shift all ele of q1 to q2  till q1 dont get empty 
+// swap q1 and q2 
+
+class MyStack {
+public:
+    queue<int> q1;
+    queue<int> q2;
+    
+    MyStack() {
+                
+    }
+    
+    void push(int x) {
+        q2.push(x);
+        while(!q1.empty()){
+            q2.push(q1.front());
+            q1.pop();
+        }
+        swap(q1,q2);
+    }
+    
+    int pop() {
+        int ans = top();
+        q1.pop();
+        return ans;
+    }
+    
+    int top() {
+        return q1.front();
+    }
+    
+    bool empty() {
+       return q1.empty();
+    }
+};
+
+
 class MyStack {
     queue<int> q;
 public:
