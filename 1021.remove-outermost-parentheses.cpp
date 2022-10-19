@@ -35,6 +35,56 @@ public:
         return ans;
     }
 };
+
+
+class Solution {
+public:
+    string removeOuterParentheses(string s) {
+        int n = s.size();
+        stack<char> stk;
+        string ans;
+        for(auto c:s){
+            if(c == '('){
+                if(stk.size() > 0){
+                    ans += '(';
+                }
+                stk.push('(');
+            }
+            else{
+                if(stk.siez() > 1){
+                    ans += ')';
+                }
+                stk.pop();
+            }
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    string removeOuterParentheses(string s) {
+        int n = s.size();
+        int bal =0;
+        string ans;
+        for(auto c:s){
+            if(c == '('){
+                if(bal > 0){
+                    ans += '(';
+                }
+                bal++;
+            }
+            else{
+                if(bal > 1){
+                    ans += ')';
+                }
+                bal--;
+            }
+        }
+        return ans;
+    }
+};
+
 // @lc code=end
 int main(){
     Solution sol;

@@ -22,10 +22,10 @@ void print(vi &out){
 class Solution {
 public:
     double myPow(double value, long power) {
-        double result=1;
+        double result= 1.0;
         if(power<0){ // if negative
             value=1/value; // x^-1= 1/x
-            power=power*(-1);// to convert power into positive
+            power= abs(power);// to convert power into positive
         }
         while(power){
             if(power&1) // check if bit is on or off
@@ -36,6 +36,7 @@ public:
         return result;
     }
 };
+
 // @lc code=end
 
 

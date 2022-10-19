@@ -124,7 +124,7 @@ public:
     }
 };
 
-// @lc code=end+
+// @lc code=end
 
 int main(){
     Solution sol;

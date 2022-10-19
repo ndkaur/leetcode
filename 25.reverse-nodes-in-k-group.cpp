@@ -117,10 +117,10 @@ public:
 class Solution {  //space->O(N)
 public:
     ListNode* reverseKGroup(ListNode* head, int k) {
-        ListNode* curr= head;
+        ListNode* cur= head;
         for(int i=0;i<k; i++){
-            if(!curr) return head;
-            curr = curr->next;
+            if(!cur) return head;
+            cur = cur->next;
         }
         ListNode* curr= head;
         ListNode* prev=NULL;
@@ -135,8 +135,6 @@ public:
         return prev;
     }
 };
-
-
 
 
 // @lc code=end

@@ -32,6 +32,33 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        unordered_map<char,char> mp1;
+        unordered_map<char, char> mp2;
+        for(int i=0; i<s.size(); i++){
+            mp1[s[i]] = i+1;
+            mp2[t[i]] = i+1;
+        }
+        for(int i=0; i<s.size(); i++){
+            if(mp1[s[i]] != mp2[t[i]])
+                return false;
+        }
+        return true;
+    }
+};
+
+// f b
+// 1 1
+// o a
+// 2 2
+// o r 
+// 3 3  so finally  f= 1  o =3   and b =1 a=2 r=3  
+// so compare f = b =1 
+// o =3 a =2  so false
+
 int main(){
     Solution sol;
     string s="foo";

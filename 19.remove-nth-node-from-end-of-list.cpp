@@ -40,7 +40,7 @@ public:
             lenght++;
             curr = curr->next;
         }
-        if(lenght == n) // remove first node
+        if(lenght == n) // remove last node
             return head->next;
 
         curr= head;

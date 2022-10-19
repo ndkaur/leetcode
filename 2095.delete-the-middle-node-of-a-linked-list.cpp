@@ -50,6 +50,48 @@ public:
         return head;
     }
 };
+
+
+class Solution {
+public:
+    ListNode* deleteMiddle(ListNode* head) {
+        if(!head) return NULL;
+        if(head->next == NULL)
+            return NULL;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast && fast->next){
+            fast= fast->next->next;
+            slow= slow->next;
+        }
+        ListNode* del = head;
+        while(del->next != slow){
+            del=  del->next;
+        }
+        
+        del->next = del->next->next;
+        return head;
+    }
+};
+
+
+class Solution {
+public:
+    ListNode* deleteMiddle(ListNode* head) {
+        if(!head) return NULL;
+        if(head->next == NULL)
+            return NULL;
+        ListNode* slow= head;
+        ListNode*fast = head->next->next;
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        slow->next = slow->next->next;
+        return head;
+    }
+};
+
 // @lc code=end
 
 

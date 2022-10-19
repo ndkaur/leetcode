@@ -30,6 +30,30 @@ void print(vi &out){
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        if(!head) 
+            return  NULL;
+        vector<int> arr;
+        ListNode* curr = head;
+        while(curr){
+            arr.push_back(curr->val);
+            curr = curr->next;
+        }
+        sort(arr.begin(), arr.end());
+        curr = head;
+        int idx =0;
+        while(curr){
+            curr->val = arr[idx++];
+            curr = curr->next;
+        }
+      return head;
+    }
+};
+
+// o(nlogn)
 class Solution {
 public:
     ListNode* sortList(ListNode* head) {

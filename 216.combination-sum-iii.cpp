@@ -46,6 +46,60 @@ public:
         }
     }
 };
+
+
+class Solution {
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> ans;
+        vector<int> temp;
+        find(1, k, n, temp, ans);
+        return ans;
+        
+    }
+    void find(int idx, int sz, int sum, vector<int>& temp, vector<vector<int>>& ans){
+        if(sum < 0 || temp.size() > sz)
+            return;
+        if(sum == 0 && temp.size() == sz){
+            ans.push_back(temp);
+            return;
+        }
+        for(int i=idx; i<=9; i++){
+            temp.push_back(i);
+            find(i+1, sz, sum-i, temp, ans);
+            temp.pop_back();
+        }
+    }
+};
+
+
+class Solution {
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> ans;
+        vector<int> temp;
+        find(1, k, n, temp, ans);
+        return ans;
+        
+    }
+    void find(int idx, int sz, int sum, vector<int>& temp, vector<vector<int>>& ans){
+    
+        if(temp.size() == sz){
+            if(sum == 0){
+                ans.push_back(temp);
+            }
+            return;
+        }
+        // dont want to pick duplicates 
+        for(int i=idx; i<=9; i++){
+            if(i<=sum){
+                temp.push_back(i);
+                find(i+1, sz, sum-i, temp, ans);
+                 temp.pop_back();
+            }
+        }
+    }
+};
 // @lc code=end
 
 
