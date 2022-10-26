@@ -21,7 +21,7 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+class Solution { // O(nlogn)
 public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
         int n = intervals.size();
@@ -33,6 +33,7 @@ public:
         ans.push_back(intervals[0]);
         int j=0;
 
+        // merge s1 <= e2  && e1 >= s2 
         for(int i=1; i<n; i++){
             // overlap prev end >= next start 
             if(ans[j][1] >= intervals[i][0]){

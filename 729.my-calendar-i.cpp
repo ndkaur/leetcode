@@ -94,6 +94,8 @@ public:
     }
 };
 
+// s1 e1 arr
+// s2 e2 start end    ->  s1 <= e2  e1 >= s2
 
 //  using lowe bound 
 

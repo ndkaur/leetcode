@@ -49,6 +49,34 @@ public:
         return ans;
     }
 };  
+
+
+class Solution {
+public:
+    int eraseOverlapIntervals(vector<vector<int>>& inv) {
+        int n = inv.size();
+        sort(inv.begin(), inv.end());
+        int cnt = 0;
+        int j = 0;
+        for(int i=1; i<n; i++){
+            // overlap s1 <= e2   && e1 >= s2
+            if(inv[j][1] > inv[i][0]){
+                cnt++;
+                // remove the interval that is max 
+                //if our j interval is max remove it 
+                if(inv[j][1] > inv[i][1]){
+                    j = i;
+                }
+            }
+            // not overlap 
+            else{
+                // then also ove the j ahead 
+                j = i;
+            }
+        }
+        return cnt;
+    }
+};
 // @lc code=end
 
 
