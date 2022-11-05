@@ -22,7 +22,28 @@ void print(vi &out){
 
 // @lc code=start
 
+// brute force -O(n^2)
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int n = height.size();
+        int mx =0;
+        for(int i=0; i<n-1; i++){
+            for(int j=i+1; j<n; j++){
+                int hgt = min(height[i], height[j]);
+                int width = j-i;
+                int area = hgt * width;
+                mx = max(mx, area);
+            }
+        }
+        return mx;
+    }
+};
+
+
+
 // we need to find the min height and multiply it with the number of lines inbetween the two ptrs 
+//O(n)
 class Solution {
 public:
     int maxArea(vector<int>& height) {
