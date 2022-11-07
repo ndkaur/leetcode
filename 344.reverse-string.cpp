@@ -1,4 +1,4 @@
-/*
+3/*
  * @lc app=leetcode id=344 lang=cpp
  *
  * [344] Reverse String

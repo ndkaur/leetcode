@@ -66,6 +66,21 @@ public:
         return total - sum;
     }
 };
+
+
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int n = nums.size();
+        int i =0;
+        for(int num:nums){
+            n = n ^ num;
+            n = n ^ i;
+            i++;
+        }
+        return n;
+    }
+};
 // @lc code=end
 
 
