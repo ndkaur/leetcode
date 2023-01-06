@@ -79,6 +79,25 @@ public:
     }
 };
 
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        int n = nums.size();
+        unordered_map<int,int> mp;
+        for(int i =0; i<n; i++){
+            int req = target- nums[i];
+            if(mp.find(req) == mp.end()){ // not found
+                mp[nums[i]] = i; // store the index in map
+            }
+            else { // if found in map that the answer
+                return  { mp[req] , i };
+            }
+        }
+        return {-1,-1};
+    }
+};
+
+
 // @lc code=end
 
 

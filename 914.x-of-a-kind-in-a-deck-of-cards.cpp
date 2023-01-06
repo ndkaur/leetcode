@@ -14,6 +14,14 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+// 1 1 1 1 2 2 2 2 2 2
+// this case will fail if we use a map and make partition according to the count of all the number
+// cause 1-> 4 time  , 2->6 time so it will return false 
+// but we can make partitions on bacis of groups of 2 {1,1} {1,1} {2,2} {2,2} {2,2} 
+// so for that purpose we need to find gcd 
+
+
 class Solution {
 public:
     bool hasGroupsSizeX(vector<int>& deck) {

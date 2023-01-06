@@ -43,6 +43,31 @@ public:
 };
 
 
+class Solution {
+public:
+    bool detectCapitalUse(string word) {
+        int n = word.size();
+        // upper case range -> 65 to 90
+        // lower case range -> 97 to 122
+        if(n==1)
+            return true;
+        if(word[0]<91 && word[1]<91){ // both upper case 
+            for(int i=2; i<n; i++){
+                if(word[i] > 96)// any lower case found
+                    return false;
+            }
+            return true; // all upper case no lower found
+        }
+        else{ // when only starting is upper case or all lower 
+            for(int i=1; i<n; i++){
+                if(word[i] < 91)
+                    return false; // only first letter can be capital no one else 
+            }
+            return true;
+        }
+    }
+};
+
 int main(){
     Solution sol;
     string word="FlaG";
