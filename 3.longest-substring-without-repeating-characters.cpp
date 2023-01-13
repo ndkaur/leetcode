@@ -60,12 +60,13 @@ public:
         int len=0;
         int l=0;
         int r=0;
-        vector<int> mp(256,-1);
+        vector<int> mp(256,-1);// array of 256 cause it will include all ascii values all alphabets 
         while(r<n){
             if(mp[s[r]]!=-1){ // already visited 
                 // move the left idx to right idx +1 
                 l = max(mp[s[r]]+1, l); // take max if to see if its not in that range already 
             }
+            // not using a else loop as each time we want to update the value of r 
             mp[s[r]] = r; // update the last seen idx of the char 
             len = max(len, r-l+1);
             r++;
