@@ -22,37 +22,35 @@ cout<<endl;
 // @lc code=start
 
 //  bfs ->tc-> O(n+e)  sc->O(n+e)+O(n)+O(n)
-class Solution0 {
+class Solution {
 public:
-    bool validPath(int n, vector<vector<int>>& edges, int start, int end) {
-        // int n = edges.size();
-        vector<vector<int>> adjList(n);
-        queue<int> q;
-        vector<bool> visited(n, false);
-        for(int i=0; i< edges.size(); i++){
-            int u= edges[i][0];
-            int v= edges[i][1];
-            adjList[u].push_back(v);
-            adjList[v].push_back(u);
+    bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
+        vector<vector<int>> adj(n);
+        vector<int> visited(n,false);
+        for(auto edge:edges){
+            int u = edge[0];
+            int v = edge[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
         }
-        q.push(start);
-        visited[start]=true;
-        while(!q.empty()){
-            int curnode= q.front(); 
+        queue<int> q;
+        q.push(source);
+        visited[source] = 1;
+        while(q.size()){
+            int node = q.front();
             q.pop();
-            for(int i=0; i<adjList[curnode].size();i++){
-                int sndnode= adjList[curnode][i];
-                if(!visited[sndnode]){
-                    q.push(sndnode);
-                    visited[sndnode]=true;
-                }
+            for(auto itr:adj[node]){
+               if(!visited[itr]){
+                   q.push(itr);
+                   visited[itr]=1;
+               }
             }
         }
-        if(visited[end])
+        if(visited[destination])
             return true;
         return false;
     }
-};
+};  
 
 //   for(auto itr:adj[start]){
         //     if(!visited[itr]){
