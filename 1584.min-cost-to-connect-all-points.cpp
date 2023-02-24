@@ -134,6 +134,62 @@ public:
     }
 };
 
+// dsu 
+// Time complexity:O(E)
+// Space complexity:O(E)
+
+class Solution {
+public:
+    vector<int> parent;
+
+    int find(int node){
+        if(parent[node] == node)
+            return node;
+        return parent[node] = find(parent[node]);
+    }
+
+    void un(int u, int v){
+        u = find(u);
+        v = find(v);
+        if(u==v)
+            return;
+        parent[u] = parent[v];
+    }
+
+    int minCostConnectPoints(vector<vector<int>>& points) {
+        int n = points.size();
+        parent.resize(n+1);
+        for(int i=0; i<=n; i++){
+            parent[i] = i;
+        }
+        // making an arr to store all distance of one point wrt other points 
+        vector<pair<int,pair<int,int>>> arr; // {dist,{i,j}}
+        for(int i=0; i<n; i++){
+            for(int j=i+1; j<n; j++){
+                arr.push_back({abs(points[i][0]- points[j][0])+ abs(points[i][1]-points[j][1]), {i,j}});
+            }
+        }
+          
+        sort(arr.begin(), arr.end());
+        int ans =0;
+
+        for(auto itr: arr){
+            int par1 = find(itr.second.first); // parent of i 
+            int par2 = find(itr.second.second); // parent of j 
+            if(par1 != par2){ // if both parents different perform union 
+                ans += itr.first; // add the distance 
+                un(par1,par2);
+            }
+        }
+        return ans;
+    }
+};
+
+
+
+
+
+
 
 // @lc code=end
 

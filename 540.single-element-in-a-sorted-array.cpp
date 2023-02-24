@@ -78,8 +78,8 @@ public:
         int low = 0;
         int high = n-1;
         if(high==0) return nums[0];
-        if(nums[0]!=nums[1]) return  nums[left];
-        if(nums[high]!= nums[high-1]) return nums[right];
+        if(nums[0]!=nums[1]) return  nums[low];
+        if(nums[high]!= nums[high-1]) return nums[high];
 
         while(low<=high){
             int mid= low+(high-low)/2;
