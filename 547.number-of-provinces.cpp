@@ -103,6 +103,49 @@ public:
         return cnt;
     }
 };
+
+
+// union find  ->O(N)
+class Solution {
+public:
+    vector<int> parent;
+
+    int findParent(int node){
+        if(parent[node] == node)
+            return node;
+        return parent[node] = findParent(parent[node]);
+    }
+
+    void unionn(int u, int v){
+        u = findParent(u);
+        v = findParent(v);
+        parent[u] = v;
+    }
+
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int  n = isConnected.size();
+        parent.resize(n);
+        for(int i=0; i<n; i++){
+            parent[i] = i;
+        }
+        int cnt =n;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                if(isConnected[i][j] == 1){
+                    int pari = findParent(i);
+                    int parj = findParent(j);
+                    if(pari != parj){
+                        cnt--;
+                        unionn(pari,parj);
+                    }
+                }
+            }
+        }
+        return cnt;
+    }
+
+};
+
 // @lc code=end
 
 
