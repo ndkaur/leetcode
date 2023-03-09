@@ -25,28 +25,29 @@ void print(vi &out){
 class Solution {
 public:
     int minEatingSpeed(vector<int>& piles, int h) {
-        int n= piles.size();
-        int l= 1;
-        int r = *max_element(piles.begin(),piles.end());
-        int ans;
-        while(l<=r){
-            int mid = l+(r-l)/2;
-            if(possible(mid, h, piles)){
-                ans= mid;
-                r= mid-1;   
+        int n = piles.size();
+        int ans = 0;
+        int left = 1;
+        int right = *max_element(piles.begin(), piles.end());
+        while(left<=right){
+            int mid = left + (right-left)/2;
+            if(isPossible(mid, h, piles)){
+                ans = mid;
+                right = mid-1;
             }
-            else 
-                l= mid+1;
+            else{
+                left = mid+1;
+            }
         }
         return ans;
     }
-    bool possible(int mid , int h, vector<int>& piles){
-        int count=0;
-        for(int i=0;i<piles.size(); i++){
-            count += ceil(1.0 * piles[i] / mid);
-            
+    bool isPossible(int mid, int h, vector<int>& piles){
+        long long hours =0;
+        for(int i=0; i<piles.size(); i++){
+            hours += ceil(piles[i]/ (double)mid);
+            // hours += (piles[i] % mid == 0) ? piles[i]/mid : (piles[i]/mid)+1;
         }
-        return count <= h;
+        return hours<=h;
     }
 };
 
