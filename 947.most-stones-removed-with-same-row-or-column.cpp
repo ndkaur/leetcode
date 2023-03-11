@@ -40,9 +40,10 @@ public:
     int dfs(vector<vector<int>>& stones, vector<bool>& visited, int source, int& n){
         visited[source]=true;
         int count=0;
+        // to points lie in same row or column if their ith or jth values are equal 
         for(int i=0;i<n;i++){
             // if our previous node and the current node values are equal 
-            if(!visited[i] && (stones[i][0]==stones[source][0] || stones[i][1]== stones[source][1])){
+            if(!visited[i] && (stones[i][0]==stones[source][0] || stones[i][1]==stones[source][1])){
                 count += (dfs(stones, visited, i,n) +1);
             }
         }
