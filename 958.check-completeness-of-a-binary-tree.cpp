@@ -63,7 +63,35 @@ public:
 };
 
 //  last node on queue must be null so value = true
-// whenever the node on q top is nu=ot null the return false
+// whenever the node on q top is not null the return false
+
+
+class Solution {
+public:
+    bool isCompleteTree(TreeNode* root) {
+        if(!root)
+            return false;
+        queue<TreeNode*> q;
+        q.push(root);
+        bool check = false;
+        while(q.size()){
+            auto node = q.front();
+            q.pop();
+
+            if(node==NULL){
+                check = true;
+                continue;
+            }
+            if(check)// if check value is true that means a null node is encountered 
+                return false;
+            
+            q.push(node->left);
+            q.push(node->right);
+        }
+        return true;
+    }
+};
+
 // @lc code=end
 
 
