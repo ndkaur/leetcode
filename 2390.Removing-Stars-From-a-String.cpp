@@ -17,6 +17,31 @@ void print(vi &out){
 
 // we can  use stack O(N) space->O(N)
 
+class Solution {
+public:
+    string removeStars(string s) {
+        int n = s.size();
+        string ans="";
+        stack<char> stk;
+        for(int i=0; i<n; i++){
+            if(s[i]!='*')
+                stk.push(s[i]);
+            else{
+                stk.pop();
+            }
+        }
+        while(stk.size()){
+            char c= stk.top();
+            stk.pop();
+            ans+=c;
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
+
+// s = "leet**cod*e"
+ 
 // two ptrs O(n) O(1)
 class Solution {
 public:
