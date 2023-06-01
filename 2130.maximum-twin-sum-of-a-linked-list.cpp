@@ -13,7 +13,7 @@ typedef vector<vector<int>> vvi;
 typedef vector<string> vs;
 typedef vector<bool> vb;
 typedef pair<int,int> pii;
-//#include "LinkedList.h"
+#include "LinkedList.h"
 
 void print(vi &out){
     for(auto x: out) cout<<x<<" ";
