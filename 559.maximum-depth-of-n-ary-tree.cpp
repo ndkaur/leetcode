@@ -98,6 +98,31 @@ class Solution1 {
         }
     }
 };
+
+// level order traversal 
+class Solution {
+public:
+    int maxDepth(Node* root) {
+        if(!root) return 0;
+        int depth =0;
+        queue<Node*> q;
+        q.push(root);
+        while(q.size()){
+            int sz= q.size();
+            depth++;
+            for(int i=0; i<sz; i++){
+                root = q.front();
+                q.pop();
+                int n = root->children.size();
+                for(int j=0; j<n; j++){
+                    if(root->children[j])
+                        q.push(root->children[j]);
+                }
+            }
+        }
+        return depth;
+    }
+};
 // @lc code=end
 
 

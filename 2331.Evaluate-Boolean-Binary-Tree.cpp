@@ -17,22 +17,17 @@ void print(vi &out){
 
 class Solution {
 public:
-    bool checkTree(TreeNode* root) {
-        if(!root) return false;
-        int left= root->left->val;
-        int right= root->right->val;
-        if(root->val== left+ right)
-            return true;
-        return false;
+    bool evaluateTree(TreeNode* root) {
+        if(root->val ==1)  return true;
+        if(root->val == 0)  return false;
+        if(root->val == 2)
+            return evaluateTree(root->left) || evaluateTree(root->right);
+        if(root->val == 3)
+            return evaluateTree(root->left) && evaluateTree(root->right);
+        return true;
     }
 };
 
-class Solution {
-public:
-    bool checkTree(TreeNode* root) {
-        return (root->left->val+root->right->val == root->val);
-    }
-};
 
 int main(){
 

@@ -44,6 +44,20 @@ public:
         return isUnivalTree(root->left) && isUnivalTree(root->right);
     }
 }; 
+
+class Solution {
+public:
+    bool isUnivalTree(TreeNode* root) {
+        if(!root) return true;
+        return dfs(root, root->val);
+    }
+    bool dfs(TreeNode* root, int x){
+        if(!root) return true;
+        if(root->val!=x)
+            return false;
+        return dfs(root->left, x) && dfs(root->right,x);
+    }
+};
 // @lc code=end
 
 

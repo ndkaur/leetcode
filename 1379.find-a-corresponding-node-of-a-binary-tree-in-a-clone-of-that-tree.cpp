@@ -63,7 +63,7 @@ public:
 };
 
 
-
+// preorder
 class Solution {
 public:
     TreeNode* getTargetCopy(TreeNode* original, TreeNode* cloned, TreeNode* target) {
@@ -81,6 +81,28 @@ public:
     }
 };
 
+// iterative inorder
+class Solution {
+public:
+    TreeNode* getTargetCopy(TreeNode* original, TreeNode* cloned, TreeNode* target) {
+        TreeNode* ans=NULL;
+        stack<TreeNode*> stk;
+        while(cloned || !stk.empty()){
+            while(cloned){
+                stk.push(cloned);
+                cloned = cloned->left;
+            }
+            cloned = stk.top();
+            stk.pop();
+            if(cloned->val == target->val){
+                ans= cloned;
+                break;
+            }
+            cloned= cloned->right;
+        }
+        return ans;
+    }
+};
 
 // @lc code=end
 
