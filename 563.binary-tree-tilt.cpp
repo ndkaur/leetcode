@@ -39,6 +39,8 @@ public:
         dfs(root,sum);
         return sum;
     }
+    // we need value of left and right first to calculate the root after 
+    // so use postorder 
     int dfs(TreeNode* root,int &sum){
         if(!root) return 0;
         int leftsum = dfs(root->left,sum);

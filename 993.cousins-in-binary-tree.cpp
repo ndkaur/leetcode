@@ -68,6 +68,40 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    int dx, dy, px, py;
+    
+    bool isCousins(TreeNode* root, int x, int y) {
+        // same depth but different parents
+        if(root->val==x || root->val == y)
+            return false;
+        // root, x, y, cur depth, cur parent
+        find(root, x, y, 0, 0);
+
+        if(dx==dy && px!=py)
+            return true;
+        return false;
+    }
+    void find(TreeNode* root, int x, int y, int curDepth, int curParent){
+        if(!root) return;
+        if(root->val==x){
+            px = curParent;
+            dx = curDepth;
+            return;
+        }
+        if(root->val==y){
+            py = curParent;
+            dy = curDepth;
+            return;
+        }
+        find(root->left, x, y, curDepth+1, root->val);
+        find(root->right, x, y, curDepth+1, root->val);
+    }
+};
+
+
 // @lc code=end
 
 
