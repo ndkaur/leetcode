@@ -51,6 +51,34 @@ public:
 
 class Solution {
 public:
+    int sumEvenGrandparent(TreeNode* root) {
+        int sum =0;
+        queue<TreeNode*> q;
+        q.push(root);
+        while(q.size()){
+            auto node= q.front();
+            q.pop();
+            if(node->val%2==0){
+                // left child
+                if(node->left && node->left->left)
+                    sum+= node->left->left->val;
+                if(node->left && node->left->right)
+                    sum+= node->left->right->val;
+                // right child
+                if(node->right && node->right->left)
+                    sum += node->right->left->val;
+                if(node->right && node->right->right)
+                    sum += node->right->right->val;
+            }
+            if(node->left)  q.push(node->left);
+            if(node->right)  q.push(node->right);
+        }
+        return sum;
+    }
+};
+
+class Solution {
+public:
     int fun(TreeNode *root){
         return root ? root->val:0;
     }

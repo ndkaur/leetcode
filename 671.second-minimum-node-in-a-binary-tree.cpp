@@ -5,7 +5,7 @@
  */
 #include "bits/stdc++.h"
 using namespace std;
-// #include "Tree.h"
+#include "Tree.h"
 #define deb(x) cout<<x<<endl;
 const int inf = 1e9;
 typedef vector<int> vi;
@@ -57,6 +57,32 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    priority_queue<int, vector<int>, greater<int>> pq; // minheap
+    int findSecondMinimumValue(TreeNode* root) {
+        dfs(root);
+        auto temp = pq.top();
+        pq.pop();
+        while(pq.size()){
+            if(temp == pq.top()){
+                pq.pop();
+            }
+            else
+                return pq.top();
+        }
+        return -1;
+    }
+    void dfs(TreeNode* root){
+        if(!root) return;
+        pq.push(root->val);
+        if(root->left)
+           dfs(root->left);
+        if(root->right)
+            dfs(root->right);
+    }
+};
 
 // @lc code=end
 

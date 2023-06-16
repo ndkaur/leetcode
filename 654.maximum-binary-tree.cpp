@@ -1,11 +1,11 @@
 /*
- * @lc app=leetcode id=1382 lang=cpp
+ * @lc app=leetcode id=654 lang=cpp
  *
- * [1382] Balance a Binary Search Tree
+ * [654] Maximum Binary Tree
  */
 #include "bits/stdc++.h"
 using namespace std;
-#include "Tree.h"
+// #include "Tree.h"
 #define deb(x) cout<<x<<endl;
 const int inf = 1e9;
 typedef vector<int> vi;
@@ -34,28 +34,27 @@ void print(vi &out){
  */
 
 
-//  same as generate a binary tree from array 
+// time O(N∗N)
+// spce O(N)
 class Solution {
 public:
-    vector<int> ans;
-    TreeNode* balanceBST(TreeNode* root) {
-        if(!root) return NULL;
-        dfs(root);
-        return atree(0,ans.size()-1);
+    TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+        int n = nums.size();
+        return make(0, n-1, nums);
     }
-    void dfs(TreeNode* root){
-        if(!root) return;
-        dfs(root->left);
-        ans.push_back(root->val);
-        dfs(root->right);
-    }
-    // l and r not passed with reference as their value will ot change the whole time 
-    TreeNode* atree(int l, int r){
+    TreeNode* make(int l, int r, vector<int>& nums){
         if(l>r) return NULL;
-        int mid= l+(r-l)/2;
-        TreeNode* root= new TreeNode(ans[mid]);
-        root->left= atree(l,mid-1);
-        root->right= atree(mid+1,r);
+        int mx = nums[l];
+        int idx = l;
+        for(int i=l; i<=r; i++){
+            if(nums[i]>mx){
+                mx = nums[i];
+                idx =i;
+            }
+        }
+        TreeNode* root = new TreeNode(mx);
+        root->left = make(l, idx-1, nums);
+        root->right = make(idx+1, r, nums);
         return root;
     }
 };

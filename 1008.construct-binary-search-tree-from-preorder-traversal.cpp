@@ -5,7 +5,7 @@
  */
 #include "bits/stdc++.h"
 using namespace std;
-// #include "Tree.h"
+#include "Tree.h"
 #define deb(x) cout<<x<<endl;
 const int inf = 1e9;
 typedef vector<int> vi;
@@ -95,7 +95,7 @@ public:
 
         for(int i=1; i<n; i++){
             TreeNode* curr = root;
-            while(true){
+            while(true){ // what is one element is less than root and the next is also less so keep on checking
                 if(curr->val > preorder[i]){ // root > key  small key can be found on left side 
                     if(curr->left == NULL){
                         curr->left = new TreeNode(preorder[i]);

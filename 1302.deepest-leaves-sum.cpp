@@ -62,6 +62,8 @@ public:
         queue<TreeNode*> q;
         q.push(curr);
         while(q.size()){
+            // changing the val of sum to 0 so that each time it 
+            // ony stores upto last sum recieved 
             sum=0;
             int depth=q.size();
             for(int i=0;i<depth;i++){
@@ -71,6 +73,34 @@ public:
                 if(curr->left) q.push(curr->left);
                 if(curr->right) q.push(curr->right);
             }
+        }
+        return sum;
+    }
+};
+
+class Solution0 {
+public:
+    int deepestLeavesSum(TreeNode* root) {
+        if(!root) return 0;
+        queue<TreeNode*> q;
+        q.push(root);
+        int sum =0;
+        vector<int> temp;
+        while(q.size()){
+            int sz = q.size();
+            temp.clear();
+            for(int i=0; i<sz; i++){
+                auto node = q.front();
+                q.pop();
+                temp.push_back(node->val);
+                if(node->left)
+                    q.push(node->left);
+                if(node->right)
+                    q.push(node->right);
+            }
+        }
+        for(int i=0; i<temp.size(); i++){
+            sum += temp[i];
         }
         return sum;
     }
