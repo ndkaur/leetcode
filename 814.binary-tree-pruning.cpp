@@ -5,7 +5,7 @@
  */
 #include "bits/stdc++.h"
 using namespace std;
-// #include "Tree.h"
+#include "Tree.h"
 #define deb(x) cout<<x<<endl;
 const int inf = 1e9;
 typedef vector<int> vi;
@@ -40,6 +40,20 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    TreeNode* pruneTree(TreeNode* root) {
+        if(!root) return NULL;
+        root->left = pruneTree(root->left);
+        root->right = pruneTree(root->right);
+        // if the val 0 has root has left or right cild then cant prune it 
+        if(root->val==0 && (!root->left && !root->right))
+            root= NULL;
+        return root;
+    }
+};
+
 int main(){
 
     return 0;
@@ -56,11 +70,6 @@ int main(){
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
-public:
-    TreeNode* pruneTree(TreeNode* root) {
-        
-    }
-};
+
 // @lc code=end
 

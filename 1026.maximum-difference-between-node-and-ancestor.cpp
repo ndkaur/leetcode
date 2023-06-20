@@ -31,29 +31,28 @@ void print(vi &out){
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+// maximum difference  = abs (max val - min val)
+// so keep treack of max val and min val;
+
 class Solution {
 public:
-int helper(TreeNode* root,int curmin,int curmax){
-    if(root==NULL){
-        return curmax-curmin;
+    int maxAncestorDiff(TreeNode* root) {
+        if(!root) return 0;
+        return dfs(root, root->val, root->val);
     }
-    
-    curmax=max(root->val,curmax);
-    curmin=min(root->val,curmin);
-    
-    int l=helper(root->left,curmin,curmax);
-    int r=helper(root->right,curmin,curmax);
-    
-    return max(l,r);
-}
-
-int maxAncestorDiff(TreeNode* root) {
-    if(root==NULL){
-        return 0;
+    int dfs(TreeNode* root, int mx, int mn){
+        if(root == NULL) // reached the one end 
+            return abs(mx-mn);
+        // as we traverse we keep track of max and min val so that the abs 
+        // difference becomes greater 
+        mx = max(root->val, mx);
+        mn = min(root->val, mn);
+        // maximum difference can come from any side right or left
+        int left = dfs(root->left, mx, mn);
+        int right = dfs(root->right, mx, mn);
+        return max(left, right);
     }
-    
-    return helper(root,root->val,root->val);
-}
 };
 // @lc code=end
 
