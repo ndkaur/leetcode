@@ -56,17 +56,25 @@ public:
 class Solution {
 public:
     int findBottomLeftValue(TreeNode* root) {
+        if(!root) return 0;
+        int last;
         queue<TreeNode*> q;
         q.push(root);
-        while(!q.empty()){
-            root =q.front();
-            q.pop();
-            if(root->right)
-                q.push(root->right);
-            if(root->left)
-                q.push(root->left);
+        while(q.size()){
+            int sz= q.size();
+            for(int i=0; i<sz; i++){
+                auto node= q.front();
+                q.pop();
+                // every time in q at i=0 willl be the left node present
+                if(i==0)
+                    last = node->val;
+                if(node->left)
+                    q.push(node->left);
+                if(node->right)
+                    q.push(node->right);
+            }
         }
-        return root->val;
+        return last;
     }
 };
 // @lc code=end

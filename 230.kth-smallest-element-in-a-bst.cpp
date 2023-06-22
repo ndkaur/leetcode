@@ -5,7 +5,7 @@
  */
 #include "bits/stdc++.h"
 using namespace std;
-// #include "Tree.h"
+#include "Tree.h"
 #define deb(x) cout<<x<<endl;
 const int inf = 1e9;
 typedef vector<int> vi;
@@ -73,6 +73,27 @@ public:
         }
         return ans;
     }
+};
+
+// O(nlogk),
+class Solution {
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        priority_queue<int> pq;
+        find(root, k, pq);
+        return pq.top();
+    }
+    void find(TreeNode* root, int k, priority_queue<int>& pq){
+        if(!root) return;
+        if(pq.size()<k)
+            pq.push(root->val);
+        else if(root->val < pq.top()){
+            pq.pop();
+            pq.push(root->val);
+        }
+        find(root->left, k, pq);
+        find(root->right, k, pq);
+    } 
 };
 // @lc code=end
 

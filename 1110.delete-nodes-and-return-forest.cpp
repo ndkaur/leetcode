@@ -54,6 +54,38 @@ public:
         return root;
     }
 }; 
+
+
+class Solution {
+public:
+    vector<TreeNode*> delNodes(TreeNode* root, vector<int>& to_delete) {
+        if(!root) return {};
+        vector<TreeNode*> ans;
+        set<int> s;
+        for(int d:to_delete)
+            s.insert(d);
+        TreeNode* node = dfs(root,ans, s);
+        if(node)
+            ans.push_back(node);
+        return ans;
+    }
+    TreeNode* dfs(TreeNode* root, vector<TreeNode*>& ans, set<int>& s){
+        if(!root) NULL;
+        if(root->left)
+            root->left = dfs(root->left, ans, s);
+        if(root->right)
+            root->right = dfs(root->right, ans, s);
+        if(s.count(root->val)){
+            if(root->left) 
+                ans.push_back(root->left);
+            if(root->right)
+                ans.push_back(root->right);
+            return NULL;
+        }
+        return root;
+    }
+};
+
 // @lc code=end
 
 

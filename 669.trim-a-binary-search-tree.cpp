@@ -71,8 +71,3 @@ public:
 // @lc code=end
 
 
-int main(){
-    Solution sol;
-    TreeNode * root
-    return 0;
-}
