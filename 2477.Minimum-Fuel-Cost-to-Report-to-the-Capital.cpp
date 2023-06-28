@@ -1,6 +1,6 @@
 #include "bits/stdc++.h"
 using namespace std;
-// #include "Tree.h"
+#include "Tree.h"
 #define deb(x) cout<<x<<endl;
 const int inf = 1e9;
 typedef vector<int> vi;
@@ -51,58 +51,58 @@ public:
     }
 };
 
-adj list 
-0 -> 1,4,5
-1 -> 0,3
-2 -> 3
-3 -> 1,2
-4 -> 0,6
-5 -> 0
-6 -> 4
+// adj list 
+// 0 -> 1,4,5
+// 1 -> 0,3
+// 2 -> 3
+// 3 -> 1,2
+// 4 -> 0,6
+// 5 -> 0
+// 6 -> 4
 
-first for 0  cnt += dfs(adj->itr)
-1+dfs(1)
-1+dfs(3)
-1+dfs(2) 
-// 2 adj is 3 which is already visited so 
-1+dfs(2) = 1+0= 1   
-no of people =  count/seats = 1/2 = 0 
-1%2 = 1 so  people++ = people = 1
-ans = 1
+// first for 0  cnt += dfs(adj->itr)
+// 1+dfs(1)
+// 1+dfs(3)
+// 1+dfs(2) 
+// // 2 adj is 3 which is already visited so 
+// 1+dfs(2) = 1+0= 1   
+// no of people =  count/seats = 1/2 = 0 
+// 1%2 = 1 so  people++ = people = 1
+// ans = 1
 
-1+dfs(3) = 1+1 = 2 
-people = 2/2 = 1
-ans = 1+1
+// 1+dfs(3) = 1+1 = 2 
+// people = 2/2 = 1
+// ans = 1+1
 
-1+dfs(1) = 1+2 =3
-people = 3/2 = 1
-3%2 = people = 2 
-ans = 1 + 1 + 2  = 4 from the call of dfs(1) subtree
+// 1+dfs(1) = 1+2 =3
+// people = 3/2 = 1
+// 3%2 = people = 2 
+// ans = 1 + 1 + 2  = 4 from the call of dfs(1) subtree
 
 
-now call of adj of 0 ie 4
-1+dfs(4)
-1+dfs(6) 
-cnt =1 
+// now call of adj of 0 ie 4
+// 1+dfs(4)
+// 1+dfs(6) 
+// cnt =1 
 
-1+dfs(6) =1 
-1/2 = 0
-1%2 = 1 
-people =1 
-ans = 1 
+// 1+dfs(6) =1 
+// 1/2 = 0
+// 1%2 = 1 
+// people =1 
+// ans = 1 
 
-1+dfs(4) = 1+1 =2 
-2/2 =1 
-people =1 
-ans = 1+1 =2   from the call of dfs(4) substree
+// 1+dfs(4) = 1+1 =2 
+// 2/2 =1 
+// people =1 
+// ans = 1+1 =2   from the call of dfs(4) substree
 
-now call for adj of 1 ie 5
-1+dfs(5) = 1+0 = 1 
-1/2 =0
-1%2 =1
-people =1
-ans =1  from the call of dfs(5) subtree 
+// now call for adj of 1 ie 5
+// 1+dfs(5) = 1+0 = 1 
+// 1/2 =0
+// 1%2 =1
+// people =1
+// ans =1  from the call of dfs(5) subtree 
 
-rest all nodes got visited 
+// rest all nodes got visited 
 
-so total ans = 4+2+1 = 7 
+// so total ans = 4+2+1 = 7 

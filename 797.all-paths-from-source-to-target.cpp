@@ -21,6 +21,8 @@ void print(vi &out){
 // @lc code=start
 
 //dfs
+// Time complexity: O(2^N)
+// Space complexity: O(N^2)
 class Solution0 {
     void dfs(vector<vector<int>> &graph,vector<vector<int>> &result,vector<int> path,int vertex){
         path.push_back(vertex);

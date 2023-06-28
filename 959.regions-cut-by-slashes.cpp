@@ -22,6 +22,82 @@ void print(vi &out){
 
 // @lc code=start
 
+//O(N^2)
+class Solution {
+public:
+    vector<int> parent;
+    vector<int> rank;
+    int cnt;
+
+    int find(int x){
+        if(parent[x]==x)
+            return x;
+        return parent[x] = find(parent[x]);
+    }
+
+    void unionn(int x, int y){
+        int nx= find(x);
+        int ny = find(y);
+        if(nx!=ny){// different parents
+            if(rank[nx]>rank[ny])
+                parent[ny] = nx;
+            else if(rank[nx]<rank[ny])
+                parent[nx] = ny;
+            else{
+                parent[nx] = ny;
+                rank[ny]++;
+            }
+        }
+        else  // same parents increase cnt cause cycle formed 
+            cnt++;
+    }
+
+    int regionsBySlashes(vector<string>& grid) {
+        int sz= grid.size();
+        int dots = sz+1;
+
+        parent.resize(dots*dots);
+        rank.resize(dots*dots);
+        cnt =1;
+         
+        // initilazing
+        for(int i=0; i<parent.size(); i++){
+            parent[i]=i;
+            rank[i]=1; 
+        }
+        
+        // fill the boundary  i*n + j
+        for(int i=0; i<dots; i++){
+            for(int j=0; j<dots; j++){
+                // combine all the boundary values  
+                if(i==0 || j==0 || i==dots-1 || j==dots-1){
+                    int cellno = i*dots +j;
+                    if(cellno!=0)
+                        unionn(0,cellno);
+                } 
+            }
+        }
+        
+        for(int i=0; i<sz; i++){
+            for(int j=0; j<sz; j++){
+                if(grid[i][j]=='/'){
+                    // i,j = (i,j+1) (i+1,j)
+                    int x = i*dots+j+1;
+                    int y = (i+1)*dots+j;
+                    unionn(x,y);
+                }
+                else if(grid[i][j]=='\\'){
+                    // i,j  = (i,j) (i+1,j+1)
+                    int x = i*dots+j;
+                    int y = (i+1)*dots+(j+1);
+                    unionn(x,y);
+                }
+            }
+        }
+        return cnt;
+    }
+};
+
 // union find 
 
 class Solution {
