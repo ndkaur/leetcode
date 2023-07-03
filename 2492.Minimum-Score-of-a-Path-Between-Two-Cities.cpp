@@ -46,6 +46,64 @@ public:
 };
 
 
+// O(m log n), where m is the number of edges in the graph and n is the number of vertices.
+
+class Solution {
+public:
+    vector<int> parent;
+    vector<int> rank;
+
+    int find(int x){
+        if(parent[x]==x)
+            return x;
+        return parent[x] = find(parent[x]);
+    }
+
+    void unionn(int x,int y){
+        x = find(x);
+        y = find(y);
+        if(x==y)
+            return;
+        if(rank[x]<rank[y]){
+            parent[x]=y;
+        }
+        else if(rank[y]<rank[x]){
+            parent[y] =x;
+        }
+        else{
+            parent[y]=x;
+            rank[x]++;
+        }
+    }
+
+    int minScore(int n, vector<vector<int>>& roads) {
+        int sz = roads.size();
+        parent.resize(n+1);
+        rank.resize(n+1);
+        for(int i=0; i<n; i++){
+            parent[i]=i;
+            rank[i] = 0;
+        }
+        int mn = INT_MAX;
+        for(auto road:roads){
+            unionn(road[0],road[1]);
+        }
+        for(auto road:roads){
+            //1->n
+            int p1 = find(1);
+            int p2 = find(road[0]);
+            int p3 = find(road[1]);
+            if(p1==p2 && p1==p3)
+                mn = min(mn, road[2]);
+        }
+        return mn;
+    }
+};
+
+
+
+
+
 int main(){
 
     return 0;

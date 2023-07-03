@@ -57,6 +57,37 @@ public:
     int reachableNodes(int n, vector<vector<int>>& edges, vector<int>& restricted) {
         vector<vector<int>> adj(n);
         for(auto edge:edges){
+            int u = edge[0];
+            int v =  edge[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        vector<int> visited(n,0);
+        for(auto res:restricted){
+            visited[res]=1;
+        }
+        return 1+dfs(0,adj, visited);
+    }
+    int dfs(int node , vector<vector<int>>& adj, vector<int>& visited){
+        int n = visited.size();
+        if(visited[node])  
+            return 0;
+        visited[node] =1;
+        int cnt =0;
+        for(auto itr:adj[node]){
+            if(!visited[itr]){
+                cnt += 1+dfs(itr,adj, visited);
+            }
+        }
+        return cnt;
+    }
+};
+
+class Solution {
+public:
+    int reachableNodes(int n, vector<vector<int>>& edges, vector<int>& restricted) {
+        vector<vector<int>> adj(n);
+        for(auto edge:edges){
             adj[edge[0]].push_back(edge[1]);
             adj[edge[1]].push_back(edge[0]);
         }

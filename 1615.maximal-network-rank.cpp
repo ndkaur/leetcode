@@ -68,6 +68,20 @@ public:
         return ans ;
     }
 };
+
+//  // now add the two nodes together only if they are adjacent to each other
+//         // i=0, j=1 => indeg[0]+indeg[1] if they are adj -1 or -0
+//         // i =0  j=2 => if adjacent
+//         for(int i=0; i<n; i++){
+//             for(int j=i+1; j<n; j++){
+//                 int temp = indeg[i]+indeg[j];
+//                 if(adj[i][j])
+//                     temp = temp-1;
+//                 ans = max(ans, temp);
+//             }
+//         }
+//         return ans;
+
 // @lc code=end
 
 
