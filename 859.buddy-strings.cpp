@@ -32,6 +32,35 @@ public:
        return indexDiff.size()==2 && A[indexDiff[0]]==B[indexDiff[1]] && A[indexDiff[1]]== B[indexDiff[0]];
     }
 };
+
+
+class Solution {
+public:
+    bool buddyStrings(string s, string goal) {
+        int n = s.size();
+        if(s==goal){
+            // can have same chars then false aa == aa true
+            // ab , ab  false
+            set<char> st(s.begin(), s.end());
+            // aa -> set.size() =1 // ab ->size= 2
+            return st.size() < goal.size();          
+        }
+        if(s.size()!=goal.size())
+            return false;
+        int i =0;
+        int j = n-1;
+        while(i<j && s[i]==goal[i]){
+            i++;
+        }
+        while(j>=0 && s[j]==goal[j]){
+            j--;
+        }
+        if(i<j)
+            swap(s[i], s[j]);
+        return s==goal;
+    }
+};
+
 // @lc code=end
 
 

@@ -5,14 +5,14 @@
  */
 #include "bits/stdc++.h"
 using namespace std;
-#include "Tree.h"
+// #include "Tree.h"
 #define deb(x) cout<<x<<endl;
 typedef vector<int> vi;
 typedef vector<vector<int>> vvi;
 typedef vector<string> vs;
 typedef vector<bool> vb;
 typedef pair<int,int> pii;
-#include "LinkedList.h"
+// #include "LinkedList.h"
 
 void print(vi &out){
     for(auto x: out) cout<<x<<" ";
@@ -91,6 +91,33 @@ public:
             }
         }
         return image;
+    }
+};
+
+
+class Solution {
+public:
+    vector<pair<int,int>> dirs = {{0,1},{1,0},{0,-1},{-1,0}};
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        int n = image.size();
+        int m = image[0].size();
+        int scolor=  image[sr][sc];
+        vector<vector<int>> ans = image;
+        dfs(sr, sc, scolor,color, ans, image);
+        return ans;
+    }
+    void dfs(int row, int col, int& scolor, int& color, vector<vector<int>>& ans, vector<vector<int>>& image){
+        int n = image.size();
+        int m = image[0].size();
+        ans[row][col]=color;
+        for(auto dir:dirs){
+            int nrow = row + dir.first;
+            int ncol = col + dir.second;
+            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && ans[nrow][ncol]!=color &&
+                image[nrow][ncol]==scolor){
+                    dfs(nrow, ncol, scolor, color, ans, image);
+                }
+        }
     }
 };
 // @lc code=end

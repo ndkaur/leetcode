@@ -52,6 +52,8 @@ public:
                 int nrow = r + dir[0];
                 int ncol = c+ dir[1];
                 if(nrow>=0 && nrow<n && ncol>=0 && ncol<m ){
+                    // if its not a 0 then in ans its marked as INT_MAX
+                    // valid points  -> INT_MAX > 0+1 yes so replace ans = 1
                     if(ans[nrow][ncol] > ans[r][c] + 1){
                         ans[nrow][ncol] = ans[r][c] +1;
                         q.push({nrow,ncol});
