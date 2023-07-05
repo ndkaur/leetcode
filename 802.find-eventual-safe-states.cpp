@@ -151,6 +151,49 @@ public:
 };
 
 
+// find a cycle in directed graph using dfs 
+// if any nodes succeding nodes leads to a terminal node then all nodes are safe node 
+class Solution {
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n = graph.size();
+        // cycle in directed graph
+        vector<int> vis(n,0);
+        vector<int> dfsvis(n,0);
+        vector<int> check(n,0);
+        for(int i=0; i<n; i++){
+            if(!vis[i]){
+                // check dfs for all nodes 
+                dfs(i,graph,vis, dfsvis, check);
+            }
+        }
+        vector<int>ans;
+        for(int i=0; i<n; i++){
+            if(check[i] == 1)
+                ans.push_back(i);
+        }
+        return ans;
+    }
+    bool dfs(int node, vector<vector<int>>& graph, vector<int>& vis, vector<int>& dfsvis, vector<int>& check){
+        int n = graph.size();
+        vis[node] =1;
+        dfsvis[node] =1;
+        for(auto itr:graph[node]){
+            if(!vis[itr]){
+                if(dfs(itr, graph, vis, dfsvis, check))
+                    return true;
+            }
+            else if(vis[itr]==1 && dfsvis[itr]==1)
+                return true;
+        }
+        check[node] =1;
+        dfsvis[node] = 0;
+        return false;
+
+    }
+};
+
+
 // @lc code=end
 
 

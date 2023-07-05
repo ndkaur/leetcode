@@ -93,6 +93,46 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prer) {
+       // if a cycle is found then no topo possible so return false
+       //0,1 = 0->1
+       int n = numCourses;
+        vector<vector<int>> adj(n);
+        for(auto pre:prer){
+            int u = pre[0];
+            int v = pre[1];
+            adj[u].push_back(v);
+        }
+        vector<int> indeg(n,0);
+        for(int i=0; i<n; i++){
+            for(auto itr:adj[i]){
+                indeg[itr]++;
+            }
+        }
+        queue<int> q;
+        for(int i=0; i<n; i++){
+            if(indeg[i]==0)
+                q.push(i);
+        }
+        vector<int> topo;
+        while(!q.empty()){
+            auto node= q.front();
+            q.pop();
+            topo.push_back(node);
+            for(auto itr:adj[node]){
+                indeg[itr]--;
+                if(indeg[itr]==0)
+                    q.push(itr);
+            }
+        }
+        if(topo.size()== n) // no cycle , it is possible to take course
+            return true;
+        return false;
+    }
+};
 // @lc code=end
 
 

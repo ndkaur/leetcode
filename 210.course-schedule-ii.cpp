@@ -106,6 +106,43 @@ public:
     }
 };
 
+class Solution {
+public:
+    vector<int> findOrder(int n, vector<vector<int>>& pre) {
+        // 0,1 = 0->1 
+        vector<vector<int>> adj(n);
+        vector<int> indeg(n,0);
+        for(auto p:pre){
+            int u = p[0];
+            int v = p[1];
+            adj[u].push_back(v);
+            indeg[v]++;
+        }
+
+        queue<int> q;
+        for(int i=0; i<n; i++){
+            if(indeg[i]==0)
+                q.push(i);
+        }
+
+        vector<int> topo;
+        while(q.size()){
+            auto node= q.front();
+            q.pop();
+            topo.push_back(node);
+            for(auto itr:adj[node]){
+                indeg[itr]--;
+                if(indeg[itr]==0)
+                    q.push(itr);
+            }
+        }
+        if(topo.size()==n){
+            reverse(topo.begin(), topo.end());
+            return topo;
+        }
+        return {};
+    }
+}; 
 // @lc code=end
 
 
