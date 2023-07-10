@@ -21,6 +21,16 @@ cout<<endl;
 }
 
 // @lc code=start
+
+// cant use straight forward dijkstra like 
+// fing the disst from src to dest and then cnt the values that have min val 
+//  this is wrong apporcag cause we might reach the same state at the end
+// but it may be possible that we have taken different routes to reacht one point inbetween and then 
+// that same path leads to the final destination 
+// we need to store the number of ways to reach to each current node so to find the total ways to reach destination
+
+
+
 class Solution {
 public:
     int countPaths(int n, vector<vector<int>>& roads) {

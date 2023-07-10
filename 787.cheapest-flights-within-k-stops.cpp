@@ -21,7 +21,55 @@ cout<<endl;
 }
 
 // @lc code=start
-// k min flight -> so use max heap 
+
+// we are with with limit k only k stops we can take 
+// so if we use pq then its deciding factor will be k stops 
+// but if we notice each time the stop value will only increase by 1 
+// and so if the increse is by 1 no need to use extra logn for pq 
+// we can use simple queue to store the values 
+
+
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        vector<vector<pair<int,int>>> adj(n);
+        for(auto f:flights){
+            int u = f[0];
+            int v = f[1];
+            int price = f[2];
+            adj[u].push_back({v,price});
+        }
+        // no need to use pq can use simple q
+        // q => stops , node, dist
+        queue<pair<int, pair<int,int>>> q;
+        q.push({0,{src,0}});
+        vector<int> dist(n,1e9);
+        dist[src] = 0;
+
+        while(q.size()){
+            auto nde = q.front();
+            q.pop();
+            int stops = nde.first;
+            int node =  nde.second.first;
+            int cost = nde.second.second;
+
+            if(stops>k)
+                continue;
+            for(auto itr:adj[node]){
+                int nextNode = itr.first;
+                int ncost = itr.second;
+                // at most k steps ie stops<=k
+                if(cost + ncost < dist[nextNode] && stops<=k){
+                    dist[nextNode] =  cost + ncost;
+                    q.push({stops+1,{nextNode, dist[nextNode]}});
+                }
+            }
+        }
+        if(dist[dst]== 1e9)
+            return -1;
+        return dist[dst];
+    }
+};
 
 class Solution {
 public:
@@ -64,6 +112,7 @@ public:
         for(auto &f:flights){
             adj[f[0]].push_back({f[1],f[2]});
         }
+        // standard form of dikstra 
         // pq is of vi form {dist, node, k}
         priority_queue<vector<int> , vector<vector<int>>, greater<vector<int>>> pq;
         pq.push({0, src, k+1});
@@ -74,6 +123,7 @@ public:
             int dist = t[0];
             int node = t[1];
             int stop = t[2];
+            // destination node
             if(node== dst)
                 return dist;
 

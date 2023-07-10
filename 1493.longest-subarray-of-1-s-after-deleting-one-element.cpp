@@ -21,6 +21,35 @@ cout<<endl;
 }
 
 // @lc code=start
+
+
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums) {
+        int n = nums.size();
+        int i =0;
+        int zero = 0;
+        int ans =0;
+        for(int j=0; j<n; j++){
+            if(nums[j]==0){
+                zero++;
+            }
+            // only 1 zero we can ignore 
+            //  if count of zero increases 1 then reduce window size with only 1 zero
+            while(zero > 1){
+                if(nums[i]==0){
+                    zero--;
+                }
+                i++;
+            }
+            ans = max(ans, j-i+1-zero);
+        }
+        // we must delte one ele 
+        // if array is all filled with 1s 
+        return ans==n  ? ans -1 :ans;
+    }
+};
+
 class Solution {
 public:
     int longestSubarray(vector<int>& nums){

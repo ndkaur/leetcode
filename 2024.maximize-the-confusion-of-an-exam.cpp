@@ -21,6 +21,40 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+class Solution {
+public:
+    int maxConsecutiveAnswers(string answerKey, int k) {
+        // we replace that which has smaller cnt in the current window 
+        int n = answerKey.size();
+        int tcnt = 0;
+        int fcnt = 0;
+        int left = 0;
+        int right = 0;
+        int ans = 0;
+        for(int i=0; i<n; i++){
+            if(answerKey[i]=='T')
+                tcnt++;
+            if(answerKey[i]=='F')
+                fcnt++;
+            // we will change that ele which is smaller in cnt 
+            //but if even the smaller cnt gets greater than k range 
+            // then we need to change the window size
+            while(min(tcnt,fcnt)>k){
+                if(answerKey[left]=='T')
+                    tcnt--;
+                if(answerKey[left]=='F')
+                    fcnt--;
+                left++;
+            }
+            right++;
+            ans = max(ans, right-left);
+        }
+        return ans;
+    }
+};
+
 class Solution0 { // slicding window 
 public:
     int maxConsecutiveAnswers(string key, int k) {

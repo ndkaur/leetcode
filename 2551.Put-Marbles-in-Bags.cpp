@@ -53,6 +53,39 @@ public:
 };
 
 
+
+class Solution {
+public:
+    long long putMarbles(vector<int>& weights, int k) {
+        int n = weights.size();
+        // max heap 
+        priority_queue<int> pq1;
+        // min heap
+        priority_queue<int, vector<int>, greater<int>> pq2;
+        k--;
+        for(int i=0; i<n-1; i++){
+            int sum = weights[i]+weights[i+1];
+            pq1.push(sum);
+            pq2.push(sum);
+            if(pq1.size()>k){
+                pq1.pop();
+                pq2.pop();
+            }
+        }
+        long long ans1 = 0;
+        long long ans2 = 0;
+        while(!pq1.empty()){
+            ans1 += pq1.top();
+            ans2 += pq2.top();
+            pq1.pop();
+            pq2.pop();
+        }
+        return ans2- ans1;
+    }
+};
+
+
+
 int main(){
 
     return 0;

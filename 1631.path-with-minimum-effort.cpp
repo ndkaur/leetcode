@@ -21,6 +21,11 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+// time complexity -> e log v
+// e = totoal no of edges -> n*m
+// tiem complexity = (n*m*4) log (n*m)
+
 class Solution {
 public:
     int minimumEffortPath(vector<vector<int>>& heights) {
