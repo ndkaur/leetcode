@@ -37,6 +37,70 @@ public:
     }
 };
 
+class Solution {
+public:
+    double myPow(double value, long power) {
+        double result= 1.0;
+        long long pow = power;
+        if(pow<1){ // -ve power
+            pow = abs(pow);
+        }
+        while(pow){
+            if(pow%2){ // odd
+                // 4^5 = odd power =5 -> so value * res  and power -1 
+                // 4 * (4)^4 
+                result = result * value;
+                pow = pow -1;
+            }
+            else{ // even 
+                // 2^ 10 = even power 10 -> so power half and value *value 
+                // (2 * 2)^5  = (4)^5 
+                value = value*value;
+                pow = pow/2;
+            }
+        }
+        if(power<0){ // -ve then 1/val
+            result = (double)(1.0) / (double)(result);
+        }
+        return result;
+    }
+};
+
+class Solution {
+public:
+    double myPow(double value, long power) {
+        double result= 1.0;
+        long long newPower = power; // cause after converting -ve power to +ve
+        // the range of int increases 
+        if(newPower<0){ //-ve power
+            newPower = -1*newPower;
+        }
+        while(newPower){
+            if(newPower%2){ // odd power
+                result = result * value;
+                newPower = newPower-1;
+            }
+            else{ // even power 
+                value = value * value;
+                newPower = newPower/2;
+            }
+        }
+        if(power<0)
+            result = (double)(1.0) / (double)(result);
+        return result;
+    }
+};
+
+// 2^ 10 = even power 10 -> so power half and value *value 
+// (2 * 2)^5  = (4)^5 
+// 4^5 = odd power =5 -> so value * res  and power -1 
+// 4 * (4)^4 
+//4^4 = even power -> value*value and power/2
+//  (4*4)^2 = (16)^2
+//16^2 =  (16*16) = 256 
+
+// 4*256 = 1024
+
 // @lc code=end
 
 
