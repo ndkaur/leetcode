@@ -101,6 +101,31 @@ public:
 
 // 4*256 = 1024
 
+// simple n easy 
+class Solution { //O(logn)
+public:
+    double myPow(double val, int pow) {
+        if(pow==0)
+            return 1;
+        if(pow<0){
+            val = 1/val;
+            pow = abs(pow);
+        }
+        double res=1;
+        while(pow>0){
+            if(pow%2==0){
+                pow = pow/2;
+                val = val*val;
+            }
+            else{
+                pow = pow-1;
+                res = res *val;
+            }
+        }
+        return res;
+    }
+};
+
 // @lc code=end
 
 

@@ -39,7 +39,7 @@ public:
     }
 };
 
-
+// reversing only till half of the lenght 
 class Solution { // o(logn)  O(1)
 public:
     bool isPalindrome(int x) {
@@ -56,6 +56,46 @@ public:
         // even num ->1221  x= 12  rev = 12
         // odd len ->12321   x= 12  rev 123 sor the mid 3 doesnot matter we can drop it off
         return x == revNum ||  x == revNum/10;
+    }
+};
+
+
+class Solution1 {  // o(N)
+public:
+    bool isPalindrome(int x) {
+        if(x<0)
+            return false;
+        long long rev = 0;
+        long long num = x; // x will be reduced at the end so store in other num
+        while(x!=0){
+            int rem = x%10;
+            rev = rev * 10 + rem;
+            x = x/10;
+        }
+        return (rev == num);
+    }
+};
+
+class Solution {  // o(logN)
+public:
+    bool isPalindrome(int x) {
+        if(x<0 || (x!=0 && x%10==0)) // multiple of 10 or trailing 0 at end 
+            return false;
+        int rev = 0;
+        // 12321 
+        // rev = 1 , x=1232
+        // rev = 12 , x = 123
+        // rev = 123 , x = 12 no next while loop
+        // if after this num len is odd then 1221 then num and rev will be equal
+        // but if len is even then one num will be remaining at center 12321 
+        // like rev = 123 and num = 12 so reduce the rev again one time then it should be equal 
+        while(x>rev){
+            int rem = x%10;
+            rev = rev * 10 + rem;
+            x = x/10;
+        }
+        // even len || odd len then reduce the reverse again to make it fully equal 
+        return (x == rev) || (x == rev/10);
     }
 };
 
