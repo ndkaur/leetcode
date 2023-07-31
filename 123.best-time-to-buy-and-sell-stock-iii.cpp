@@ -225,6 +225,27 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        // in the begining we want at idx = n-1 , i+1 so one extar idx that stores 0 
+        vector<vector<int>>dp(n+1, vector<int>(5,0));
+        for(int i=n-1; i>=0; i--){
+            for(int j=3; j>=0; j--){
+                if(j%2==0){
+                    dp[i][j] = max(-prices[i] + dp[i+1][j+1], dp[i+1][j]);
+                }
+                else{
+                    dp[i][j] = max(prices[i] + dp[i+1][j+1], dp[i+1][j]);
+                }
+            }
+        }
+        return dp[0][0];
+    }
+};
+
 int main(){
     Solution sol;
     vector<int> prices={3,3,5,0,0,3,1,4};

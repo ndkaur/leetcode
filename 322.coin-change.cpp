@@ -24,6 +24,40 @@ void print(vi &out){
 
 // @lc code=start
 
+// 1 dp 
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        int n = coins.size();
+        vector<int> dp(amount+1 ,-1);
+        int cnt = f(coins, amount,dp);
+        if(cnt == INT_MAX)
+            return -1;
+        else 
+            return cnt;
+    }
+    int f(vector<int>& coins, int amount, vector<int>& dp){
+        int  n = coins.size();
+        if(amount == 0)
+            return 0;
+        if(amount<0)
+            return INT_MAX;
+        
+        if(dp[amount]!=-1)
+            return dp[amount];
+
+        int mn =INT_MAX;
+        for(int i=0; i<n; i++){
+            int pick = f(coins, amount-coins[i], dp);
+            if(pick != INT_MAX){
+                mn = min(mn, pick+1);
+            }
+        }
+        dp[amount] = mn;
+        return dp[amount];
+    }
+};
+
 // number of ways to find 
 class Solution0 {
 public:
