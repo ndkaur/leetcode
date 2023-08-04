@@ -78,6 +78,31 @@ public:
         return sum;
     }
 };
+
+
+
+class Solution {
+public:
+    int sumNumbers(TreeNode* root) {
+        int sum =0;
+        long long temp =0;
+        pre(root,temp,sum);
+        return sum;
+    }
+    void pre(TreeNode* root , long long temp,int& sum){
+        if(!root) return ;
+
+        if(!root->left && !root->right){
+            temp = temp*10 + root->val;
+            sum += temp;
+        }
+        temp = temp*10 + root->val;
+        if(root->left)
+            pre(root->left, temp, sum);
+        if(root->right)
+            pre(root->right, temp, sum);
+    }
+};
 // @lc code=end
 
 

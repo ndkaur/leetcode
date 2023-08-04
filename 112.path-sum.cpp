@@ -71,6 +71,24 @@ public:
         return hasPathSum(root->left, sum-root->val) || hasPathSum(root->right, sum- root->val);
     }
 };
+
+
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if(!root) return false;
+        int sum = root->val;
+        return f(root, sum, targetSum);
+    }
+    bool f(TreeNode* root, int sum, int& tar){
+        if(!root) return false;
+        if(sum==tar && root->left==NULL && root->right==NULL) // check if leaf node
+            return true;
+        bool left = root->left ? f(root->left, sum+root->left->val, tar) : 0;
+        bool right = root->right ? f(root->right, sum+root->right->val, tar):0;
+        return left || right;
+    }
+};
 // @lc code=end
 
 int main(){
