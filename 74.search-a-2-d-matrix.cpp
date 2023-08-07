@@ -26,14 +26,15 @@ public:
         
         int n= matrix.size();
         int m= matrix[0].size();
-        if(!n) return 0;
-        if(!m) return 0;
-        int l=0,r=m*n-1;
+       
+        int l = 0;
+        int r = n*m-1;
 
         while(l<=r){
-            int mid=l+(l-r)/2;
-            if(matrix[mid/m][mid%m] ==target) return true;
-            if(matrix[mid/m][mid%m] <target)
+            int mid=l+(r-l)/2;
+            int mid_val = matrix[mid/m][mid%m];
+            if(mid_val==target) return true;
+            else if(mid_val < target)
                 l=mid+1;
             else 
                 r=mid-1;
