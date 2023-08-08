@@ -22,6 +22,48 @@ void print(vi &out){
 
 // @lc code=start
 
+class Solution { //O(N)
+public:
+    int findKthPositive(vector<int>& arr, int k) {
+        int n = arr.size();
+        for(int i=0; i<n; i++){
+            if(arr[i]<=k)
+                k++;
+            else 
+                break;
+        }
+        return k;
+    }
+};
+
+// binary search 
+class Solution {
+public:
+    int findKthPositive(vector<int>& arr, int k) {
+        int n = arr.size();
+        int l =0;
+        int r = n-1;
+        while(l<=r){
+            int mid = l+(r-l)/2;
+            // dp binary search on no of missing elements
+            int miss_no = arr[mid] - (mid+1);
+            if(miss_no < k){
+                l = mid+1;
+            }
+            else 
+                r = mid-1;
+        }
+        // ans = arr[high] + k - missing
+        // int miss = arr[r] - (r + 1);
+        // arr[r] + k - (arr[r] - r -1) = arr[r]+ k -arr[r] + r + 1
+        // k+r+1
+        return k+r+1;
+    }
+};
+//idx        0 1 2 3 4      
+//arr =      2 3 4 7 11
+// missing = 1 1 1 3 6
+
 class Solution {
 public:
     int findKthPositive(vector<int>& arr, int k) {

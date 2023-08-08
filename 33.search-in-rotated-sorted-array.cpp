@@ -27,6 +27,7 @@ void print(vi &out){
 
 // it is sure that one side must be sorted on both sides of mid 
 // find that sorted side then apply bs on it 
+
 class Solution { //O(logn)
 public:
     int search(vector<int>& nums, int target) {

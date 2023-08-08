@@ -20,6 +20,35 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+class Solution { // O(log(max(arr[]))*N),
+public:
+    int smallestDivisor(vector<int>& nums, int threshold) {
+        int  n= nums.size();
+        int l = 1;
+        int r = *max_element(nums.begin(), nums.end());
+        while(l<=r){
+            int mid = l+(r-l)/2;
+            if(isPossible(nums, threshold, mid)){
+                r = mid-1;
+            }
+            else{
+                l = mid+1;
+            }
+        }
+        return l;
+    }
+    bool isPossible(vector<int>& nums, int thres, int val){
+        int n = nums.size();
+        int sum = 0;
+        for(int i=0; i<n; i++){
+            sum += ceil((double)nums[i]/(double)val);
+        }
+        return (sum<=thres);
+    }
+};
+
+
 class Solution0 {
 public:
     int smallestDivisor(vector<int>& nums, int threshold) {

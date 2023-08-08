@@ -22,6 +22,73 @@ void print(vi &out){
 
 // @lc code=start
 
+
+class Solution { //O(N)
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int n = nums.size();
+        int f =-1;
+        int l =-1;
+        for(int i=0; i<n; i++){
+            if(nums[i]== target){
+                if(f == -1)
+                    f = i;
+                l = i;
+            }
+        }
+        return {f,l};
+    }
+};
+
+// first occurence = lower bound = arr[idx] >= target
+// last occurence  = upper bound -1 =  arr[idx] > target
+class Solution { // 2 O(log N)
+public:
+    int lowerb(vector<int>& nums, int target){
+        int n = nums.size();
+        int l = 0;
+        int r = n-1;
+        int ans = n;
+        while(l<=r){
+            int mid = l+(r-l)/2;
+            if(nums[mid]>=target){
+                ans = mid;
+                r = mid-1;
+            }
+            else 
+                l= mid+1;
+        }
+        return ans;
+    }
+    int upperb(vector<int>& nums, int target){
+        int n = nums.size();
+        int l = 0;
+        int r = n-1;
+        int ans = n;
+        while(l<=r){
+            int mid = l+(r-l)/2;
+            if(nums[mid]>target){
+                ans = mid;
+                r = mid-1;
+            }
+            else 
+                l= mid+1;
+        }
+        return ans;
+    }
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int n = nums.size();
+        int first = lowerb(nums, target);
+        int last = upperb(nums, target);
+        // the number does not exist in array then lb will be n
+        if(first == n || nums[first]!=target)
+            return {-1,-1};
+        return {first,  last-1};
+    }
+};
+
+
+
 // so we use to binary search 
 //  first search is for tho find the first num equla to target 
 // second search is to find the last num equal to the target 
@@ -30,44 +97,44 @@ void print(vi &out){
 class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
-        int n= nums.size();
-        if(n==0) return {-1,-1};
-        int left=-1;
-        int right=n;
-        while(1+left<right){
-            int mid= left+(right-left)/2;
-            // we have to find the first idx of elem to be equal so we gave = condition to right 
-            if(target<=nums[mid]){
-                right= mid;
+        int n = nums.size();
+        int first =-1;
+        int last =-1;
+        int l = 0;
+        int r = n-1;
+        //serching for first occuurence
+        while(l<=r){
+            int mid  = l+(r-l)/2;
+            if(nums[mid]==target){
+                first = mid;
+                // maybe left side also have some equal elements
+                r = mid-1;
             }
-            else{
-                left=mid;
+            else if(nums[mid]>target){
+                r =  mid-1;
             }
+            else 
+                l = mid+1;
         }
-        // if right not qual to target 
-        if(right==n || nums[right]!= target)
-            return {-1,-1};
-        // if right equal to target then it is the first positon of target to occur 
-        vector<int> ans={right};
-        // start serach for last position 
-        left=-1;
-        right=n;
-        while(1+left<right){
-            int mid= left+(right-left)/2;
-            // we need to find the last position so gave = condition to left 
-            // left will keep on increasing till it doesnot reach last idx of target 
-            if(nums[mid]<=target){
-                left= mid;
+        l = 0;
+        r = n-1;
+        // last occurence
+        while(l<=r){
+            int mid = l+(r-l)/2;
+            if(nums[mid]==target){
+                last = mid;
+                // maybe right side also have last occurence present
+                l = mid+1;
             }
-            else    
-                right= mid;
+            else if(nums[mid]> target){
+                r = mid-1;
+            }
+            else 
+                l = mid+1;
         }
-        // push the left idx as the last position
-        ans.push_back(left);
-        return ans;
+        return {first,last};
     }
 };
-
 
 // @lc code=end
 

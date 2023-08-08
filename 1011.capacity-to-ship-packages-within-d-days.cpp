@@ -21,6 +21,44 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+class Solution {//O(N * log(sum(weights[]) – max(weights[]) + 1)) // indexex btwe the max sum and max weight
+public:
+    int shipWithinDays(vector<int>& weights, int days) {
+        int n = weights.size();
+        int l = *max_element(weights.begin(), weights.end());
+        int sum =0;
+        for(int w:weights){
+            sum+=w;
+        }
+        int ans;
+        int r = sum;
+        while(l<=r){
+            int mid = l+(r-l)/2;
+            if(isPossible(weights, days, mid)){
+                ans = mid;
+                r = mid-1;
+            }
+            else
+                l= mid+1;
+        }
+        return ans;
+    }   
+    bool isPossible(vector<int>& weights, int days, int currWeight){
+        int n = weights.size();
+        int total_weight =0;
+        int cnt = 1;
+        for(int i=0; i<n; i++){
+            total_weight += weights[i];
+            if(total_weight > currWeight){
+                total_weight = weights[i];
+                cnt++;
+            }
+        }
+        return cnt<=days;
+    }
+};
+
 class Solution {
 public:
     int shipWithinDays(vector<int>& weights, int days) {

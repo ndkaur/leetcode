@@ -22,6 +22,30 @@ void print(vi &out){
 
 // @lc code=start
 
+class Solution { //O(max(pile)*N)
+public:
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int n = piles.size();
+        int mx = *max_element(piles.begin(),piles.end());
+        for(int i=1; i<=mx; i++){
+            int reqTime = find(piles,i);
+            if(reqTime<=h){
+                return i;
+            }
+        }
+        return mx;
+    }
+    int find(vector<int>& piles, int num){
+        int sum =0;
+        int n = piles.size();
+        for(int i=0; i<n; i++){
+            // if directly divisble then ans otherwise add rem = ceil
+            sum += (int)ceil(piles[i]/(double)(num));
+        }
+        return sum;
+    }
+};
+
 class Solution {
 public:
     int minEatingSpeed(vector<int>& piles, int h) {

@@ -21,6 +21,42 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+// O((max(arr[])-min(arr[])+1) * N)
+class Solution { // tle linear search 
+public:
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        int n = bloomDay.size();
+        if(n < m*k)
+            return -1;
+        int mx = *max_element(bloomDay.begin(), bloomDay.end());
+        int mn = *min_element(bloomDay.begin(), bloomDay.end());
+        for(int i=mn; i<=mx; i++){ // linear search
+            if(isPossible(bloomDay,m, k, i)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    bool isPossible(vector<int>& bloom, int m, int k, int day){
+        int  n=  bloom.size();
+        int pick = 0;
+        int bq = 0;
+        for(int i=0; i<n; i++){
+            if(bloom[i]<=day)
+                pick++;
+            else 
+                pick = 0;
+            if(pick>0 && pick==k){
+                bq++;
+                pick =0;
+            }
+        }
+        return bq>=m;
+    }
+};
+
 class Solution0 { // time limit exceeded
 public:
     int minDays(vector<int>& day, int m, int k) {
@@ -53,45 +89,44 @@ public:
     }
 };
 
-class Solution {
+class Solution { //O(log(max(arr[])-min(arr[])+1) * N)
 public:
-    int minDays(vector<int>& day, int m, int k) {
-        int n= day.size();
-        if(n< m*k) return -1;
-        int l= *min_element(day.begin(),day.end());
-        int h= *max_element(day.begin(),day.end());
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        int n = bloomDay.size();
+        long long val = m* 1LL * k * 1LL;
+        if(n < val)
+            return -1;
+        int r = *max_element(bloomDay.begin(), bloomDay.end());
+        int l = *min_element(bloomDay.begin(), bloomDay.end());
     
-        while(l<=h){
-            int mid= l+(h-l)/2;
-            if(possible(day,m,k,mid)==true){
-                h= mid-1;
-            }else{
-                l= mid+1;
+        while(l<=r){
+            int mid = l +(r-l)/2;
+            if(isPossible(bloomDay,m, k, mid)==true){
+                r = mid-1;
             }
+            else 
+                l = mid+1;
         }
         return l;
     }
 
-    bool possible(vector<int>&day, int m,int k,int mid){
-        int n= day.size();
-        int pick=0;
-        int bmade=0;
-        for(int i=0;i<n;i++){
-            if(day[i]<=mid){
+    bool isPossible(vector<int>& bloom, int m, int k, int day){
+        int  n=  bloom.size();
+        int pick = 0;
+        int bq = 0;
+        for(int i=0; i<n; i++){
+            if(bloom[i]<=day)
                 pick++;
-            }
-            else 
-                pick=0;
-            if(pick>0){
-                if(pick==k){
-                    bmade++;
-                    pick=0;
-                }
+            else {
+                bq += pick/k;
+                pick =0;
             }
         }
-        return (bmade>=m);
+        bq += pick/k;
+        return bq>=m;
     }
 };
+
 
 // @lc code=end
 
