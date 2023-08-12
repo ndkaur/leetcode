@@ -46,6 +46,33 @@ public:
         return idx;
     }
 };
+
+
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int n = gas.size();
+        // cost>gas not possible
+        int total_cost =0;
+        int total_gas =0;
+        for(int i=0; i<n; i++){
+            total_cost += cost[i];
+            total_gas += gas[i];
+        }
+        if(total_cost > total_gas)
+            return -1;
+        int idx =0;
+        int cur_gas =0;
+        for(int i=0; i<n; i++){
+            cur_gas += gas[i]-cost[i];
+            if(cur_gas<0){
+                cur_gas =0;
+                idx = i+1;
+            }
+        }
+        return idx;
+    }
+};
 // @lc code=end
 
 

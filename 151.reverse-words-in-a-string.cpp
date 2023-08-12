@@ -23,6 +23,30 @@ void print(vi &out){
 class Solution {
 public:
     string reverseWords(string s) {
+        s+=" "; // so that we can add hte last char int he string ans as well
+        string temp="";
+        string ans="";
+        for(int i=0; i<s.size(); i++){
+            if(s[i]!=' '){
+                temp+=s[i]; // the
+            }
+            else if(s[i]==' ' && temp.size()>0){
+                reverse(temp.begin(), temp.end()); // eht
+                ans+= temp+" ";
+                temp="";
+            }
+            //ans = eht ysk si eulb
+        }
+        ans.pop_back(); // removing extra space
+        reverse(ans.begin(), ans.end());// it reverse each word and the full string as well
+        // bule  is the sky 
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    string reverseWords(string s) {
         int n = s.size();
         string ans;
         int  i=0;

@@ -59,6 +59,31 @@ public:
 // 0,2   1,2   2,2
 // o     o     i    not match return the substr till that count 
 
+
+
+class Solution {  // nlogn + len of small string
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        int n = strs.size();
+        sort(strs.begin(), strs.end());
+        string a = strs[0];
+        string b = strs[n-1];
+        string ans="";
+        for(int i=0; i<a.size(); i++){
+            if(a[i]==b[i]){
+                ans += a[i];
+            }
+            else 
+                break;
+        }
+        return ans;
+    }
+};
+
+
+
+
+
 // @lc code=end
 
 

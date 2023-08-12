@@ -33,26 +33,24 @@ void print(vi &out){
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-        if(!head) return head;
-        ListNode *extra=new ListNode(-1);
-        extra->next=head;
-        ListNode *prev=extra;
-        ListNode *curr=extra->next;
-        
-        while(curr && curr->next ){
-            int x=curr->val;
-            if(curr->next->val==x){
-                while(curr && curr->val==x){
-                    prev->next=curr->next;
-                    curr=curr->next;
+        ListNode* dummy = new ListNode(-1);
+        dummy->next = head;
+        ListNode* prev = dummy;
+        ListNode* curr = head;
+
+        while(curr){
+            if(curr->next && curr->val == curr->next->val){
+                while(curr->next && curr->val==curr->next->val){
+                    curr = curr->next;
                 }
+                prev->next = curr->next;
             }
             else {
-                prev=curr;
-                curr=curr->next;
+               prev = curr;
             }
+            curr= curr->next;
         }
-        return extra->next;
+        return dummy->next;
     }
 };
 // @lc code=end

@@ -113,6 +113,46 @@ public:
     }
 };
 
+class Solution { // space O(1)  removed the recursive stack space and used the itetarive method 
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        if(!head ||!head->next || k==1)
+            return head;
+        ListNode* dummy = new ListNode(-1);
+        dummy->next = head;
+
+        ListNode* prev = dummy;
+        ListNode* end = head;
+
+        int i=0;
+        while(end!=NULL){
+            i++;
+            if(i%k==0){ // multiple of k , reverse
+                ListNode* start = prev->next;
+                ListNode* nxt = end->next;
+                reverse(start, end);
+                prev->next= end;
+                start->next = nxt;
+                prev = start;
+                end = nxt;
+            }
+            else
+                end= end->next;
+        }
+        return dummy->next;
+    }
+    void reverse(ListNode* start, ListNode* end){
+        ListNode* prev=NULL;
+        ListNode* curr = start;
+        ListNode* nxt;
+        while(prev!=end){
+            nxt = curr->next;
+            curr->next = prev;
+            prev= curr;
+            curr= nxt;
+        }
+    }
+};
 
 class Solution {  //space->O(N)
 public:

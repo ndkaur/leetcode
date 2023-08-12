@@ -30,6 +30,79 @@ void print(vi &out){
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
+
+
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        if(!head || !head->next || left==right)
+            return head;
+        ListNode* curr = head;
+
+        ListNode* start =NULL;
+        ListNode* end = NULL;
+        ListNode* prev = NULL;
+        ListNode* nxt = NULL;
+
+        int cnt=1;
+        while(cnt<left){
+            prev = curr;
+            curr = curr->next;
+            cnt++;
+        } 
+        // now prev points to one index behind the left
+        // and temp poiniting on left
+        start = curr;
+        // reverse till right
+        // 1->2->3->4->5   prev = 1, curr = 2
+        while(cnt<= right){
+            nxt = curr->next;
+            curr->next = end; // null ptr 
+            end = curr;
+            curr = nxt;
+            cnt++;
+        }
+        // after reverse 4->3->2->NULL but also start = 2
+        // now joing the curr node with original list
+        start->next = curr;
+        if(prev!=NULL){ // if left is not a starting node then prev will have some value
+            prev->next = end;
+            return head;
+        }
+        return end;
+    }
+};
+
+
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        if(!head)   return NULL;
+        if(!head->next) return head;
+
+        ListNode *dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode *prev = dummy;
+
+        for(int i = 0; i < left - 1; i++)    prev = prev->next;
+        ListNode *curr = prev->next;
+
+        for(int i = 0; i < right - left; i++)
+        {
+            ListNode *forw = curr->next;
+            curr->next = forw->next;
+            forw->next = prev->next;
+            prev->next = forw;
+        }
+        return dummy->next;
+
+        
+        
+    }
+};
+
+
 class Solution {
 public:
     ListNode* reverseBetween(ListNode* head, int m, int n) {
