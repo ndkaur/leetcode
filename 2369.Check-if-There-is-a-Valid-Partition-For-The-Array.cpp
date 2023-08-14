@@ -75,6 +75,28 @@ public:
     }
 };
 
+class Solution {
+public:
+    bool validPartition(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n+1,0);
+        dp[0] = 1;
+
+        if(nums[1]==nums[0])
+            dp[2] =1;
+        for(int i=2; i<n; i++){
+            if(nums[i]==nums[i-1])// 2 equal // i=2 but dp->i =3
+                dp[i+1] = dp[i+1] || dp[i-1];
+            // 3 equal
+            if(nums[i]==nums[i-1] && nums[i]==nums[i-2])
+                dp[i+1] = dp[i+1] || dp[i-2];
+            // inc 
+            if(nums[i]==nums[i-1]+1 && nums[i]==nums[i-2]+2)
+                dp[i+1] = dp[i+1] || dp[i-2];
+        }
+        return dp[n];
+    }
+};
 
 int main(){
 
