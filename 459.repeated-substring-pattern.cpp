@@ -20,10 +20,38 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+//O(n^2)
 class Solution {
 public:
     bool repeatedSubstringPattern(string s) {
+        int n  = s.size();
+        // abab 
+        string temp = s;
+        for(int i=0; i<n-1; i++){
+            char c = temp[0];
+            temp.erase(0,1);
+            temp.push_back(c);
+
+            if(temp==s)
+                return true;
+        }
+        return false;
+    }
+};
+
+// O(n)
+class Solution {
+public:
+    bool repeatedSubstringPattern(string s) {
+        //double the string 
+        // create a substr 
+        // find the original string in the substring 
         return (s+s).substr(1, 2*s.size()-2).find(s) != -1 ;
+        // if the s exist then it will occur in the center 
+        // abab 
+        //abab abab  substr => babab  => s= abab it exist
+        // we remove the first elem form start and last elem then take the elems inbetween 
         
     }
 };
