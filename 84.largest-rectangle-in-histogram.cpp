@@ -69,6 +69,52 @@ public:
 };
 
 
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        // area  = height * width 
+        // heights = [2,1,5,6,2,3]
+        int n = heights.size();
+        // next smaller elem ->monotonic inc stack
+        stack<int> stk;
+        vector<int> left(n,-1); // min towards the left of the number 
+        vector<int> right(n,-1); // min towards the right of the number 
+
+        // dealing with the indexes for finding the width in between 
+        for(int i=0; i<n; i++){
+            while(stk.size() && heights[stk.top()] > heights[i]){
+                right[stk.top()] =  i;
+                stk.pop();
+            }
+            stk.push(i);
+        }
+
+        while(stk.size()){
+            stk.pop();
+        }
+
+        for(int i=n-1; i>=0; i--){
+            while(stk.size() && heights[stk.top()] > heights[i]){
+                left[stk.top()] =i;
+                stk.pop();
+            }
+            stk.push(i);
+        }
+        
+        int ans = INT_MIN;
+        for(int i=0; i<n; i++){
+            int height = heights[i];
+            if(right[i]==-1)
+                right[i]= n;
+            int widht =  right[i]- left[i] - 1;
+            ans = max(ans, height * widht);
+        }
+        return ans;
+    }
+};
+
+
+
 // (right smaller idx - left smaller idx +1) * a[i]
 // using two stcks 
 
