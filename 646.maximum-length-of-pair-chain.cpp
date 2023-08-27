@@ -42,6 +42,30 @@ public:
     }
 };
 
+
+//O(n*m)
+class Solution {
+public:
+    int findLongestChain(vector<vector<int>>& pairs) {
+        int n = pairs.size();
+        int m = pairs[0].size();
+        sort(pairs.begin(), pairs.end());
+       // lis 
+       int mx =0;
+       vector<int> dp(n,1);
+       for(int i=0; i<n; i++){ //next =i
+           for(int j=0; j<i; j++){ // prev =j
+               if(pairs[j][1] < pairs[i][0] && dp[i] < 1+dp[j]){
+                   dp[i] = 1+dp[j];
+               }
+           }
+            mx= max(mx, dp[i]);
+       }
+       return mx;
+    }
+};
+
+//O(nlogn)
 class Solution {
 public:
     int findLongestChain(vector<vector<int>>& pairs) {
