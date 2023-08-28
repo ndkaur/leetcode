@@ -14,6 +14,46 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+class Solution0 {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ans(n);
+        for(int i=0; i<n; i++){ 
+            ans[i] = (nums[i]) * (nums[i]);
+        }
+        sort(ans.begin(), ans.end()); //nlogn 
+        return ans;
+    }
+};
+
+// two pointer O(n)
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        int n = nums.size();
+        int i =0;
+        int j =n-1;
+        vector<int> ans(n);
+        int k = n-1;
+        while(i<=j){
+            if(abs(nums[i]) > abs(nums[j])){
+                ans[k]= pow(nums[i],2);
+                k--;
+                i++;
+            }
+            else { //j>i
+                ans[k] = pow(nums[j],2);
+                k--;
+                j--;
+            }
+        }
+        return ans;
+    }
+};
+
 class Solution {
 public:
     vector<int> sortedSquares(vector<int>& A) {

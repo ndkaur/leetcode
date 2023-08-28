@@ -21,6 +21,101 @@ void print(vi &out){
 }
 // @lc code=start
 
+class Solution0 { //tle
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ans(n);
+        for(int i=0; i<n; i++){
+            if(i==0)
+                ans[0] = pro(i+1, n-1,nums);
+            if(i==n-1)
+                ans[n-1] = pro(0, n-2,nums);
+            int l = pro(0, i-1,nums);
+            int r = pro(i+1,n-1,nums);
+            ans[i] = l*r;
+        }
+        return ans;
+    }
+    int pro(int s, int e, vector<int>& nums){
+        int n = nums.size();
+        int ans = 1;
+        for(int i=s; i<=e; i++){
+            ans = ans * nums[i];
+        }
+        return ans;
+    }
+};
+
+
+class Solution1 { //O(N*N)
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ans;
+        for(int i=0; i<n; i++){
+            int pro = 1;
+            for(int j=0; j<n; j++){
+                if(i==j) continue;
+                pro = pro  * nums[j];
+            }
+            ans.push_back(pro);
+        }
+        return ans;
+    }
+};
+
+
+class Solution2 {  //O(N)  O(N)
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size();
+        
+        vector<int> left(n);
+        left[0] =1;
+        for(int i=1; i<n; i++){
+            left[i]  = left[i-1] * nums[i-1];
+        }
+
+        vector<int> right(n);
+        right[n-1] =1;
+        for(int i=n-2; i>=0; i--){
+            right[i] = right[i+1]  * nums[i+1];
+        }
+
+        vector<int> ans(n);
+        for(int i=0; i<n; i++){
+            ans[i] = left[i] * right[i];
+        }
+        return ans;
+    }
+};
+
+
+class Solution { //time ->O(N) space->O(1)
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ans(n);
+        ans[0] =1;
+       
+        for(int i=1; i<n; i++){
+            ans[i]  = ans[i-1] * nums[i-1];
+        }
+
+        int right = 1;
+        
+        for(int i=n-1; i>=0; i--){
+            ans[i] = ans[i]  * right;
+            right = right * nums[i];
+        }
+        return ans;
+    }
+};
+
+// .......................................................................................
+
+
 class Solution { // O(N) , sp->O(N)
 public:
     vector<int> productExceptSelf(vector<int>& nums) {

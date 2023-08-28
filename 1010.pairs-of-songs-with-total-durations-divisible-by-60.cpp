@@ -15,24 +15,24 @@ void print(vi &out){
 
 // @lc code=start
 //in this case time complexitiy is more.
-// class Solution {
-// public:
-//     int numPairsDivisibleBy60(vector<int>& time) {
-//         int n= time.size();
-//         int count=0;
-//         for(int i=0;i<n;i++){
-//             for(int j=0;j<n;j++){
-//                 if(i<j){
-//                     if((time[i]+time[j])%60==0)
-//                         count++;
-//                 }
-//             }
-//         }
-//         return count;
-//     }
-// };
+class Solution { //O(N*N)
+public:
+    int numPairsDivisibleBy60(vector<int>& time) {
+        int n= time.size();
+        int count=0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(i<j){
+                    if((time[i]+time[j])%60==0)
+                        count++;
+                }
+            }
+        }
+        return count;
+    }
+};
 
-class Solution {
+class Solution { //O(n) , O(N)
 public:
     int numPairsDivisibleBy60(vector<int>& time) {
         int n= time.size();

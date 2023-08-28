@@ -50,40 +50,60 @@ public:
     }
 };
 
-class Solution {
+class Solution { //O(N*M)
 public:
-    vector<int> spiralOrder(vector<vector<int>>& m) {
-        int row= m.size();
-        int col = m[0].size();
-        vector<int> ans;
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int row = matrix.size();
+        int col = matrix[0].size();
 
-        int up =0;
-        int down = row-1;
-        int left= 0;
-        int right=col-1;
-        int dir=0;
-        while(up<=down && left<=right){
-            if(dir==0){// left->right
-                for(int i=left;i<=right;i++)
-                    ans.push_back(m[up][i]);
-                up++;
+        // pointers of dirs
+        int left = 0;
+        int right = col-1; // to reach right we travelled cols
+        int up = 0;
+        int down = row-1; // to reach down we travled rows
+
+        vector<int> ans;
+        int dir = 0;
+        // 0 = left->right 
+        // 1 = up -> down 
+        // 2 = right->left
+        // 3 = down->up 
+
+        while(left<=right && up<=down){
+            // moving from left to right
+            if(dir==0){ 
+                for(int i=left; i<=right; i++){
+                    // row remains constant and row = up
+                    ans.push_back(matrix[up][i]);
+                }
+                up++; // update up for next iteration
             }
-            else if(dir==1){// up->down moving right not changing 
-                for(int i=up;i<=down;i++)
-                    ans.push_back(m[i][right]);
+            // moving from up to down
+            else if(dir==1){ 
+                for(int i=up; i<=down; i++){
+                    // col remains constant and col = right
+                    ans.push_back(matrix[i][right]);
+                }
                 right--;
             }
-            else if(dir==2){ // right->left
-                for(int i=right;i>=left;i--)
-                    ans.push_back(m[down][i]);
-                down--; // moving from right to left down not changing 
+            // moving from right to left
+            else if(dir==2){
+                for(int i=right; i>=left; i--){
+                    // row remains constant row=down
+                    ans.push_back(matrix[down][i]);
+                }
+                down--;
             }
-            else if(dir==3){ // down ->top
-                for(int i=down;i>=up;i--)
-                    ans.push_back(m[i][left]);
+            // moving from down to up
+            else if(dir==3){
+                for(int i=down; i>=up; i--){
+                    // col remians constant col = left
+                    ans.push_back(matrix[i][left]);
+                }
                 left++;
             }
-            dir= (dir+1)%4;
+            // change the dir 
+            dir  = (dir+1)%4;
         }
         return ans;
     }
