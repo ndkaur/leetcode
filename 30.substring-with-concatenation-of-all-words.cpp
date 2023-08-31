@@ -21,12 +21,16 @@ void print(vi &out){
 }
 
 // @lc code=start
+// O(N * M * L), where N is the length of the input string, M is the number of words, and L is the length of each word.
 class Solution {
 public:
     vector<int> findSubstring(string s, vector<string>& words) {
         int n= s.size();
         int wlen = words.size();
         int len = words[0].size();
+
+        if(n < wlen*len)
+            return {};
 
         unordered_map<string,int> mp;
         for(auto word:words){ // count for each word freq
@@ -35,22 +39,23 @@ public:
         
         vector<int> ans;
         // cant go till end of string as we need to check a particualr len 
-        for(int i=0; i<n-wlen * len + 1 ;i++){
+        // total len requird = 2 words , each len of 3 = 2*3 =6
+        for(int i=0; i<= n- (wlen * len); i++){
             unordered_map<string,int> seen;
 
-            int j=0;
-            for(; j< wlen;j++){
-                string word= s.substr(i+j *len , len);
-                // word found
-                if(mp.find(word)!= mp.end()){
-                    seen[word]++; // count its freq 
+            int cnt= 0;
 
-                    if(seen[word] > mp[word]) // word got repeated than what was required count
-                        break;
-                }
-                else break;
+            for(int j=i; j< i+ (wlen*len); j+=len){
+                // take sunstr of required len from each idx 
+                string word= s.substr(j, len);
+                seen[word]++;
+                // word found
+                if(seen[word] <= mp[word])
+                    cnt++;
+                else 
+                    break;
             }
-            if(j== wlen)
+            if( cnt == wlen)
                 ans.push_back(i);
         }
         return ans;
@@ -61,7 +66,6 @@ public:
 // we will use our for loop using above statement
 // make a map to count the fre of words 
 // use for loops and check if the words are reapeated only the freq no of times 
-
 
 
 // @lc code=end

@@ -59,6 +59,10 @@ public:
             if(board[row][i] == c)
                 return false;
             // check box 
+            // box no 4 
+            // (3,3) (3,4) (3,5) -> 3+0  (3*row/3)+ (0/3 , 1/3)
+            // (4,3) (4,4) (4,5) 
+            // (5,3) (5,4) (5,5)
             if(board[3*(row/3)+ i/3][3*(col/3) + i%3] == c)
                 return false;
         }
@@ -72,4 +76,4 @@ public:
 int main(){
 
     return 0;
-}
+} +

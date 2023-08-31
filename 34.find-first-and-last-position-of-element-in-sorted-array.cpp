@@ -93,7 +93,7 @@ public:
 //  first search is for tho find the first num equla to target 
 // second search is to find the last num equal to the target 
 
-
+// 2 * O(log n)
 class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
