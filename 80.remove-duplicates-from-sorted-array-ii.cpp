@@ -36,6 +36,37 @@ public:
         return n-count;
     }
 };
+
+
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int n= nums.size();
+        int i=0;
+        int j=0;
+
+        while(i<n){
+            int curr = nums[i];
+            int cnt = 0;
+            while(i<n && nums[i]==curr){
+                cnt++;
+                i++;
+            }
+            if(cnt>1){ // take only 2 occurence
+                nums[j] = curr;
+                j++;
+                nums[j] = curr;
+                j++;
+            }
+            else{
+                nums[j] = curr;
+                j++;
+            }
+        }
+        return j;
+    }
+};
+
 // @lc code=end
 
 

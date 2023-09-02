@@ -20,6 +20,81 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> ans(n,vector<int>(n,0));
+        spiralOrder(1,ans);
+        return ans;
+    }
+
+    vector<int> spiralOrder(int val, vector<vector<int>>& matrix) {
+        int row = matrix.size();
+        int col = matrix[0].size();
+
+        // pointers of dirs
+        int left = 0;
+        int right = col-1; // to reach right we travelled cols
+        int up = 0;
+        int down = row-1; // to reach down we travled rows
+
+        vector<int> ans;
+        int dir = 0;
+        // 0 = left->right 
+        // 1 = up -> down 
+        // 2 = right->left
+        // 3 = down->up 
+
+        while(left<=right && up<=down){
+            // moving from left to right
+            if(dir==0){ 
+                for(int i=left; i<=right; i++){
+                    matrix[up][i] = val;
+                    val++;
+                    // row remains constant and row = up
+                    ans.push_back(matrix[up][i]);
+                }
+                up++; // update up for next iteration
+            }
+            // moving from up to down
+            else if(dir==1){ 
+                for(int i=up; i<=down; i++){
+                    matrix[i][right] = val;
+                    val++;
+                    // col remains constant and col = right
+                    ans.push_back(matrix[i][right]);
+                }
+                right--;
+            }
+            // moving from right to left
+            else if(dir==2){
+                for(int i=right; i>=left; i--){
+                    matrix[down][i] = val;
+                    val++;
+                    // row remains constant row=down
+                    ans.push_back(matrix[down][i]);
+                }
+                down--;
+            }
+            // moving from down to up
+            else if(dir==3){
+                for(int i=down; i>=up; i--){
+                    matrix[i][left] = val;
+                    val++;
+                    // col remians constant col = left
+                    ans.push_back(matrix[i][left]);
+                }
+                left++;
+            }
+            // change the dir 
+            dir  = (dir+1)%4;
+        }
+        return ans;
+    }
+};
+
+
 class Solution0 {
     const vector<vector<int>> dirs={{0,1},{1,0},{0,-1},{-1,0}};
 public:
