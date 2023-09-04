@@ -43,6 +43,35 @@ public:
     }
 };
 
+class Solution {
+public:
+    long long countSubarrays(vector<int>& nums, int minK, int maxK) {
+        int n = nums.size();
+        // all the nums in subaaray must be btween mink and maxk
+        int mn = -1; // idx where mink was found
+        int mx = -1; 
+        int i = 0;
+        int j = 0;
+        long long cnt =0;
+        while(j<n){
+            // out of range then slide the window
+            if(nums[j]<minK || nums[j]>maxK){
+                mn = mx = -1;
+                i = j+1;
+            }
+            if(nums[j]==minK)
+                mn = j;
+            if(nums[j]==maxK)
+                mx = j;
+            // max from 0 cause the idx can be -ve
+            // cnt of aubarray = j-i+1  = 
+            cnt += max(0 , min(mx, mn)-i+1);
+            j++;
+        }
+        return cnt;
+    }
+};
+
 int main(){
 
     return 0;

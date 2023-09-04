@@ -18,6 +18,34 @@ void print(vi &out){
 class Solution {
 public:
     int countDistinct(vector<int>& nums, int k, int p) {
+        int n= nums.size();
+        int sum = 0;
+        vector<int> pref(n+1);
+
+        for(int i=0; i<n; i++){
+            pref[i+1] = pref[i] + (nums[i]%p==0);
+        }
+        // prefix sum array is nums
+        unordered_set<string> st;
+
+        for(int i=0; i<n; i++){
+            string temp ="";
+            for(int j=i; j<n; j++){
+                if(pref[j+1] - pref[i] <= k){
+                    temp.push_back(nums[j]);
+                    st.insert(temp);
+                }
+                else 
+                    break;
+            }
+        }
+        return st.size();
+    }
+};
+
+class Solution {
+public:
+    int countDistinct(vector<int>& nums, int k, int p) {
         set<string> s;
         int n= nums.size();
         for(int i=0;i<n;i++){

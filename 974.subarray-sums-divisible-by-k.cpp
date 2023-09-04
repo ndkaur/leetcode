@@ -38,6 +38,31 @@ class Solution {
 public:
     int subarraysDivByK(vector<int>& nums, int k) {
         int n = nums.size();
+        // .. prefix sum then check if sum id divisible by k
+        int sum =0;
+        for(int i=0; i<n; i++){
+            sum += nums[i];
+            nums[i]= sum;
+        }
+        int cnt =0;
+        map<int,int> mp;
+        for(int i=0; i<n; i++){
+            if(nums[i]%k==0)
+                cnt++;
+            int remaining  = nums[i]%k;
+            if(remaining <0) //  if starting elm is -ve
+                remaining += k;
+            cnt += mp[remaining];
+            mp[remaining]++;
+        }
+        return cnt;
+    }
+};
+
+class Solution {
+public:
+    int subarraysDivByK(vector<int>& nums, int k) {
+        int n = nums.size();
         int sum = 0;
         map<int,int> mp;
         mp[0] = 1;
