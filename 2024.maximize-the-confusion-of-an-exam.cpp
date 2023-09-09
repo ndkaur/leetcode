@@ -25,6 +25,38 @@ void print(vi &out){
 
 class Solution {
 public:
+    int maxConsecutiveAnswers(string key, int k) {
+        int n = key.size();
+        int i =0;
+        int j =0;
+
+        int tcnt =0;
+        int fcnt =0;
+        
+        int ans =0;
+
+        while(j<n){
+            if(key[j]=='T')
+                tcnt++;
+            else
+                fcnt++;
+                
+            while(min(fcnt,tcnt)>k){
+                if(key[i]=='T')
+                    tcnt--;
+                else 
+                    fcnt--;
+                i++;
+            }
+            ans= max(ans, j-i+1);
+            j++;
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
     int maxConsecutiveAnswers(string answerKey, int k) {
         // we replace that which has smaller cnt in the current window 
         int n = answerKey.size();

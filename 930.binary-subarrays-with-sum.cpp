@@ -53,6 +53,26 @@ public:
 // @lc code=end
 
 
+class Solution0 {
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        int n = nums.size();
+
+        unordered_map<int, int> mp;
+        int ans = 0, sm = 0;
+        for (int i = 0; i < n; i++) {
+            sm += nums[i];
+            if (sm == goal) ans++;
+            if (mp.count(sm - goal)) {
+                ans += mp[sm - goal];
+            }
+            mp[sm]++;
+        }
+
+        return ans;
+    }
+};
+
 int main(){
 
     return 0;

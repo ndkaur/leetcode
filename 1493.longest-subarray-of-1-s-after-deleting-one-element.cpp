@@ -27,6 +27,29 @@ class Solution {
 public:
     int longestSubarray(vector<int>& nums) {
         int n = nums.size();
+        int i=0;
+        int j=0;
+        int zcnt =0;
+        int len = 0;
+        while(j<n){
+            if(nums[j]==0)
+                zcnt++;
+            while(zcnt > 1){
+                if(nums[i]==0)
+                    zcnt--;
+                i++;
+            }
+            len  = max(len,j-i);
+            j++;
+        }
+        return len;
+    }
+};
+
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums) {
+        int n = nums.size();
         int i =0;
         int zero = 0;
         int ans =0;

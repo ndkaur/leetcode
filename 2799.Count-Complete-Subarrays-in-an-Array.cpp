@@ -15,6 +15,38 @@ void print(vi &out){
     cout<<endl;
 }
 
+class Solution {
+public:
+    int countCompleteSubarrays(vector<int>& nums) {
+        int n = nums.size();
+        map<int,int> mp;
+        for(auto num:nums){
+            mp[num]++;
+        }
+        int sz = mp.size();
+
+        int i =0;
+        int j =0;
+        int cnt =0;
+
+        map<int,int> mp1;
+
+        while(j<n){
+            mp1[nums[j]]++;
+            
+            while(mp1.size()==sz && i<=j){
+                mp1[nums[i]]--;
+                if(mp1[nums[i]]==0)
+                    mp1.erase(nums[i]);
+                i++;
+                cnt += n-j; // all the remining will also have the rest of the elements
+            }
+            j++;
+        }
+        return cnt;
+    }
+};
+
 class Solution { //O(N^2)
 public:
     int countCompleteSubarrays(vector<int>& nums) {

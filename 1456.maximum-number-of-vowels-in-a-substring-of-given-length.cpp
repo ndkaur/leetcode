@@ -21,6 +21,66 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+class Solution1 {
+public:
+     int maxVowels(string s, int k) {
+        int n = s.size();
+        int i=0;
+        int j=0;
+        int cnt =0;
+        int mx =0;
+        while(j<n){
+            cnt+= isVowel(s[j]);
+            if(j-i+1 < k)
+                j++;
+            
+            else if(j-i+1 == k){
+                mx = max(mx, cnt);
+                if(isVowel(s[i])){
+                    cnt--;
+                }
+                j++;
+                i++;
+            }
+        }
+        return mx;
+    }
+    int isVowel(char c){
+        if(c=='a' || c=='e' || c=='i' || c=='o' || c=='u')
+            return 1;
+        return 0;
+    }
+};
+
+
+class Solution {
+public:
+     int maxVowels(string s, int k) {
+        int n = s.size();
+        int i=0;
+        int j=0;
+        int cnt =0;
+        int mx =0;
+        while(j<n){
+            cnt+= isVowel(s[j]);
+            while(j-i+1 > k){
+                if(isVowel(s[i]))
+                    cnt--;
+                i++;
+            }
+            mx = max(mx, cnt);
+            j++;
+        }
+        return mx;
+    }
+    int isVowel(char c){
+        if(c=='a' || c=='e' || c=='i' || c=='o' || c=='u')
+            return 1;
+        return 0;
+    }
+};
+
 class Solution {
 public:
     int maxVowels(string s, int k) {
