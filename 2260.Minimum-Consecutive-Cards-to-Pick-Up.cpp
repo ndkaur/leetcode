@@ -15,6 +15,37 @@ void print(vi &out){
     cout<<endl;
 }
 
+// sliding window 
+
+class Solution {
+public:
+    int minimumCardPickup(vector<int>& cards) {
+        int n= cards.size();
+        map<int,int> mp;
+        int i =0;
+        int j =0;
+        int mn =INT_MAX;
+        
+        while(j<n){
+            mp[cards[j]]++;
+            // invalid condition will be that 
+            // our window has more elemts than in map
+            // window size is more than the map size 
+            // eg -> 3 4 2 3  window size = 4
+            // mp[3,4,2] mp size() = 3
+            while(mp.size() < j-i+1){
+                mn = min(mn, j-i+1);
+                mp[cards[i]]--;
+                if(mp[cards[i]]==0)
+                    mp.erase(cards[i]);
+                i++;
+            }
+            j++;
+        }
+        return mn==INT_MAX ? -1 : mn;
+    }
+};
+
 class Solution {
 public:
     int minimumCardPickup(vector<int>& cards) {

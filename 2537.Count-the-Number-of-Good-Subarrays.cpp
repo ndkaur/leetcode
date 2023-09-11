@@ -16,6 +16,43 @@ void print(vi &out){
 }
 
 
+
+class Solution {
+public:
+    long long countGood(vector<int>& nums, int k) {
+        int n = nums.size();
+        long long cnt = 0;
+        long long ans = 0;
+        
+        int i=0;
+        int j=0;
+        map<int,int> mp;
+        
+        while(j<n){
+            mp[nums[j]]++;
+            // if mp[i]==0 then it will become 1 means new occurence of num
+            // if mp[i]==1 then it will inc mp[i]++ = 2 , becomes a pair and inc cnt 
+            cnt += mp[nums[j]]-1; 
+            // mp[j] >1 lets say mp[j]=2 then cnt = 2-1 = 1 means 1 pair found 
+
+            while(cnt >=k){
+                ans +=(long long)n-j; // if k pairs in current window then also counted in remaining array nums
+                //move the window
+                mp[nums[i]]--;
+                // if mp reduces a pair then cnt will also decrease
+                cnt -= mp[nums[i]];
+                if(mp[nums[i]]==0)
+                    mp.erase(nums[i]);
+                i++;
+            }
+            j++;
+        }
+        return ans;
+    }
+};
+
+
+
 class Solution {
 public:
     long long countGood(vector<int>& nums, int k) {
@@ -30,7 +67,7 @@ public:
             if(cnt_of_pair >= k){
                 while(cnt_of_pair >= k && left <= i){
                     cnt_of_subary += (n-i);
-                    mp[nums[left]]--;9
+                    mp[nums[left]]--;
                     cnt_of_pair -= mp[nums[left]];
                     if(mp[nums[left]] == 0)
                         mp.erase(nums[left]);
