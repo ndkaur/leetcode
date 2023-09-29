@@ -20,6 +20,57 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+class Solution {
+public:
+    bool isMonotonic(vector<int>& nums) {
+        int n = nums.size();
+        if(n==1)
+            return true;
+        int i =0;
+        if(i<n-1 && nums[i]<=nums[i+1]){
+            while(i<n-1 && nums[i]<=nums[i+1]){
+                i++;
+            }
+            if(i==n-1)
+                return true;
+        }
+        int j =0;
+        if(j<n-1 && nums[j]>=nums[j+1]){
+            while(j<n-1 && nums[j]>=nums[j+1]){
+                j++;
+            }
+            if(j==n-1)
+                return true;
+        }
+        return false;
+    }
+};
+
+class Solution {
+public:
+    bool isMonotonic(vector<int>& nums) {
+        int n = nums.size();
+        bool inc = true;
+        bool dec = true;
+        // increasing check 
+        for(int i=0; i<n-1; i++){
+            if(nums[i]>nums[i+1]){ // if decreasing num found anywhere 
+                inc = false;
+            }
+        }
+        // decreasing check 
+        for(int i=0; i<n-1; i++){
+            if(nums[i]<nums[i+1]){ // if increasing found 
+                dec = false;
+            }
+        }
+
+        return inc || dec;  // any one of inc or dec is true return true
+    }
+};
+
 class Solution {
 public:
     bool isMonotonic(vector<int>& A) {
