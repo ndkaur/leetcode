@@ -32,6 +32,24 @@ public:
 };
 
 
+class Solution {
+public:
+    int numIdenticalPairs(vector<int>& nums) {
+        int n = nums.size();
+        map<int,int> mp;
+        for(int num:nums){
+            mp[num]++;
+        }
+        int cnt =0;
+        for(auto itr:mp){
+            int val = itr.second;
+            cnt += (val* (val-1)/2);
+        }
+        return cnt;
+    }
+};
+
+
 int main(){
     Solution sol;
     vector<int> nums={1,2,3};
