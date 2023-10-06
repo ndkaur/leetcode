@@ -59,9 +59,9 @@ public:
     }
 };
 
-class Solution {
+class Solution { //O(N^2)
 public:
-    int ans=0;
+    int ans=0; // we need the same count for the root->left and root->right so declare it publically 
     void dfs(TreeNode* root, long long sum){
         if(!root) return;
         if(root->val==sum) 
@@ -79,6 +79,52 @@ public:
         return ans;
     }
 };
+
+class Solution { //O(N)
+public:
+    int pathSum(TreeNode* root, int target) {
+        unordered_map<long long,int> mp;
+        mp[0]=1;
+        return solve(root, target, 0, mp);
+    }
+    int solve(TreeNode* root, int target, long long curr, unordered_map<long long,int>& mp){
+        if(!root)
+            return 0;
+        curr += root->val;
+        // target = 8 , curr = 2 find if in map 8-2 = 6 exist or not 
+        int cnt = mp[curr-target];
+        mp[curr]++;
+
+        int left = solve(root->left, target, curr, mp);
+        int right = solve(root->right,target, curr, mp);
+        // backtrack
+        mp[curr]--;
+        curr -= root->val;
+        return cnt+left+right;
+    }
+};
+
+
+class Solution {
+public:
+    int pathSum(TreeNode* root, int targetSum) {
+        if(!root)
+            return 0;
+        return f(root, targetSum) + pathSum(root->left, targetSum) +pathSum(root->right, targetSum);
+    }
+    int f(TreeNode* root, long long target){
+        if(!root || target<-1999999000)
+            return 0;
+        int cnt =0;
+        if(root->val==target){
+            cnt++;
+        }
+        cnt += f(root->left, target-root->val);
+        cnt += f(root->right, target-root->val);
+        return cnt;
+    }
+};
+
 // @lc code=end
 
 
