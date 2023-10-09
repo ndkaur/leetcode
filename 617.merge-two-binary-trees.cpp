@@ -52,6 +52,23 @@ public:
     }
 };
 
+// creating new tree
+class Solution {
+public:
+    TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2) {
+        if(!root1 && !root2)
+            return NULL;
+        int val1 = root1 ? root1->val : 0;
+        int val2 = root2 ? root2->val : 0;
+
+        TreeNode* ans = new TreeNode(val1+val2);
+
+        ans->left = mergeTrees(root1?root1->left:0, root2?root2->left:0);
+        ans->right = mergeTrees(root1?root1->right:0,root2?root2->right:0);
+        return ans;
+    }
+};
+
 
 class Solution {
 public:
