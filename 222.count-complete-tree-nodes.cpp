@@ -45,6 +45,15 @@ public:
     }
 };
 
+// if pur complete binary tree is a perfect binary tree 
+// then only the property of  2^h -1 will be applied 
+// so we need to check if our complete bt is a perfect bt or not 
+// for that left height must be equal to right height 
+// if lh == rh then ans =  2^h-1
+// but if lh!= rh then 
+// we need  to find it seprately for left child and right child 
+// time ->  log2(n+1) kind of similar to binary search 
+
 //  nodes in complete bt are = 2^h -1 
 class Solution { //tc-> O(logn)^2   sc->O(logN)
 public:

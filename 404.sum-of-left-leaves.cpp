@@ -51,6 +51,23 @@ public:
 class Solution {
 public:
     int sumOfLeftLeaves(TreeNode* root) {
+        int sum =0;
+        dfs(root, sum, false);
+        return sum;
+    }
+    void dfs(TreeNode* root, int& sum, bool isLeft){
+        if(!root)
+            return ;
+        if(!root->left && !root->right)
+            sum += isLeft? root->val:0;
+        dfs(root->left, sum, true);
+        dfs(root->right, sum, false);
+    }
+};
+
+class Solution {
+public:
+    int sumOfLeftLeaves(TreeNode* root) {
         if(!root) return 0;
         int ans=0;
         stack<pair<TreeNode*, bool>> s;
