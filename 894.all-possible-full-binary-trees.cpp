@@ -42,26 +42,40 @@ void print(vi &out){
 // choose 3 -> lft side 2 children , right side 2 child  not possible 
 // so our loop will go at pace of 2 i+=2
 
-class Solution {
+
+//n=1 one possible 
+//  n=2 not possible  as full bt has no or 2 children
+// n=3 possible 
+// n=4 not possible 
+//  0 1 2 3 4 5 6
+//  1 2 3 4 5 6 7 -> value of n 
+//  n y n y n y n 
+// so observation here is that our index at odd are possible so we will skip even indexes 
+//  idx =3 , left side (n=3) , right side (n=3)
+class Solution0 {
 public:
     vector<TreeNode*> allPossibleFBT(int n) {
+        if(n%2==0)
+            return {};
         vector<TreeNode*> ans;
-        // considering 0 base indexing 
-        if(n==1){ 
-            ans.push_back(new TreeNode(0));
+
+        if(n==1){// base case 
+            TreeNode* newTree = new TreeNode(0);
+            ans.push_back(newTree);
             return ans;
         }
-        // node can only have odd number of children on both side
+
         for(int i=1; i<n; i+=2){
-            // 0 1 2 3 4 5 6  let i=3 left = 3, right =7-3-1=3
-            // number of children on left side 
             vector<TreeNode*> left = allPossibleFBT(i);
-            // number of children on right side
-            vector<TreeNode*> right = allPossibleFBT(n-i-1);
-            //now joining the results from left and right side as one tree
+            vector<TreeNode*> right = allPossibleFBT(n-i-1); 
+            // suppose left = {fbt1, fbt2, fbt3}
+            // suppose right = {fbt4, fbt5, fbt6}
+            // then combination will be 
+            //  fbt1->root->fbt4 , or  fbt1->root->fbt5, or fbt3->root->fbt6
+            // fbt2->root->fbt4 , or fbt2->root->fbt5
             for(auto l:left){
                 for(auto r:right){
-                    TreeNode* root = new TreeNode(0);
+                    TreeNode* root= new TreeNode(0);
                     root->left = l;
                     root->right = r;
                     ans.push_back(root);
@@ -70,37 +84,60 @@ public:
         }
         return ans;
     }
-};
+};  
 
-
+// meomization 
 class Solution {
 public:
     vector<TreeNode*> allPossibleFBT(int n) {
+        if(n%2==0)
+            return {};
+        unordered_map<int, vector<TreeNode*>> mp;
         vector<TreeNode*> ans;
-        if(n<1 || n%2==0){
+
+        if(n==1){// base case 
+            TreeNode* newTree = new TreeNode(0);
+            ans.push_back(newTree);
             return ans;
         }
-        for(int k=2;k<n;k+=2){
-            vector<TreeNode*> v1 =allPossibleFBT(k-1);
-            vector<TreeNode*> v2 =allPossibleFBT(n-k);
-            int n1=v1.size();
-            int n2=v2.size();
-            for(int i=0;i<n1;i++){
-                for(int j=0;j<n2;j++){
-                    TreeNode* newroot= new TreeNode(0);
-                    newroot->left=v1[i];
-                    newroot->right= v2[j];
-                    ans.push_back(newroot);
+        
+        if(mp.find(n)!=mp.end()){
+            return mp[n];
+        }
+
+        for(int i=1; i<n; i+=2){
+            vector<TreeNode*> left = allPossibleFBT(i);
+            vector<TreeNode*> right = allPossibleFBT(n-i-1); 
+            // suppose left = {fbt1, fbt2, fbt3}
+            // suppose right = {fbt4, fbt5, fbt6}
+            // then combination will be 
+            //  fbt1->root->fbt4 , or  fbt1->root->fbt5, or fbt3->root->fbt6
+            // fbt2->root->fbt4 , or fbt2->root->fbt5
+            for(auto l:left){
+                for(auto r:right){
+                    TreeNode* root= new TreeNode(0);
+                    root->left = l;
+                    root->right = r;
+                    ans.push_back(root);
                 }
             }
         }
-        if(ans.empty()){
-            if(n==1)
-                ans.push_back(new TreeNode(0));
-        }
-        return ans;
+        return mp[n] = ans;
     }
-};
+};  
+
+// when i =1 then left side will get n=1 and right will get n=5 ILliiI
+
+                    n = 7
+        i=1     i=2     i=3     i=4    i=5    i=6
+        yes     no      yes     no     yes    no 
+      (1)  (5)        (3)    (3)       (5)
+          (1) (3)     (1) (1)  (1) (1)   i=1      i=3 
+         {0}         {0}    {0}       (1) (3)    (1)  (1)
+                                    {0}  i=3     {0}  {0}
+                                        (1) (1)
+                                        {0}  {0}
+
 // @lc code=end
 
 int main(){
