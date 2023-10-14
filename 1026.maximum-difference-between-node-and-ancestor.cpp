@@ -35,6 +35,33 @@ void print(vi &out){
 // maximum difference  = abs (max val - min val)
 // so keep treack of max val and min val;
 
+
+class Solution {
+public:
+    int maxAncestorDiff(TreeNode* root) {
+        if(!root)
+            return 0;
+        int mx = root->val;
+        int mn = root->val;
+        int ans =INT_MIN;
+        dfs(mx, mn, ans, root);
+        return ans;
+    }
+    void dfs(int mx, int mn, int& ans, TreeNode* root){
+        if(!root)
+            return;
+            mx = max(mx, root->val);
+            mn = min(mn, root->val);
+            ans = max(ans, mx-mn);
+        if(root->left){
+            dfs(mx, mn, ans, root->left);
+        }
+        if(root->right){
+            dfs(mx, mn, ans, root->right);
+        }
+    }
+};
+
 class Solution {
 public:
     int maxAncestorDiff(TreeNode* root) {
