@@ -31,6 +31,39 @@ void print(vi &out){
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+class Solution {
+public:
+    TreeNode* subtreeWithAllDeepest(TreeNode* root) {
+        int depth =0;
+        depth =findDepth(root);
+        root = deepSubtree(root, depth, 1);
+        return root;
+    }
+
+    TreeNode* deepSubtree(TreeNode* root, int& depth, int d){
+        if(!root) 
+            return NULL;
+        if(d==depth) 
+            return root;
+        TreeNode* left= deepSubtree(root->left,depth, d+1);
+        TreeNode* right= deepSubtree(root->right,depth, d+1);
+        if(left && right) 
+            return root;
+        if(left || right)
+            return left?left:right;
+        return NULL;
+    }
+
+    int findDepth(TreeNode* root){
+        if(!root)
+            return 0;
+        int l = findDepth(root->left);
+        int r = findDepth(root->right);
+        return 1+max(l,r);
+    }
+};
+
 class Solution {
     int depth;
 public:

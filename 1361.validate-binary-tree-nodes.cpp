@@ -29,6 +29,7 @@ public:
         vector<int> in(n,0);
         for(int i=0;i<n;i++){
             if(leftChild[i]!=-1){
+            // parent-> child relation 
                 adj[i].push_back(leftChild[i]);
                 in[leftChild[i]]++;
             }
@@ -36,15 +37,19 @@ public:
                 adj[i].push_back(rightChild[i]);
                 in[rightChild[i]]++;
             }
+            // if any parent has more than 2 children or its indegree is more than 2 
             if(adj[i].size()>2 || in[i]>2) return false;
         }
+        
         queue<int> q;
         int count=0;
         for(int i=0;i<in.size();i++){
             if(in[i]==0)
                 q.push(i);
         }
+        // only one root node will exist and only the root node will have the indegree as 0 
         if(q.size()!=1) return false; // if already 2 node with in =0;
+
         while(!q.empty()){
             int node= q.front();
             q.pop();
