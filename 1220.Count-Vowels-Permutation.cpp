@@ -16,6 +16,50 @@ void print(vi &out){
 }
 
 
+class Solution {
+public:
+    int countVowelPermutation(int n) {
+        long mod = 1e9+7;
+        // a e i o u 
+        // a-> e
+        // e-> a, i
+        // i-> a,e, o, u
+        // o-> i, u
+        // u-> a 
+        // no see that each vowel depends on those where it occured in prev loop 
+        // a depends on a-> e, i , u
+        // e depends on  e-> a, i 
+        // i depends on i-> e, o
+        // o depends on o-> i
+        // u depneds on u-> i, o 
+        long a = 1;
+        long e = 1;
+        long i = 1;
+        long o = 1;
+        long u = 1;
+
+        long a2, e2, i2, o2, u2;
+
+        for(int j=2; j<=n; j++){
+            // curr occurence  = prev occurence % mod
+            a2 = (e+i+u)%mod;
+            e2 = (a+i)%mod;
+            i2 = (e+o)%mod;
+            o2 = (i)%mod;
+            u2 = (i+o)%mod;
+
+            // prev = cur
+            a = a2;
+            e = e2;
+            i = i2;
+            o = o2;
+            u = u2;
+        }
+
+        return (a+e+i+o+u)%mod;
+    }
+};   
+
 class Solution0 {
 public:
     int countVowelPermutation(int n) {

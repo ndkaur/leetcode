@@ -68,6 +68,32 @@ public:
 class Solution {
 public:
     int change(int amount, vector<int>& coins) {
+        int n = coins.size();
+        int cnt = 0;
+        vector<vector<int>> dp(n+1, vector<int>(amount+1,-1));
+        cnt = f(0, amount, dp, coins);
+        return cnt;
+    }
+    int f(int idx, int amount, vector<vector<int>>& dp, vector<int>& coins){
+        int n = coins.size();
+        if(idx==n-1){
+            return (amount%coins[n-1]==0);
+        }
+        if(dp[idx][amount]!=-1)
+            return dp[idx][amount];
+        int notPick = f(idx+1, amount, dp, coins);
+        int pick =0;
+        if(coins[idx]<=amount){
+            pick =  f(idx, amount-coins[idx], dp, coins);
+        }
+
+        return dp[idx][amount] = pick  + notPick;
+    }
+};
+
+class Solution {
+public:
+    int change(int amount, vector<int>& coins) {
         int n= coins.size();
         vector<vector<int>> dp(n, vector<int>(amount+1,0));
         for(int t=0 ;t<=amount;t++){
