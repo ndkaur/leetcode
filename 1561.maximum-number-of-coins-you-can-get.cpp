@@ -39,6 +39,34 @@ public:
         return sum;
     }
 };
+
+
+class Solution {
+public:
+    int maxCoins(vector<int>& piles) {
+        int n = piles.size();
+        sort(piles.begin(), piles.end());
+        int i = n-1;
+        int j = n-2;
+        int k = 0;
+        int sum = 0;
+        while(k<j && k<i){
+            sum += piles[j];
+            j=j-2;
+            i=i-2;
+            k++;
+        }
+        return sum;
+    }
+};
+
+// 1 2 2 4 7 8
+// 1 2 3 4 5 6 7 8 9 
+// k k k j i j i j i
+// -> 8 + 5 + 2 = 15
+// -> 8 + 6 + 4 = 18
+
+
 // @lc code=end
 
 
