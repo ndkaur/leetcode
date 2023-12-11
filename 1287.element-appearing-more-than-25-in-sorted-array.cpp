@@ -22,6 +22,31 @@ void print(vi &out){
 
 // @lc code=start
 
+class Solution0 { //O(n)
+public:
+    int findSpecialInteger(vector<int>& arr) {
+        int n = arr.size();
+        int quater = n/4;
+        int cnt =1;
+        int num = arr[0];
+
+        for(int i=1; i<n; i++){
+            if(num==arr[i])
+                cnt++;
+            else cnt =1;
+
+            if(cnt>quater)
+                return arr[i];
+            
+            num = arr[i];
+        }
+        return num;
+    }
+};
+
+
+
+
 class Solution1 {
 public:
     int findSpecialInteger(vector<int>& arr) {
