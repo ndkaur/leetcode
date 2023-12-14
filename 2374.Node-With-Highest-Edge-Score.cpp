@@ -37,6 +37,33 @@ public:
 };
 
 
+class Solution {
+public:
+    int edgeScore(vector<int>& edges) {
+        int n = edges.size();
+        vector<vector<int>> adj(n);
+        for(int i=0; i<n; i++){
+            // u->v 
+            int u =i;
+            int v = edges[i];
+            adj[v].push_back(u);
+        }
+        long long mx =0;
+        int node;
+        for(int i=0; i<n; i++){
+            long long sum =0;
+            for(auto itr:adj[i]){
+                sum+=itr;
+            }
+            if(mx<sum){
+                mx = sum;
+                node = i;
+            }
+        }
+        return node;
+    }
+};
+
 
 int main(){
 

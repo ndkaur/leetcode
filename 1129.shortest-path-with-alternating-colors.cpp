@@ -21,6 +21,49 @@ cout<<endl;
 }
 
 // @lc code=start
+
+class Solution {
+public:
+    vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& redEdges, vector<vector<int>>& blueEdges) {
+        // 0 = red, 1 = blue
+        vector<vector<pair<int,int>>> adj(n);
+        for(auto red:redEdges){
+            adj[red[0]].push_back({red[1],0});
+        }
+        for(auto blue:blueEdges){
+            adj[blue[0]].push_back({blue[1],1});
+        }
+
+        vector<int> dist(n,-1);
+
+        queue<vector<int>> q;
+        q.push({0,0,-1});  // node, dist, color
+
+        while(q.size()){
+            auto front = q.front();
+            q.pop();
+            
+            auto node = front[0];
+            auto distance = front[1];
+            auto color = front[2];
+              
+            // if node not already visited
+            dist[node]  = dist[node]!=-1 ? dist[node] : distance;
+
+            for(auto& itr:adj[node]){
+                // node -> {itr node, itr color}
+                // not the same color as parent and is not visited
+                if(color!=itr.second  && itr.first!=-1){
+                    q.push({itr.first, distance+1, itr.second});
+                    itr.first = -1; // marking as visited 
+                }
+            }
+        }
+        return dist;
+    }
+};
+
+
 class Solution {
 public:
     vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& redEdges, vector<vector<int>>& blueEdges) {

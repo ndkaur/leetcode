@@ -21,6 +21,50 @@ cout<<endl;
 }
 
 // @lc code=start
+
+// using simple bfs  
+class Solution { 
+public:
+    void bfs(int src, int n, vector<vector<int>>& adj, vector<vector<bool>>& check){
+        queue<int> q;
+        q.push(src);
+
+        while(q.size()){
+            auto node = q.front();
+            q.pop();
+            // src->node->itr  
+            // so the src->itr , src becomes the indirect parent of itr and create that edge
+            for(auto itr:adj[node]){
+                if(!check[src][itr]){
+                    check[src][itr]=true;
+                    q.push(itr);
+                }
+            }
+        } 
+    }
+    vector<bool> checkIfPrerequisite(int n, vector<vector<int>>& pre, vector<vector<int>>& qu) {
+        vector<vector<int>> adj(n);
+        for(auto p:pre){
+            adj[p[0]].push_back(p[1]);
+        }
+        vector<bool> ans;
+        vector<vector<bool>> check(n, vector<bool>(n, false));
+
+        for(int i=0; i<n; i++){
+            bfs(i, n, adj, check);
+        }
+
+        // now check query 
+        for(int i=0; i<qu.size(); i++){
+            if(check[qu[i][0]][qu[i][1]])
+                ans.push_back(true);
+        }
+        return ans;
+    }
+};
+
+
+
 class Solution { // khans algo
 public:
     vector<bool> checkIfPrerequisite(int num, vector<vector<int>>& pre, vector<vector<int>>& qu) {
