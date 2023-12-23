@@ -73,6 +73,64 @@ public:
 // with robery at a->    left.q + right.q + root->val
 //  without robbery at a -> can rob next level -> max(left.with , left. without ) + max(right. with , right.without)
  
+
+
+class Solution0 { //tle O(2^N)
+public:
+    int rob(TreeNode* root) {
+        if(!root)
+            return 0;
+        return f(root, 1);
+    }
+    int f(TreeNode* root, int pick){
+        if(!root)
+            return 0;
+        int npickval = f(root->left,1) + f(root->right,1);
+        int pickval = pick==1 ? root->val + f(root->left, 0) + f(root->right,0) : -1;
+        return max(pickval, npickval);
+    }
+};
+
+
+class Solution1 { //tle O(2^N)
+public:
+    int rob(TreeNode* root) {
+        if(!root)
+            return 0;
+        int npick = rob(root->left) + rob(root->right);
+        int pick = root->val;
+        if(root->left)
+            pick += rob(root->left->left) + rob(root->left->right);
+        if(root->right) 
+            pick += rob(root->right->left) + rob(root->right->right);
+        return max(pick, npick);
+    }
+};
+
+
+// to avoid tle we need to store the precalculated answer to the node 
+// so we can use a map of node , int
+
+class Solution {  //O(N)
+public:
+    unordered_map<TreeNode*, int> dp;
+    int rob(TreeNode* root) {
+        if(!root)
+            return 0;
+        if(dp.count(root)) // that root already store in map then return it directly
+            return dp[root];
+        int npick = rob(root->left) + rob(root->right);
+        
+        int pick = root->val;
+        
+        if(root->left)
+            pick += rob(root->left->left) + rob(root->left->right);
+        if(root->right) 
+            pick += rob(root->right->left) + rob(root->right->right);
+        
+        return dp[root] = max(pick, npick);
+    }
+};
  
 // @lc code=end
 
