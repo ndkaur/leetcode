@@ -128,6 +128,38 @@ public:
 };
 
 
+
+// 0 diff diagonal -> {1,1}, {2,2}, {3,3} j=i+diff
+//1 diff diagonal-> {0,1} ,{1,2}, {2,3} , j= 0+1 = i+diff
+// 2diff diagonal -> {0,2}, {1,3}
+class Solution { // using diagonal approach 
+public:
+    int longestPalindromeSubseq(string s) {        
+        int n = s.size();
+
+        vector<vector<int>> dp(n,vector<int>(n,0));
+
+        for(int diff=0; diff<n; diff++){
+            for(int i=0,j=i+diff; j<n; i++, j++){
+                if(i==j){ //diagonal =0
+                    dp[i][j] = 1;
+                }
+                else if(diff==1){
+                    dp[i][j] = (s[i]==s[j]) ? 2:1;
+                }
+                else{
+                    if(s[i]==s[j] && dp[i+1][j-1]){
+                        dp[i][j] = dp[i+1][j-1] + 2;
+                    }
+                    else  // remining inbetween string not equal 
+                        dp[i][j] = max(dp[i][j-1], dp[i+1][j]);
+                }
+            }
+        }
+        return dp[0][n-1];
+    }
+};
+
 // @lc code=end
 
 

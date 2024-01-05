@@ -18,6 +18,30 @@ cout<<endl;
 class Solution {
 public:
     int numberOfBeams(vector<string>& bank) {
+        int n = bank.size();
+        int m = bank[0].size();
+        int ans = 0;
+        int prev = 0;
+        int curr = 0;
+        for(auto s:bank){
+            curr = 0;
+            for(int i=0; i<s.size(); i++){
+                if(s[i]=='1')
+                    curr++;
+            }
+            if(curr){
+                ans += prev*curr;
+                prev = curr;
+            }
+        }
+        return ans;
+    }
+};
+
+
+class Solution {
+public:
+    int numberOfBeams(vector<string>& bank) {
         int n= bank.size();
         int m= bank[0].size();
         vector<int> temp;
