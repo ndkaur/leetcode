@@ -21,41 +21,47 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
 class Solution {
 public:
+    int f(int idx, vector<vector<int>>& jobs, vector<int>& dp, vector<int>& st){
+        int n = dp.size();
+
+        if(idx>=n)
+            return 0;
+        if(dp[idx]!=-1)
+            return dp[idx];
+
+        // not pick then move to next index
+        int npick =  f(idx+1, jobs, dp, st);
+        // pick the curr idx add its profit and find tht next index that we should go to , one condition is we can start from same place where we ended 
+        int end = jobs[idx][1]; 
+        // we need to find the next start time for the last end time used
+        int lb = lower_bound(st.begin(), st.end(), end) - st.begin();
+        // pick then add profit of curr idx and move to next indx
+        int pick = jobs[idx][2] + f(lb, jobs, dp, st);
+
+        return dp[idx] = max(pick, npick);
+    }
     int jobScheduling(vector<int>& st, vector<int>& et, vector<int>& profit) {
         int n = st.size();
-        vector<vector<int>> jobs(n,vector<int>(3));
-        
+        // if we sort the start then the corresponding order of it with end and profit will change so we need to store all three of them at one place 
+        vector<vector<int>> jobs(n, vector<int>(3));
         for(int i=0; i<n; i++){
             jobs[i][0] = st[i];
             jobs[i][1] = et[i];
             jobs[i][2] = profit[i];
         }
         sort(jobs.begin(), jobs.end());
-        sort(st.begin(), st.end());        
+        // sort the start time also 
+        sort(st.begin(), st.end());
+        // we need to store the previous profits made so use dp
         vector<int> dp(n,-1);
-
-        return solve(0, jobs, st, dp);
-    }
-    int solve(int idx, vector<vector<int>>& jobs, vector<int>& st,vector<int>& dp){
-        int  n = jobs.size();
-        
-        if(idx>=n)
-            return 0;
-        if(dp[idx]!=-1)
-            return dp[idx];
-        
-        int notPick = solve(idx+1, jobs, st, dp);
-        // we can pick same idx after its end time to start next job so lb
-        // finding the lb for the end time of the same idx  
-        int end = jobs[idx][1];
-        int lb = lower_bound(st.begin(), st.end(), end) - st.begin();
-        int pick = jobs[idx][2] + solve(lb, jobs, st, dp);
-
-        return dp[idx] = max(pick, notPick);
+        return f(0,jobs, dp, st);
     }
 };
+
 // @lc code=end
 
 
