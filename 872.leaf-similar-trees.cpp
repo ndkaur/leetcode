@@ -43,7 +43,7 @@ public:
     void dfs(TreeNode *root, vector<int> & leaf){
         if(root==NULL) return ;
         if(root->left==NULL && root->right== NULL)
-            leaf.push_back(node->val);
+            leaf.push_back(root->val);
         dfs(root->left,leaf);
         dfs(root->right,leaf);
         
