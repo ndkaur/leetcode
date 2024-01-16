@@ -70,6 +70,42 @@ public:
 // @lc code=end
 
 
+
+
+class RandomizedSet {
+public:
+    unordered_set<int> st;
+    RandomizedSet() {
+        
+    }
+    
+    bool insert(int val) {
+        if(st.find(val)!=st.end())
+            return false;
+        else{
+            st.insert(val);
+            return true;
+        }
+    }
+    
+    bool remove(int val) { 
+        if(st.find(val)==st.end())
+            return false;
+        else{
+            st.erase(val);
+            return true;
+        }
+    }
+    
+    int getRandom() {
+        // return arr[rand()%arr.size()];
+        int pos = rand()%st.size();
+        return *next(st.begin(), pos);
+    }
+};
+
+
+
 int main(){
 
     return 0;
