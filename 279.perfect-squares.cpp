@@ -21,6 +21,55 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+class Solution0 {
+public:
+    int f(int idx, int n, vector<int>& dp){
+        if(n==0)
+            return 0;
+        if(n<0)
+            return 1e8;
+        if(idx*idx>n)
+            return 1e8;
+
+        if(dp[n]!=-1)
+            return dp[n];
+            
+        if(idx*idx<=n){
+            // pick , not pick
+            return dp[n] = min(1+f(idx, n-(idx*idx), dp), f(idx+1, n, dp));
+        }
+        return dp[n]=0;
+
+    }
+    int numSquares(int n) {
+        vector<int> dp(n+1,-1);
+        return f(1, n, dp);
+    }
+};
+
+
+class Solution {
+public:
+    int numSquares(int n) {
+        if(n<=3)
+            return n;
+        vector<int> dp(n+1,INT_MAX);
+        dp[0] = 0;
+
+        for(int i=1; i<=n; i++){ // loop for num n given 
+            for(int j=1; j*j<=i; j++){ // our iterating to reach target 
+                dp[i] = min(dp[i], 1+dp[i-j*j]); // npick , pick 
+            }
+        }
+        return dp[n];
+    }
+};
+
+
+
+
 class Solution0 {
 public:
     int numSquares(int n) {
