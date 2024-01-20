@@ -43,26 +43,23 @@ public:
     }
 };
 
-// bfs
-class Solution1 {
+class Solution {
 public:
     vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
-        vector<vector<int>> ans;
+        int n = graph.size();
+        vector<vector<int>>ans;
         queue<vector<int>> q;
-        int n= graph.size()-1;
         q.push({0});
-        while(!q.empty()){
-            auto vertex= q.front(); // array
+        while(q.size()){
+            auto temp = q.front();
             q.pop();
-            if(vertex.back()==n){
-                ans.push_back(vertex);
-            }else{
-                auto nextVertex = graph[vertex.back()];
-                for(int i=0;i<nextVertex.size();i++){
-                    vector<int> temp(vertex.begin(),vertex.end());
-                    temp.push_back(nextVertex[i]);
-                    q.push(temp);
-                }
+            int node = temp.back();
+            if(node==n-1)
+                ans.push_back(temp);
+            for(auto itr:graph[node]){
+                temp.push_back(itr);
+                q.push({temp});
+                temp.pop_back();
             }
         }
         return ans;
