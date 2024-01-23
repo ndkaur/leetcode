@@ -15,6 +15,57 @@ void print(vi &out){
     cout<<endl;
 }
 
+//bfs
+
+// we only want to count the fully connected components 
+// simple bfs will cnt only all the componects if if they are not completely connected 
+//so to check if the cnt only increases when the components are completely connected to each other 
+class Solution {
+public:
+    void bfs(int node, vector<vector<int>>& adj, vector<int>& visited, int& ans){
+        queue<int> q;
+        q.push(node);
+        visited[node] =1;
+        int cnt = 0; // cnt only increase wehen we pop 
+        int edgecnt = 0;
+        while(q.size()){
+            auto node = q.front();
+            q.pop();
+            cnt++;
+            for(auto itr:adj[node]){
+                if(!visited[itr]){
+                    q.push(itr);
+                    visited[itr]=1;
+                }
+                edgecnt++; // when each adjacent of the curr node is visited the edgecnt increases 
+                // this states the cnt of the nodes visited each time even in repeatance in the component by diffrent itr parents
+            }
+        }
+        if(cnt*(cnt-1)==edgecnt) 
+            ans++;
+    }
+
+    int countCompleteComponents(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> adj(n);
+        for(auto edge:edges){
+            int u = edge[0];
+            int v = edge[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        int cnt = 0;
+        vector<int> visited(n,0);
+        for(int i=0; i<n; i++){
+            if(!visited[i]){
+                bfs(i,adj, visited,cnt);
+            }
+        }
+        return cnt;
+    }  
+};
+
+
+// dfs
 class Solution {
 public:
     int countCompleteComponents(int n, vector<vector<int>>& edges) {
