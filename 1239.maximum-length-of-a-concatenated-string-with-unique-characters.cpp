@@ -45,6 +45,37 @@ cout<<endl;
 
 class Solution {
 public:
+    void dfs(int idx, string path, vector<string>& arr, int& ans){
+        int n = arr.size();
+        if(isUniqueChars(path)){
+            ans = max(ans, (int)path.size());
+        }
+        if(idx==n || !isUniqueChars(path)){
+            return;
+        }
+
+        for(int i=idx; i<n; i++){
+            dfs(i+1, path+arr[i], arr, ans);
+        }
+    }
+    bool isUniqueChars(string& s){
+        unordered_set<char> st;
+        for(auto ch:s){
+            if(st.count(ch))
+                return false;
+            st.insert(ch);
+        }
+        return true;
+    }
+    int maxLength(vector<string>& arr) {
+        int ans = 0;
+        dfs(0, "", arr, ans);
+        return ans;
+    }
+};
+
+class Solution {
+public:
     int maxLength(vector<string>& arr) {
         int n= arr.size();
         string str="";
