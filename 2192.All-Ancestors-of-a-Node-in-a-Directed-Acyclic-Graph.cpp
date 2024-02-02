@@ -16,6 +16,35 @@ void print(vi &out){
 }
 
 
+
+
+class Solution {
+public:
+    void dfs(vector<vector<int>>& adj, int i, int node, vector<vector<int>>& ans){
+        for(auto itr:adj[node]){
+            if(ans[itr].empty() || ans[itr].back()!=i){
+                ans[itr].push_back(i); // adding ancestor ie i
+                dfs(adj, i, itr, ans);
+            }
+        }
+    }
+    vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> adj(n);
+        vector<vector<int>> ans(n);
+        for(auto edge:edges){
+            int u = edge[0];
+            int v = edge[1];
+            adj[u].push_back(v);
+        }
+
+        for(int i=0; i<n; i++){
+            // to keep track of ancestors of curr node we pass 
+            dfs(adj, i, i, ans);
+        }
+        return ans;
+    }
+};
+
 //  topological sort will give us u->v where u appears before v 
 // so in that same manner we insert child for parent and grandparent for child
 class Solution {
