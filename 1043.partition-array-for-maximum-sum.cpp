@@ -21,6 +21,80 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+class Solution0 {
+public:
+    int f(int idx, vector<int>& arr, int k){
+        int n = arr.size();
+        if(idx>=n) // out of bound case
+            return 0;
+        
+        int mxSum = 0;
+        int mxElem = 0;
+        for(int i=idx; i<min(n, idx+k); i++){
+            mxElem =  max(mxElem, arr[i]);
+            // sum of a subarray = mxElem * no of elemts present int hat subarray
+            mxSum = max(mxSum, mxElem * (i-idx+1) + f(i+1, arr, k));
+        }
+        return mxSum;
+    }
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        int n = arr.size();
+        return f(0,arr, k);
+    }
+};
+
+
+class Solution {
+public:
+    int f(int idx, vector<int>& arr, int k, vector<int>& dp){
+        int n = arr.size();
+        if(idx>=n) // out of bound case
+            return 0;
+        
+        if(dp[idx]!=-1)
+            return dp[idx];
+
+        int mxSum = 0;
+        int mxElem = 0;
+        for(int i=idx; i<min(n, idx+k); i++){
+            mxElem =  max(mxElem, arr[i]);
+            // sum of a subarray = mxElem * no of elemts present int hat subarray
+            mxSum = max(mxSum, mxElem * (i-idx+1) + f(i+1, arr, k, dp));
+        }
+        dp[idx] = mxSum;
+        return mxSum;
+    }
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        int n = arr.size();
+        vector<int> dp(n,-1);
+        return f(0,arr, k, dp);
+    }
+};
+
+
+class Solution {
+public:
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        int n = arr.size();
+        vector<int> dp(n+1,0);
+        
+        for(int i=n-1; i>=0; i--){
+            int mxSum = 0;
+            int mxElem = 0;
+            for(int j=i; j<min(n, i+k); j++){
+                mxElem =  max(mxElem, arr[j]);
+                // sum of a subarray = mxElem * no of elemts present int hat subarray
+                mxSum = max(mxSum, mxElem * (j-i+1) + dp[j+1]);
+            }
+            dp[i] = mxSum;
+        }
+        return dp[0]; 
+    }
+};
+
+
 class Solution {
 public:
     int maxSumAfterPartitioning(vector<int>& arr, int K) {

@@ -47,12 +47,12 @@ public:
             auto distance = front[1];
             auto color = front[2];
               
-            // if node not already visited
+            // already visited then same dist otherwise curr dist 
             dist[node]  = dist[node]!=-1 ? dist[node] : distance;
 
             for(auto& itr:adj[node]){
                 // node -> {itr node, itr color}
-                // not the same color as parent and is not visited
+                // already visited and same color as parent of the adj itr
                 if(color!=itr.second  && itr.first!=-1){
                     q.push({itr.first, distance+1, itr.second});
                     itr.first = -1; // marking as visited 
@@ -62,6 +62,58 @@ public:
         return dist;
     }
 };
+
+
+
+class Solution {
+public:
+    vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& red, vector<vector<int>>& blue) {
+        vector<vector<pair<int,int>>> adj(n);
+        // red =1, blue =2
+        for(auto edge:red){
+            adj[edge[0]].push_back({edge[1],1});
+        }
+        for(auto edge:blue){
+            adj[edge[0]].push_back({edge[1],2});
+        }
+        
+        vector<int> dist(n,-1);
+        dist[0]= 0;
+        // visited[node][color]=  false
+        vector<vector<bool>> visited(n, vector<bool>(3,false));
+        // the 0 has two colors 1 and 2  
+        visited[0][1] = visited[0][2] = true; 
+
+        queue<vector<int>> q;
+        q.push({0,0,0}); // node, dist, color
+        
+        while(q.size()){
+            int prevNode = q.front()[0];
+            int prevDistance = q.front()[1];
+            int prevColor = q.front()[2];
+            q.pop();
+
+            for(auto itr:adj[prevNode]){
+                int nextNode = itr.first;
+                int nextColor = itr.second;
+                
+                if(nextColor==prevColor)
+                    continue;
+
+                if(!visited[nextNode][nextColor]){
+                    visited[nextNode][nextColor] = true;
+                    if(dist[nextNode]==-1){
+                        dist[nextNode] =  1+ prevDistance;
+                    }
+                    q.push({nextNode, 1+prevDistance, nextColor});
+                }
+            }
+        }
+        return dist;
+    }
+};
+
+
 
 
 class Solution {

@@ -15,6 +15,27 @@ void print(vi &out){
     cout<<endl;
 }
 
+
+class Solution {
+public:
+    int edgeScore(vector<int>& edges) {
+        int n = edges.size();
+        vector<long long> indeg(n,0);
+        for(int i=0; i<n; i++){
+            indeg[edges[i]] += i;
+        }
+        long long idx =0 ;
+        long long mx = 0;
+        for(int i=0; i<indeg.size(); i++){
+            if(mx<indeg[i]){
+                mx= indeg[i];
+                idx= i;
+            }
+        }
+        return (int)idx;
+    }
+};
+
 class Solution {
 public:
     int edgeScore(vector<int>& edges) {

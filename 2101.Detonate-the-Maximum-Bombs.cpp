@@ -16,7 +16,7 @@ void print(vi &out){
 }
 
 // a bomb i lies in proximity of bomb j only when 
-// distance btw center <= radius of ith bomb 
+// distance btw center <= area of ith bomb 
 // To create graph, simply we need to loop over bombs list, and then for each bomb i, we need to check if a bomb j lies withing its proximity.
 
 typedef long long ll;

@@ -42,7 +42,7 @@ public:
         int i = 0;
         int mn = INT_MAX;
         int start = 0;
-        int sz = mp.size();
+        int sz = mp.size(); // we want to print the shortest string so to find that we want to store the start point
 
         while(j<n){
             if(mp.find(s[j])!=mp.end()){ // char of s exist in map of t
@@ -59,6 +59,10 @@ public:
                     start = i; // starting of the substr 
                 }
                 // elemt exist in map so increase the cnt 
+                // as we keep on decrementing the count of char from map
+                //  one state can occur when the freq becomes negative. 
+                // that means the char occurs more times in string s than requirement 
+                // so if it occur even if its freq is -ve , increse it freq to 0  
                 if(mp.find(s[i])!=mp.end()){
                     mp[s[i]]++;
                     // new elem so increase map size

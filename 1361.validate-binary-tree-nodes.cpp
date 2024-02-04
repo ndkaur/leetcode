@@ -21,6 +21,66 @@ cout<<endl;
 }
 
 // @lc code=start
+
+
+class Solution {
+public:
+    bool validateBinaryTreeNodes(int n, vector<int>& left, vector<int>& right) {
+        // no node should have indeg more than 1 , and no cycle 
+        // any tree has n-1 edges 
+        vector<vector<int>> adj(n);
+        vector<int> indeg(n,0);
+        int edges = 0;
+
+        for(int i=0; i<n; i++){
+            if(left[i]!=-1){
+                indeg[left[i]]++;
+                edges++;
+                adj[i].push_back(left[i]);
+            }
+            if(right[i]!=-1){
+                indeg[right[i]]++;
+                edges++;
+                adj[i].push_back(right[i]);
+            }
+        }
+
+        if(edges!=n-1)
+            return false;
+        
+        vector<int> visited(n,0);
+        queue<int> q;
+        int cnt = 0;
+
+        for(int i=0; i<n; i++){
+            if(indeg[i]>1)
+                return false;
+            if(indeg[i]==0){
+                q.push(i);
+                cnt++;
+            }
+        }
+
+        while(q.size()){
+            auto node = q.front();
+            q.pop();
+            visited[node]=1;
+            for(auto itr:adj[node]){
+                indeg[itr]--;
+                if(!visited[itr] && indeg[itr]==0){
+                    q.push(itr);
+                    cnt++;
+                }
+            }
+        }
+
+        if(cnt!=n){ // cycle
+            return false;
+        }
+        return true;
+    }
+};
+
 class Solution {
 public:
     bool validateBinaryTreeNodes(int n, vector<int>& leftChild, vector<int>& rightChild) {
