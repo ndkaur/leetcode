@@ -16,6 +16,46 @@ void print(vi &out){
 }
 
 
+// using flowyd warshall
+
+class Solution {
+public:
+    long long minimumCost(string source, string target, vector<char>& original, vector<char>& changed, vector<int>& cost) {
+        int n = original.size();
+        vector<vector<long long>> dist(26, vector<long long>(26,INT_MAX));
+
+        for(int i=0; i<n; i++){
+            // original char -> changed char  with given weight 
+            int o = original[i]-'a'; 
+            int c = changed[i]-'a';
+            dist[o][c]  = min(dist[o][c], (long long)cost[i]);
+        }
+        
+        // using flowyd warshall 
+        for(int k=0; k<26; k++){
+            for(int i=0; i<26; i++){
+                for(int j=0; j<26; j++){
+                    dist[i][j] = min(dist[i][j], dist[i][k]+dist[k][j]);
+                }
+            }
+        }
+
+        long long ans = 0;
+        for(int i=0; i<source.size(); i++){
+            if(source[i]==target[i])
+                continue;
+            int s = source[i]-'a';
+            int t = target[i]-'a';
+            if(dist[s][t]>=INT_MAX)
+                return -1;
+            ans += dist[s][t];
+        }
+        return ans;
+    }
+};
+
+
+
 class Solution {
 public:
     void bfs(char source, unordered_map<char,vector<pair<char,int>>>& adj, vector<vector<int>>& dist){

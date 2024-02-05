@@ -60,7 +60,8 @@ public:
             for(auto& it : adj[node]) {
                 int adjNode = it.first;
                 int wt = it.second;
-
+                // if(dist[prevNode]+nxtWt < dist[nxtNode]){
+                //     dist[nxtNode] = dist[prevNode] + nxtWt;
                 if(dis + wt < dist[adjNode]) {
                     dist[adjNode] = dis + wt;
                     pq.push({dis + wt, adjNode});
