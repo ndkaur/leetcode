@@ -22,6 +22,90 @@ void print(vi &out){
 
 // @lc code=start
 
+
+
+// sorting must be done 
+// i case of edges array we sort on basis of weight in ascending order 
+// this will help us adding the small weight edges 
+// we have to sort queries array also , cause for more weight the less weight edges will always be included
+// so instead of adding again n again the edges just sort them 
+// but in the answer the order of queries matter so add idx in the queries 
+
+class Dsu{
+public: 
+    vector<int> parent;
+    vector<int> rank;
+
+    Dsu(int n){
+        parent.resize(n);
+        rank.resize(n);
+        for(int i=0; i<n; i++){
+            parent[i] = i;
+            rank[i] = 0;
+        }
+    }
+    int findParent(int x){
+        if(parent[x]==x)
+            return x;
+        return parent[x] = findParent(parent[x]);
+    }
+
+    void unionn(int a, int b){
+        a = findParent(a);
+        b = findParent(b);
+        if(rank[a]<rank[b]){
+            parent[a] = b;
+        }
+        else if(rank[b]< rank[a]){
+            parent[b] = a;
+        }
+        else{
+            parent[b] = a;
+            rank[a]++;
+        }
+    }
+};
+
+class Solution {
+public:
+    vector<bool> distanceLimitedPathsExist(int n, vector<vector<int>>& edges, vector<vector<int>>& queries) {
+        int sz = edges.size();
+        auto comp = [&](vector<int>& a, vector<int>& b){
+            return a[2]<b[2]; // ascending order
+        };
+        sort(edges.begin(), edges.end(), comp);
+
+        // queries order matter so add idx also 
+        for(int i=0; i<queries.size(); i++){
+            queries[i].push_back(i);
+        }
+        sort(queries.begin(), queries.end(), comp);
+
+        Dsu dsu(n);
+
+        // now unionn 
+        // for each query check each edge 
+        int i=0;
+        vector<bool> ans(queries.size(), false);
+        
+        for(auto q:queries){
+            while(i<sz && edges[i][2]<q[2]){
+                dsu.unionn(edges[i][0], edges[i][1]);
+                i++;
+            }
+            // now for that query check if u and v belong to same parent 
+            if(dsu.findParent(q[0])==dsu.findParent(q[1])){
+                ans[q[3]] = true; // idx =true
+            }
+        }
+        return ans;
+    }
+};
+
+
+
+
+
 class DSU {
     public:
     vector<int> parent, rank;

@@ -22,6 +22,118 @@ void print(vi &out){
 
 // @lc code=start
 
+
+// we will use different dsu for alice and bob 
+// first connect edge of type 3 
+// every time we connect edgde using dsu we do cnt++;
+// so traverse all edges and keep on increasing cnt and decresing the n val
+// at the end return n-cnt  only when the connected component in both alice and bob dsu is ==1
+
+class Solution {
+public:
+    int N;
+    class Dsu{
+    public:
+        vector<int> parent;
+        vector<int> rank;
+        int components;
+
+        Dsu(int n){
+            parent.resize(n+1);
+            rank.resize(n+1);
+            for(int i=0; i<n; i++){
+                parent[i] = i;
+                rank[i]= 0;
+            }
+            components=n;
+        }
+        int findParent(int x){
+            if(parent[x]==x){
+                return x;
+            }
+            return parent[x] = findParent(parent[x]);
+        }
+
+        void unionn(int a,int b){
+            a= findParent(a);
+            b= findParent(b);
+            if(rank[a]<rank[b]){
+                parent[a]=b;
+            }
+            else if(rank[b]<rank[a]){
+                parent[b]=a;
+            }
+            else{
+                parent[a]=b;
+                rank[b]++;
+            }
+            components--;
+        }
+
+        bool isSingleComponent(){
+            return components==1;
+        }
+    };
+
+    int maxNumEdgesToRemove(int n, vector<vector<int>>& edges) {
+        N=n;
+        int sz= edges.size();
+        // type 3 edges must be connected first
+        auto comp = [&](vector<int>& a, vector<int>& b){
+            return a[0]>b[0]; // decreasing order
+        };
+        sort(edges.begin(), edges.end(), comp);
+
+        Dsu alice(N);
+        Dsu bob(N);
+
+        int cnt =0;
+
+        for(auto edge:edges){
+            int type = edge[0];
+            int u = edge[1];
+            int v = edge[2];
+
+            if(type==3){ // common edge effect on both 
+                bool checkEdgeAdded = false; 
+                // if different parent then add edge increase cnt 
+
+                if(alice.findParent(u)!=alice.findParent(v)){
+                    alice.unionn(u,v);
+                    checkEdgeAdded = true;
+                }
+                if(bob.findParent(u)!=bob.findParent(v)){
+                    bob.unionn(u,v);
+                    checkEdgeAdded = true;
+                }
+                if(checkEdgeAdded==true)
+                    cnt++;
+            }
+            else if(type==2){
+                if(bob.findParent(u)!=bob.findParent(v)){
+                    bob.unionn(u,v);
+                    cnt++;
+                }
+            }
+            else{
+                if(alice.findParent(u)!=alice.findParent(v)){
+                    alice.unionn(u,v);
+                    cnt++;
+                }
+            }
+        }
+
+        // if all nodes are visited all of them have only one node as parent and that means 
+        //  only one component 
+        if(alice.isSingleComponent()==true && bob.isSingleComponent()){
+            return sz - cnt;
+        }
+        return -1;
+    }
+};
+
+
+
 class DSU{
 public: 
     vector<int> parent;
