@@ -21,6 +21,66 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+//  inituation := we need to do traversal in a particular order so topological sort will be used
+//  plus one more benefit of using topo we can detect cycle and return -1 in some cases
+// at each node we need to keep a track of all the colors , for each node what all max count of colors we recieved 
+//  with the help of previous nodes we can find the next node's colors 
+// row->nodes,  col-> colors 
+class Solution {
+public:
+    int largestPathValue(string colors, vector<vector<int>>& edges) {
+        int n = colors.size();
+        unordered_map<int,vector<int>> adj;
+        vector<int> indeg(n,0);
+
+        for(auto edge:edges){
+            int u = edge[0];
+            int v = edge[1];
+            adj[u].push_back(v);
+            indeg[v]++;
+        }
+
+        queue<int> q;
+        vector<vector<int>> store(n, vector<int>(26,0));
+
+        for(int i=0; i<n; i++){
+            if(indeg[i]==0){
+                q.push(i);
+                store[i][colors[i]-'a'] = 1;
+            }
+        }
+
+        int mx = 0; // to save the longest length 
+        int cnt = 0; // to check cycle present or not
+
+        while(q.size()){
+            auto node = q.front();
+            q.pop();
+
+            cnt++;
+            mx = max(mx, store[node][colors[node]-'a']);
+
+            for(auto itr:adj[node]){
+                // for each node check all chars colors
+                for(int color=0; color<26; color++){
+                    // u->v and color =  u(a) -> v(a) both have same color then the cnt will increase by +1 
+                    // itr  = max( what itr already have , u node store + if the itr's color is same as node's color )
+                    store[itr][color]  = max(store[itr][color] , store[node][color]+ (colors[itr]-'a'==color));
+                }
+                indeg[itr]--;
+                if(indeg[itr]==0)
+                    q.push(itr);
+            }
+        }
+        if(cnt<n)
+            return -1;
+        return mx;
+    }
+};
+
+
 class Solution {
 public:
     int largestPathValue(string colors, vector<vector<int>>& edges) {
