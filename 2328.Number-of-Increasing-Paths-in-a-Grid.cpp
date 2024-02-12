@@ -18,36 +18,42 @@ void print(vi &out){
 
 // Time Complexity : O(NM)
 // Space Complexity : O(NM)
-class Solution {
+
+
+class Solution { //O(4*m*n)~ O(m*n)
 public:
-    int mod = 1000000007;
-    int dp[1000][1000] = {};
+    int mod = 1e9+7;
+    int dfs(int i, int j, vector<pair<int,int>>& dirs,  vector<vector<int>>& dp, vector<vector<int>>& grid){
+        int n = grid.size();
+        int m = grid[0].size();
+        int len = 1;
+
+        if(dp[i][j]!=-1)
+            return dp[i][j]; 
+
+        for(auto dir:dirs){
+            int nx = i+dir.first;
+            int ny = j+dir.second;
+            if(nx>=0 && nx<n && ny>=0 && ny<m &&  grid[i][j]<grid[nx][ny]){
+                len  = (len + dfs(nx, ny, dirs, dp,grid))%mod;
+            }
+        }
+        return dp[i][j] = len;
+    }
     int countPaths(vector<vector<int>>& grid) {
-        int n= grid.size();
-        int m= grid[0].size();
-        
-        int cnt =0;
+        int n = grid.size();
+        int m = grid[0].size();
+        vector<vector<int>>dp(n, vector<int>(m,-1));
+        vector<pair<int,int>> dirs = {{0,1},{-1,0},{0,-1},{1,0}};
+        int cnt = 0;
         for(int i=0; i<n; i++){
-            for(int j=0;j<m; j++){
-                // i , j, prev len indexes , grid 
-                cnt = (cnt%mod + dfs(i, j, 0, grid)%mod) % mod;
+            for(int j=0; j<m; j++){
+                cnt= (cnt+ dfs(i, j, dirs, dp, grid))%mod;
             }
         }
         return cnt;
     }
-    int dfs(int i, int j, int prevlen , vector<vector<int>>& grid){
-        int n= grid.size();
-        int m= grid[0].size();
-        
-        if(min(i,j) < 0 || i>=n || j>=m || prevlen >= grid[i][j]){
-            return 0;
-        }
-        
-        return dp[i][j]  ?  :  dp[i][j] = ( 1LL + dfs(i-1, j, grid[i][j], grid) + dfs(i, j-1, grid[i][j], grid) + 
-            dfs(i+1, j, grid[i][j] , grid) + dfs(i, j+1, grid[i][j] , grid) ) % mod;
-    }
 };
-
 
 
 int main(){

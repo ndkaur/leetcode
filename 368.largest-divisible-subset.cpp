@@ -22,41 +22,119 @@ void print(vi &out){
 
 // @lc code=start
 
-//  we can solve this using the lis , just sort the array and change the divisiblity condition 
-class Solution {   // time  O(n*n) +O(n)    space O(n) 
+
+// time :- O(N*2N)  recursion 
+class Solution0 {
 public:
-    vector<int> largestDivisibleSubset(vector<int>& nums) {
+    vector<int> solve(int i, vector<int>& nums){
         int n= nums.size();
         vector<int> ans;
-        vector<int> dp(n+1,1);
-        vector<int> hash(n);
-
+        if(i>=n) 
+            return {};
+        for(int j=i+1; j<n; j++){
+            if(nums[j]%nums[i]==0){
+                vector<int> temp = solve(j, nums);
+                if(temp.size()> ans.size())
+                    ans = temp;
+            }
+        }
+        ans.push_back(nums[i]);
+        return ans;
+    }
+    vector<int> largestDivisibleSubset(vector<int>& nums) {
+        int n = nums.size();
         sort(nums.begin(), nums.end());
-
-        int lastIdx=0;
-        int mx=1;
-        for(int i=0;i<n;i++){
-            hash[i]=i;
-            for(int j=0;j<i;j++){
-                if(nums[i]% nums[j]==0 && dp[i]< dp[j]+1){
-                    dp[i]= dp[j]+1;
-                    hash[i]= j;
-                }
-            }
-            if(dp[i]> mx){
-                mx= dp[i];
-                lastIdx =i;
+        vector<int> ans;
+        for(int i=0; i<n; i++){
+            vector<int> temp = solve(i, nums);
+            if(temp.size()>ans.size()){
+                ans = temp;
             }
         }
-        ans.push_back(nums[lastIdx]);
-        while(hash[lastIdx]!= lastIdx){
-            lastIdx = hash[lastIdx];
-            ans.push_back(nums[lastIdx]);
-        }
-        reverse(ans.begin(),ans.end());
         return ans;
     }
 };
+
+// memoization 
+class Solution1 { //O(N^3)
+public:
+    vector<int> solve(int i, vector<int>& nums, unordered_map<int,vector<int>>& dp){
+        int n= nums.size();
+       
+        if(i>=n) 
+            return {};
+
+        if(dp.count(i))
+            return dp[i];
+
+        for(int j=i+1; j<n; j++){
+            if(nums[j]%nums[i]==0){
+                vector<int> temp = solve(j, nums, dp);
+                if(temp.size()>= dp[i].size())
+                    dp[i] = temp;
+            }
+        }
+        dp[i].push_back(nums[i]);
+        return dp[i];
+    }
+    vector<int> largestDivisibleSubset(vector<int>& nums) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        vector<int> ans;
+        unordered_map<int,vector<int>> dp;
+
+        for(int i=0; i<n; i++){
+            vector<int> temp = solve(i, nums, dp);
+            if(temp.size()>ans.size()){
+                ans = temp;
+            }
+        }
+        return ans;
+    }
+};
+
+class Solution { //O(N^2)
+public:
+    vector<int> largestDivisibleSubset(vector<int>& nums) {
+        int n = nums.size();
+        // if a greetaer number is divisible by smaller number then its divisible by all smaller numbers 
+        sort(nums.begin(), nums.end());
+        vector<int> dp(n,1);
+        vector<int> hash(n);
+        
+        int mx = 1;
+        int lastidx = 0;
+
+        for(int i=0; i<n; i++){
+            hash[i] = i;
+            for(int j=0; j<i; j++){
+                // 2%1= 0
+                if(nums[i]%nums[j]==0 && 1+dp[j]>dp[i]){ // size changed 
+                    dp[i] = 1+dp[j];
+                    hash[i]= j;// idx stored
+                }
+            }
+            if(dp[i]>mx){
+                mx = dp[i];
+                lastidx = i;
+            }
+        }
+
+        vector<int> temp;
+        temp.push_back(nums[lastidx]);
+
+        while(hash[lastidx]!=lastidx){
+            lastidx = hash[lastidx];
+            temp.push_back(nums[lastidx]);
+        }
+
+        reverse(temp.begin(), temp.end());
+        return temp;
+    }
+};
+
+
+
 // @lc code=end
 
 
