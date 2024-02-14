@@ -15,6 +15,36 @@ for(auto x: out) cout<<x<<" ";
 cout<<endl;
 }
 
+
+class Solution {
+public:
+    bool check(string& word){
+        int i =0;
+        int j = word.size()-1;
+        while(i<j){
+            if(word[i]==word[j]){
+                i++;
+                j--;
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
+    }
+    string firstPalindrome(vector<string>& words) {
+        int n = words.size();
+        string ans;
+        for(auto word:words){
+            if(check(word)==true){
+                ans = word;
+                break;
+            }
+        }
+        return ans;
+    }
+};
+
 class Solution {
 public:
     string firstPalindrome(vector<string>& words) {
