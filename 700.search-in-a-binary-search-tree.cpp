@@ -55,6 +55,34 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    TreeNode* searchBST(TreeNode* root, int val) {
+        stack<TreeNode*> st;
+        st.push(root);
+        
+        while(!st.empty()) {
+            TreeNode* top = st.top();
+            st.pop();
+            if(top->val == val) {
+                return top;
+            } else if(top->val<val) { // val exist on right isde so no need of left side 
+                top->left = NULL;
+            } else {
+                top->right = NULL;
+            }
+            if(top->left) {
+                st.push(top->left);
+            }
+            if(top->right) {
+                st.push(top->right);
+            }
+        }
+        return NULL;
+    }
+};
+
 // @lc code=end
 
 

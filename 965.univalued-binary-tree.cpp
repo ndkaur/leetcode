@@ -47,6 +47,28 @@ public:
 
 class Solution {
 public:
+    set<int>s;
+    void fun(TreeNode* root){
+        if(root == NULL){
+            return;
+        }
+        s.insert(root->val);
+        fun(root->left);
+        fun(root->right);
+    }
+    bool isUnivalTree(TreeNode* root) {
+        fun(root);
+        if (s.size() == 1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+};
+
+class Solution {
+public:
     bool isUnivalTree(TreeNode* root) {
         if(!root) return true;
         return dfs(root, root->val);

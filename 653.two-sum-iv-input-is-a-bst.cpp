@@ -36,27 +36,32 @@ void print(vi &out){
 // tc-> O(n)  sc->O(n)
 class Solution {
 public:
-    bool findTarget(TreeNode* root, int k) {
-        if(!root) return false;
-        vector<int> ans;
-        dfs(root, k, ans);
-        int n= ans.size();
-        for(int i=0,j=n-1; i<j;){
-            if(ans[i]+ans[j]==k) return true;
-            ans[i]+ans[j]<k ? i++ : j--;
-        }
-        return false;
+    void inorder(TreeNode* root, vector<int>&in){
+        if(root == NULL) return ;
+        inorder(root->left, in) ;
+        in.push_back(root->val) ;
+        inorder(root->right, in) ;
     }
-    void dfs(TreeNode* root, int k, vector<int>& ans){
-        if(!root) return;
-        dfs(root->left,k,ans);
-        ans.push_back(root->val);
-        dfs(root->right,k, ans);
+
+    bool findTarget(TreeNode* root, int k) {
+        vector<int> arr;
+        inorder(root, arr) ;
+        // sorted arr
+        int i = 0;
+        int j = arr.size()-1 ;
+        while(i < j){
+            int sum = arr[i] + arr[j] ;
+            if(sum == k) return true;
+            else if(sum > k) 
+                j--;
+            else 
+                i++;
+        }
+        return false ;
     }
 };
 
-
-class Solution {
+class Solution1 {
 public:
     bool findTarget(TreeNode* root, int k) {
         unordered_set<int> s;
@@ -67,7 +72,7 @@ public:
         if(s.count(k - root->val))
             return true;
         s.insert(root->val);
-        return dfs(root->left, k) || dfs(root->right, k);
+        return dfs(root->left,s, k) || dfs(root->right,s, k);
     }
 };
 

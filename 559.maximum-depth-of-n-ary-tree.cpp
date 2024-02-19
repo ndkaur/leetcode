@@ -46,7 +46,7 @@ public:
         if(!root) return 0 ;
         int depth =0;
         for(auto &child : root->children){
-            depth = max(depth ,depth(child));
+            depth = max(depth ,maxDepth(child));
         }
         return 1+depth;
     }
