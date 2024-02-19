@@ -20,23 +20,65 @@ void print(vi &out){
 // and we use postorder -> left right root 
 // cause only after visiting left and right we can calculate the average of the nums.
 
-class Solution {
+
+class Solution0 { // O(n^2)
 public:
     int averageOfSubtree(TreeNode* root) {
-        // left right root post order
-        int cnt =0;
-        dfs(root,cnt);
-        return cnt;
+        if(!root) 
+            return 0;
+        int ans = 0;
+        // requirements -> sum, cnt -> avg 
+        solve(root,ans);
+        return ans;
     }
-    pair<int,int> dfs(TreeNode* root,int& cnt){
-        if(!root) return {0,0}; // sum, no of nodes
-        auto left = dfs(root->left,cnt);
-        auto right = dfs(root->right ,cnt);
+    void solve(TreeNode* root, int& ans){
+        if(!root) return;
+        // finding avg and checking if condition satisfied 
+        int cnt = 0;
+        int avg = (sum(root, cnt)/cnt);
+        // preorder traversal
+        if(avg==root->val)
+            ans++;
+        solve(root->left, ans);
+        solve(root->right, ans);
+    }
+    // main part of finding sum and cnt is done here 
+    int sum(TreeNode* root, int& cnt){
+        if(!root)
+            return 0;
+        cnt++;
+        int left = sum(root->left, cnt);
+        int right = sum(root->right, cnt);
+        return (left+right+root->val);
+    }
+};
+
+
+class Solution { // O(n)
+public:
+    int averageOfSubtree(TreeNode* root) {
+        if(!root) 
+            return 0;
+        int ans = 0;
+        // requirements -> sum, cnt -> avg 
+        // recursive function here cant be void or cant return int 
+        // cause we want both cnt and sum at same time so use pair
+        solve(root,ans); 
+        return ans;
+    }
+    pair<int,int> solve(TreeNode* root, int& ans){
+        if(!root)
+            return {0,0};
+        
+        auto left = solve(root->left, ans);
+        auto right = solve(root->right, ans);
         int sum = left.first + right.first + root->val;
-        int number = left.second + right.second + 1; // current node = 1
-        if(sum/number == root->val)
-            cnt++;
-        return {sum,number};
+        int nodesCnt = left.second + right.second + 1;
+
+        if(sum/nodesCnt == root->val)
+            ans++;
+            
+        return {sum, nodesCnt};
     }
 };
 
