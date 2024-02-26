@@ -109,7 +109,7 @@ public:
         f(nums, ans, temp, freq);
         return ans;
     }
-    void f(vector<int>& nums, vector<vector<int>>& ans, vector<int> temp, vector<int>& freq){
+    void f(vector<int>& nums, vector<vector<int>>& ans, vector<int>& temp, vector<int>& freq){
         int n = nums.size();
         if(temp.size()==n){
             ans.push_back(temp);

@@ -68,6 +68,49 @@ public:
 // use for loops and check if the words are reapeated only the freq no of times 
 
 
+class Solution {
+public:
+    vector<int> findSubstring(string s, vector<string>& words) {
+        vector<int> result;
+
+        if (s.empty() || words.empty()) {
+            return result;
+        }
+
+        int wordLength = words[0].size();
+        int wordNum = words.size();
+        int totalLength = wordLength * wordNum;
+
+        map<string, int> freq;
+        for (auto& word : words) {
+            ++freq[word];
+        }
+
+        for (int i = 0; i < wordLength; ++i) {
+            int left = i;
+            int right = i;
+            map<string, int> temp;
+
+            while (right + wordLength <= s.size()) {
+                string word = s.substr(right, wordLength);
+                right += wordLength;
+                temp[word]++;
+
+                while (temp[word] > freq[word]) {
+                    temp[s.substr(left, wordLength)]--;
+                    left += wordLength;
+                }
+
+                if (right - left == totalLength) {
+                    result.PB(left);
+                }
+            }
+        }
+
+        return result;
+    }
+};
+
 // @lc code=end
 
 

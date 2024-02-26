@@ -48,6 +48,47 @@ public:
     }
 };
 
+
+class Solution {
+    int biggest_island = 0;
+    int curr_island = 0;
+public:
+    
+    void dfs(int i, int j, int rows, int cols, vector<vector<int>>& grid) {
+        if (i < 0 || j < 0 || i >= rows || j >= cols || grid[i][j] == 0) {
+            return;
+        }
+        if (grid[i][j] == 1) {
+            curr_island++;
+            grid[i][j] = 0;
+        }
+        
+        dfs(i+1, j, rows, cols, grid);
+        dfs(i-1, j, rows, cols, grid);
+        dfs(i, j+1, rows, cols, grid);
+        dfs(i, j-1, rows, cols, grid);
+    }
+
+
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        
+        int rows = grid.size();
+        int cols = grid[0].size();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 1) {
+                    dfs(i, j, rows, cols, grid);
+                    biggest_island = max(biggest_island, curr_island);
+                    curr_island = 0;
+                }
+            }
+        }
+
+        return biggest_island;
+    }
+};
+
+
 class Solution {
 public:
     int maxAreaOfIsland(vector<vector<int>>& grid) {

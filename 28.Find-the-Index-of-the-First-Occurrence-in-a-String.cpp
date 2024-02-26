@@ -77,6 +77,32 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        int n = haystack.size();
+        int m = needle.size();
+        int cnt = 0;
+
+        for(int i=0; i<n; i++){
+            if(haystack[i]==needle[cnt]){
+                cnt++;
+            }
+            else{
+                i = i-cnt; // eg- if started from idx=0, then start again from idx=1
+                cnt = 0;
+            }
+
+            if(cnt==m){
+                return i-m+1;
+            }
+        }
+        return -1;
+    }
+};
+
+
 int main(){
 
     return 0;
