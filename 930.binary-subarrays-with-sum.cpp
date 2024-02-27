@@ -47,6 +47,11 @@ public:
     }
 };
 
+// we want goal , but goal can also be made adding 0 
+// so if we use logic of sum==goal sliding window , we will skip those subarrays where sum got greater 
+// so those subarray <= goal and those  sum < goal 
+// sum<=goal - sum<goal => sum==goal
+
 // subaray with sum at most k =2  14 subarays 
 // subarray with sum at most k -1 = 2-1 = 1  => 10 subarrays 
 // so the ans is 14-10 =  4;
