@@ -21,74 +21,92 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution0{
+// brute :- O(n^2)
+class Solution0 {
 public:
-    int longestConsecutive(vector<int>& nums) {
-        int cnt=0;
-        for(int num:nums){
-            int curnum = num;
-            int curcnt = 1;
-            while(check(nums,curnum+1)){
-                curnum +=1;
-                curcnt += 1;
-            }
-            cnt= max(cnt,curcnt);
-        }
-        return cnt;
-    }
-    bool check(vector<int>& nums, int cur){
-        for(int i=0;i<nums.size();i++){
-            if(nums[i]==cur){
+    bool search(vector<int>& nums, int val){
+        int n = nums.size();
+        for(int i=0; i<n; i++){
+            if(nums[i]==val)
                 return true;
-            }
         }
         return false;
     }
-}; // time limit exceeded 
+    int longestConsecutive(vector<int>& nums) {
+        int n = nums.size();
+        if(n==0)
+            return 0;
+        int longest= 1;
+        for(int i=0; i<n; i++){
+            int num = nums[i];
+            int cnt =1;
+            while(search(nums, num+1)){
+                num += 1;
+                cnt++;
+            }
+            longest = max(longest, cnt);
+        }
+        return longest;
+    }
+};
 
+// best approach :- //O(nlogn) + O(n)
 class Solution1 {
 public:
     int longestConsecutive(vector<int>& nums) {
-        int n= nums.size();
-        sort(nums.begin(),nums.end());
+        int n = nums.size();
         if(n==0)
             return 0;
-        int cnt=1;
-        int curcnt=1;
-        for(int i=1;i<n;i++){
-            if(nums[i] != nums[i-1]){
-                if(nums[i]==nums[i-1]+1){
-                   curcnt +=1;
-                }
-                else{
-                   cnt= max(cnt,curcnt);
-                   curcnt =1;
-               }
-            }
-        }    
-        return max(curcnt,cnt);
-    }
-};// O(nlogn)
 
-class Solution {
+        sort(nums.begin(), nums.end());
+
+        int small = INT_MIN;
+        int cnt = 0;
+        int longest= 1;
+
+        for(int i=0; i<n; i++){
+            if(nums[i]-1==small){
+               cnt+=1;
+               small = nums[i];
+            }
+            else if(nums[i]!=small){ // giving small value 
+                cnt=1;
+                small = nums[i];
+            }
+            longest = max(longest, cnt);
+        }
+        return longest;
+    }
+};
+
+
+class Solution { // O(n)+ O(2*n)
 public:
     int longestConsecutive(vector<int>& nums) {
-        int n= nums.size();
-        unordered_set<int> list(nums.begin(),nums.end());
-        int cnt=0;
-        for(int num:list){
-            // starting elemt of sorted list will never have count of num-1
-            if(!list.count(num-1)){
-                int cur=num;
-                int curcnt=1;
-                while(list.count(cur+1)){
-                    cur +=1;
-                    curcnt +=1;
+        int n = nums.size();
+        if(n==0)
+            return 0;
+
+        int longest =1;
+        unordered_set<int> st;
+        for(int i=0; i<n; i++){ //O(n)
+            st.insert(nums[i]);
+        }
+
+        for(auto itr:st){ //O(2*n)
+            // itr is starting num 
+            if(st.find(itr-1)==st.end()){
+                int cnt = 1;
+                int val = itr;
+                // finding next num of itr 
+                while(st.find(val+1)!=st.end()){
+                    val =  val+1;
+                    cnt++;
                 }
-                cnt= max(cnt,curcnt);
+                longest = max(longest, cnt);
             }
         }
-        return cnt;
+        return longest;
     }
 };
 

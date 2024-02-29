@@ -21,6 +21,81 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+class Solution0 {
+public:
+    pair<int,int> count(string s){
+        int one = 0;
+        int zero = 0;
+        for(int i=0; i<s.size(); i++){
+            if(s[i]=='1')
+                one++;
+            else 
+                zero++;
+        }
+        return {one,zero};
+    }
+    int solve(int i, int zero, int one, int& mxzero, int& mxone, vector<string>& strs, vector<vector<vector<int>>>&dp){
+        int n= strs.size();
+        if(i>=n)
+            return 0;
+        if(one>mxone || zero>mxzero)
+            return 0;
+        
+        if(dp[i][zero][one]!=-1)
+            return dp[i][zero][one];
+        // {one, zero}
+        pair<int,int> cnt = count(strs[i]);
+
+        int picknone =0, pickall=0, notPick = 0;
+        //  atmost -> curr cnt <= mxcnt
+        if(one+cnt.first<=mxone && zero + cnt.second <= mxzero){
+            pickall = 1+solve(i+1, zero+cnt.second,one+cnt.first, mxzero, mxone, strs, dp);
+            picknone = solve(i+1,zero, one, mxzero, mxone, strs, dp);
+        }
+        else{
+            notPick = solve(i+1, zero, one, mxzero, mxone, strs, dp);
+        }
+        return dp[i][zero][one]= max({picknone, pickall, notPick});
+    }
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        int mxzero = m;
+        int mxone = n;
+        vector<vector<vector<int>>> dp(strs.size()+1, vector<vector<int>>(m+1, vector<int>(n+1,-1)));
+        return solve(0,0,0, mxzero, mxone, strs, dp);
+    }
+};
+
+
+class Solution {
+public:
+    int solve(int i, int mxzero, int mxone, vector<string>& strs, vector<vector<vector<int>>>&dp){
+        int n= strs.size();
+        if(i>=n)
+            return 0;
+        
+        if(dp[i][mxzero][mxone]!=-1)
+            return dp[i][mxzero][mxone];
+        
+        int zc  = count(strs[i].begin(), strs[i].end(), '0');
+        int oc = strs[i].size()-zc;
+
+        //  atmost -> curr cnt <= mxcnt
+        if(mxzero - zc>=0 && mxone - oc>=0){
+            return dp[i][mxzero][mxone] = max(1+solve(i+1, mxzero-zc, mxone-oc, strs, dp), solve(i+1, mxzero, mxone, strs, dp));
+        }
+        else{
+           return dp[i][mxzero][mxone] = solve(i+1, mxzero, mxone, strs, dp);
+        }
+    }
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        vector<vector<vector<int>>> dp(strs.size()+1, vector<vector<int>>(m+1, vector<int>(n+1,-1)));
+        return solve(0,m, n, strs, dp);
+    }
+};
+
+
 class Solution0 {
     void max_self(int &a, int b){
         if(a<b)
