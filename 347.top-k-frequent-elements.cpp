@@ -69,6 +69,36 @@ public:
     }
 };
 
+//O(n)
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        int n = nums.size();
+        unordered_map<int,int> mp;
+        for(int num:nums){
+            mp[num]++;
+        }
+        // vvi array -> for each freq -> store the elemts with that freq 
+        vector<vector<int>> store(n+1);
+        for(auto itr:mp){
+            int elm = itr.first;
+            int freq= itr.second;
+            store[freq].push_back(elm);
+        }
+        vector<int> ans;
+        // we want max fre so start from right side
+        for(int i=n; i>=0; i--){
+            if(store[i].size()==0)
+                continue;
+            while(store[i].size()>0 && k>0){
+                ans.push_back(store[i].back());
+                store[i].pop_back();
+                k--;
+            }
+        }
+        return ans;
+    }
+};
 
 // @lc code=end
 

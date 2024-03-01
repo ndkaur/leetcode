@@ -15,6 +15,41 @@ void print(vi &out){
     cout<<endl;
 }
 
+
+class Solution {
+public:
+    string maximumOddBinaryNumber(string s) {
+        int n = s.size();
+        int cnt1 =0;
+        int cnt0=0;
+        for(int i=0; i<n; i++){
+            if(s[i]=='1')
+                cnt1++;
+            else 
+                cnt0++;
+        }
+        //eg-> 0101 cnt1 =2 , cnt0 =2,   1001 
+        // eg-> 010, cnt1=1 , cnt0 =2 , 001
+        string ans = string(cnt1-1, '1') + string(cnt0, '0') + '1';
+        return ans;
+    }
+};
+
+
+class Solution {
+public:
+    string maximumOddBinaryNumber(string s) {
+        sort(s.rbegin(),s.rend());
+        for(int i = s.size()-1;i>=0;i--){
+            if(s[i]=='1')swap(s[i],s[s.size()-1]);
+        }
+        return s;
+    }
+};
+
+// 0101 -> sort descending order-> 1100 , swap , 1001
+
+
 class Solution {
 public:
     string maximumOddBinaryNumber(string s) {
