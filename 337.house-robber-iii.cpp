@@ -108,6 +108,22 @@ public:
 };
 
 
+class Solution {
+public:
+    int solve(TreeNode* root,int& l,int& r){
+        if(!root) return 0;
+        int ll = 0,lr = 0,rl = 0,rr = 0;
+        l = solve(root->left,ll,lr);
+        r = solve(root->right,rl,rr);
+        return max(root->val + ll + lr + rl + rr,l + r);
+    }
+    int rob(TreeNode* root) {
+        int l, r;
+        return solve(root,l,r);
+    }
+};
+
+
 // to avoid tle we need to store the precalculated answer to the node 
 // so we can use a map of node , int
 
