@@ -25,7 +25,7 @@ class Solution { // O(log(max(arr[]))*N),
 public:
     int smallestDivisor(vector<int>& nums, int threshold) {
         int  n= nums.size();
-        int l = 1;
+        int l = 1; // not possible 
         int r = *max_element(nums.begin(), nums.end());
         while(l<=r){
             int mid = l+(r-l)/2;
@@ -36,7 +36,7 @@ public:
                 l = mid+1;
             }
         }
-        return l;
+        return l; // polarity changed 
     }
     bool isPossible(vector<int>& nums, int thres, int val){
         int n = nums.size();

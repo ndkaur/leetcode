@@ -21,6 +21,47 @@ void print(vi &out){
 }
 // @lc code=start
 
+
+class Solution { //n*logm
+public:
+    int findMx(vector<vector<int>>& mat, int n, int m, int mid){
+        // find mx in the curr full col 
+        int mxVal = -1;
+        int idx = -1;
+        for(int i=0; i<n; i++){
+            if(mat[i][mid]>mxVal){
+                mxVal = mat[i][mid];
+                idx = i;
+            }
+        }
+        return idx;
+    }
+    vector<int> findPeakGrid(vector<vector<int>>& mat) {
+        int n = mat.size();
+        int m = mat[0].size();
+        int l = 0;
+        int r = m-1;
+        while(l<=r){
+            int mid = l + (r-l)/2; // col idx 
+            // we are traversing col wise check 
+            int mxRowidx =  findMx(mat,n, m, mid); // row idx 
+            // mid-1, mid, mid+1
+            int left = mid-1>=0 ? mat[mxRowidx][mid-1] : -1;
+            int right = mid+1<m ? mat[mxRowidx][mid+1] : -1;
+
+            if(left < mat[mxRowidx][mid] && mat[mxRowidx][mid]>right)
+                return {mxRowidx, mid};
+            else if(mat[mxRowidx][mid]<left){
+                r = mid-1;
+            }
+            else {
+                l = mid+1;
+            }
+        } 
+        return {-1,-1};
+    }
+};
+
 // find middle row
 // find max element of that mid row-> then index of that max element
 // mid row can be topmost , middle , bottom most 

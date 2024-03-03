@@ -41,6 +41,27 @@ public:
 };
 
 
+class Solution {
+public:
+    int countSubmatrices(vector<vector<int>>& grid, int k) {
+        int n = grid.size();
+        int m = grid[0].size();
+        vector<vector<int>> dp(n, vector<int>(m,0));
+        int cnt =0;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                dp[i][j] = grid[i][j] + (i>0 ? dp[i-1][j]:0) + 
+                            (j>0 ? dp[i][j-1]:0) 
+                            - ((i>0 && j>0) ? dp[i-1][j-1]:0);
+                if(dp[i][j]<=k)
+                    cnt++;
+            }
+        }
+
+        return cnt;
+    }
+};
+
 // @lc code=end
 
 

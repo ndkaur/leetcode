@@ -127,6 +127,56 @@ public:
     }
 };
 
+class Solution {
+public:
+    bool isPossible(vector<int>&arr, int no_buq, int adj_flower, long long min_wait){
+        int n = arr.size();
+        long long pick_adj = 0; // size
+        long long bq_made = 0; // cnt
+
+        for(int i=0; i<n; i++){
+            if(arr[i]<=min_wait){ // flower blooming
+                pick_adj++;
+            }
+            else{
+                pick_adj=0;
+            }
+            if(pick_adj==adj_flower){
+                pick_adj=0;
+                bq_made++;
+            }
+            if(bq_made==no_buq)
+                return true;
+        }
+        return false;
+    }
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        int n = bloomDay.size();
+        if(n==0 || m==0 || k==0)
+            return 0;
+        long long val = m * 1ll * k * 1ll;
+        if(val>n)
+            return -1;
+
+        long long l = *min_element(bloomDay.begin(), bloomDay.end()); // not possiblt 
+        long long r = *max_element(bloomDay.begin(), bloomDay.end());
+        
+        while(l<=r){
+            long long  mid = l+(r-l)/2;
+            if(isPossible(bloomDay, m, k, mid)){
+                r = mid-1;
+            }
+            else{
+                l = mid+1;
+            }
+        }
+        return (int)l;
+    }
+};
+
+
+
+
 
 // @lc code=end
 
