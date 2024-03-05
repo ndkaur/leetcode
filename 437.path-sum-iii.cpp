@@ -32,32 +32,6 @@ void print(vi &out){
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
-public:
-    int res=0;
-    int sum;
-    vector<int> seen={0};
-    void dfs(TreeNode* root, long long partialSum=0){
-        partialSum+= root->val;
-        for(auto s:seen){
-            if(s==partialSum- sum)
-                res++;
-        }
-        seen.push_back(partialSum);
-        if(root->left)
-            dfs(root->left, partialSum);
-        if(root->right)
-            dfs(root->right, partialSum);
-        seen.pop_back();
-    }
-
-    int pathSum(TreeNode* root, int targetSum) {
-       sum= targetSum;
-       if(!root) return res;
-       dfs(root);
-       return res;
-    }
-};
 
 class Solution { //O(N^2)
 public:
@@ -101,6 +75,37 @@ public:
         mp[curr]--;
         curr -= root->val;
         return cnt+left+right;
+    }
+};
+
+class Solution {
+public:
+    int pathSum(TreeNode* root, int targetSum) {
+        unordered_map<long long ,int> mp;
+        int cnt = 0;
+        f(root, targetSum, 0, cnt, mp);
+        return cnt;
+    }
+    void f(TreeNode* root, int target, long long curr, int& cnt, unordered_map<long long ,int>& mp){
+        if(!root)
+            return ;
+
+        curr += root->val;
+
+        if(mp.find(-target+curr)!= mp.end()){
+            cnt += mp[-target+curr];
+        }
+
+        if(curr==target)
+            cnt+=1;
+            
+        mp[curr]++;
+
+        f(root->left, target, curr, cnt, mp);
+        f(root->right, target, curr, cnt, mp);
+
+        mp[curr]--;
+        curr -= root->val;
     }
 };
 

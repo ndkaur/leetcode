@@ -21,6 +21,45 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+class Solution { // smae like agresive cows
+public:
+    int check(vector<int>& nums, int k, int mid){
+        int n = nums.size();
+        int cnt =0;
+        // cnt of distances that are less than mid
+        int s=0;
+        int e = 0;
+        while(e<n){
+            while(nums[e]-nums[s]>mid && s<n){
+                s++;
+            }
+            // now dist less than mid
+            cnt += e-s;
+            e++;
+        }
+        return cnt;
+    }
+    int smallestDistancePair(vector<int>& nums, int k) {
+        int n  = nums.size();
+        sort(nums.begin(), nums.end());
+        int l = 0;  // not possible 
+        int h = nums[n-1]-nums[0];
+        while(l<=h){
+            int mid = l+(h-l)/2;
+            int dist = check(nums, k, mid);
+            if(dist<k){
+                l = mid+1;
+            }
+            else 
+                h = mid-1;
+        }
+        return l;
+    }
+};
+
+
 class Solution {
 public:
     int smallestDistancePair(vector<int>& nums, int k) {

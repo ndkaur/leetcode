@@ -97,6 +97,28 @@ public:
         return ans;
     }
 };
+
+
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& ast) {
+        int n = ast.size();
+        vector<int> ans;
+        for(int a:ast){
+            bool dest = false; // is coming ast got destroyed or not 
+            while(ans.size() && ans.back()>0 && a<0 && !dest){
+                if(ans.back() >= abs(a)) // coming ast got destroyed
+                    dest = true;
+                if(ans.back() <= abs(a))
+                    ans.pop_back();
+            }
+            if(!dest)
+                ans.push_back(a);
+        }
+        return ans;
+    }
+};
+
 // @lc code=end
 
 
