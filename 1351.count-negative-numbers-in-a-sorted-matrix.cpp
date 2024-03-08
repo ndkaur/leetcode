@@ -42,6 +42,30 @@ public:
     }
 };
 
+class Solution {
+public:
+    int countNegatives(vector<vector<int>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+        int cnt = 0;
+        // sorted in decreasing order 
+        int i = 0;
+        int j = m-1;
+        while(i<n && j>=0){
+            // if curr elm negative then its whole column will be negative as its decreasing order if most greater elem is -ve reast will also be -ve , then change column idx 
+            if(grid[i][j]<0){
+                cnt += (n-i); 
+                j--;
+            }
+            else if(grid[i][j]>=0){ // curr elem +ve then we not sure if remaing elem int hat column will be -ve or not so change row 
+                i++;
+            }
+        }
+        return cnt;
+    }
+};
+
+
 class Solution { //O(nlogm)
 public:
     int countNegatives(vector<vector<int>>& grid) {
