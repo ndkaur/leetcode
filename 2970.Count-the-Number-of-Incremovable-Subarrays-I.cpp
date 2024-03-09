@@ -15,6 +15,38 @@ void print(vi &out){
     cout<<endl;
 }
 
+
+class Solution {
+public:
+    int incremovableSubarrayCount(vector<int>& nums) {
+        int n = nums.size();
+        int cnt =0;
+        for(int i=0; i<n; i++){
+            for(int j=i; j<n; j++){
+                // removing i to j subarray 
+                // checking remainig is increasing array 
+                bool flag = true;
+                int last = -1; // storing the prevv num for comparision
+                // subarray can be inbetween the array so we need to check all remaining elements 
+                for(int k=0; k<n; k++){
+                    if(k>=i && k<=j){ // elem within subarray are skipped
+                        continue;
+                    }
+                    if(last >=nums[k]){
+                        flag = false;
+                        break;
+                    }
+                    last = nums[k];
+                }
+                if(flag)
+                    cnt++;
+            }
+        }
+        return cnt;
+    }
+};
+
+
 class Solution {
 public:
     bool check(vector<int>& nums){

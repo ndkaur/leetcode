@@ -15,6 +15,18 @@ void print(vi &out){
 
 // @lc code=start
 
+class Solution { //O(sqrt(N))
+public:
+    int arrangeCoins(int n) {
+        int i = 1;
+        while(n>0){
+            i++;
+            n = n-i;
+        }
+        return i-1;
+    }
+};
+
 class Solution{
 public:
     int arrangeCoins(long long n){
@@ -44,6 +56,25 @@ public:
     } 
 };
 
+class Solution { //O(logN)
+public:
+    int arrangeCoins(int n) {
+        long l=0;
+        long r = n;
+        while(l<=r){
+           long mid = l+(r-l)/2;
+            long used = mid * (mid+1)/2;
+            if(used==n)
+                return (int)mid;
+            if(used<n){
+                l = mid+1;
+            }
+            else 
+                r = mid-1;
+       }
+       return (int) r;
+    }
+};
 
 class Solution {
 public:

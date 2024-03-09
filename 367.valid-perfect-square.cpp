@@ -19,6 +19,28 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+// 1 = 1
+// 4 = 1 + 3
+// 9 = 1 + 3 + 5
+// 16 = 1 + 3 + 5 + 7
+// 25 = 1 + 3 + 5 + 7 + 9
+// 36 = 1 + 3 + 5 + 7 + 9 + 11
+
+class Solution0 {
+public:
+    bool isPerfectSquare(int num) {
+        long i = 1;
+        while(num>0){
+            num -= i;
+            i+=2;
+        }
+        return num==0;
+    }
+};
+
+
+
 class Solution {
 public:
     bool isPerfectSquare(int num) {
