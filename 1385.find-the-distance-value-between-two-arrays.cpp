@@ -14,27 +14,63 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+
+
+class Solution0 {
 public:
     int findTheDistanceValue(vector<int>& arr1, vector<int>& arr2, int d) {
-        
-        // for every value of i count only that value of j whose abs with all 
-        // give back all greater numbers than d.
-
-        int count =0;
-        for(int i=0;i<arr1.size();i++){
-            bool count_krna = true;
-
-            for(int j=0;j<arr2.size();j++){
-                int val=abs(arr1[i]-arr2[j]);
-                if(val<=d)
-                    count_krna = false;
+        int n = arr1.size();
+        int m = arr2.size();
+        int cnt =0;
+        for(int i=0; i<n; i++){
+            bool found = false;
+            for(int j=0; j<m && !found; j++){
+                if(abs(arr1[i]-arr2[j]) <= d){
+                    found = true;
+                }
             }
-            if(count_krna) ++count;
+            if(!found)
+                cnt++;
         }
-        return count;
+        return cnt;
     }
 };
+
+
+class Solution {
+public:
+    bool isValid(vector<int>& arr, int target, int d){
+        int l = 0;
+        int r = arr.size()-1;
+        while(l<=r){
+            int mid = l+(r-l)/2;
+            if(abs(arr[mid]-target)<=d){
+                return false;
+            }
+            else if(arr[mid]<target){
+                l = mid+1;
+            }
+            else 
+                r = mid-1;
+        }
+        return true;
+    }
+    int findTheDistanceValue(vector<int>& arr1, vector<int>& arr2, int d) {
+        int n = arr1.size();
+        int m = arr2.size();
+        int cnt =0;
+        sort(arr2.begin(), arr2.end());
+
+        for(auto num:arr1){
+            if(isValid(arr2, num, d)){
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+};
+
+
 // @lc code=end
 int main(){
     Solution sol;

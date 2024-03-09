@@ -52,6 +52,52 @@ public:
     }
 };
 
+class Solution2 {
+public:
+    bool check(vector<int>& nums, int target){
+        int n = nums.size();
+        int l = 0;
+        int h = n-1;
+        while(l<=h){
+            int mid = l+(h-l)/2;
+            if(nums[mid]==target)
+                return true;
+            if(nums[mid]<target){
+                l = mid+1;
+            }
+            else 
+                h =mid-1;
+        }
+        return false;
+    }
+    int getCommon(vector<int>& nums1, vector<int>& nums2) {
+        int n = nums1.size();
+        int m = nums2.size();
+
+        for(int i=0; i<n; i++){
+            if(check(nums2, nums1[i])==true){
+                return nums1[i];
+            }
+        }
+        return -1;
+    }
+};
+
+class Solution {
+public:
+    int getCommon(vector<int>& nums1, vector<int>& nums2) {
+        int l = 0, r = 0;
+        while (l < nums1.size() && r < nums2.size()){
+            if (nums1[l] == nums2[r])
+                return nums1[l];
+            if (nums1[l] < nums2[r])
+                l++;
+            else r++;
+        }
+        return -1;
+    }
+};
+
 int main(){
 
     return 0;
