@@ -18,45 +18,72 @@ void print(vi &out){
     cout<<endl;
 }
 // @lc code=start
-class Solution { //O(N)
+
+
+class Solution0 { // space O(n)
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        int n=nums.size();
-        vector<int> out;
-        int l=0,r=n-1;
-        while(l<r){
-            if(nums[l]+nums[r]==target){
-                out.push_back(l+1);// zero based indexing so +1
-                out.push_back(r+1);
-                return out;
+        int  n = nums.size();
+        map<int,int> mp;
+        for(int i=0; i<n; i++){
+            int req = target- nums[i];
+            if(mp.find(req)!=mp.end()){
+                return {mp[req]+1, i+1};
             }
-            else if(nums[l]+nums[r]>target)
-                r--;
-            else 
-                l++;
+            mp[nums[i]] = i;
         }
-        return out;
+        return {-1,-1};
     }
 };
 
-class Solution { //O(N)
+// binary search 
+class Solution1 {  // O(nlogn)
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        int n= nums.size();
-        vector<int> ans;
-        unordered_map<int,int> mp;
-        for(int i=0;i<n;i++){
-            int dif= target - nums[i];
-            if(mp.count(dif)){
-                ans.push_back(mp[dif]+1);
-                ans.push_back(i+1);
-                
+        int  n = nums.size();
+        for(int i=0; i<n; i++){
+            int l = i+1;
+            int h = n-1;
+            while(l<=h){
+                int mid = l+(h-l)/2;
+                if(nums[mid]==target-nums[i]){
+                    return  {i+1, mid+1};
+                }
+                else if(nums[mid]> target-nums[i]){
+                    h = mid-1;
+                }
+                else 
+                    l = mid+1;
             }
-            mp[nums[i]]=i;
         }
-        return ans;
+        return {-1,-1};
     }
 };
+
+
+// two ptr
+class Solution { 
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        int  n = nums.size();
+        int i =0;
+        int j = n-1;
+        while(i<j){
+            if(nums[i]+nums[j]>target){
+                j--;
+            }
+            else if(nums[i]+nums[j]<target){
+                i++;
+            }
+            else {
+                return {i+1, j+1};
+            }
+        }
+        return {-1,-1};
+    }
+};
+
+
 // @lc code=end
 
 

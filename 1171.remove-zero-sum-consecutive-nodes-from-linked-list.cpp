@@ -30,6 +30,41 @@ void print(vi &out){
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
+
+class Solution {
+public:
+    ListNode* removeZeroSumSublists(ListNode* head) {
+        if(!head)
+            return NULL;
+        int sum = 0;
+        map<int,ListNode*> mp;
+        ListNode* dummy = new ListNode(0);
+        ListNode* curr = dummy;
+        dummy->next = head; 
+        
+        while(curr){
+            sum += curr->val;
+            if(mp.count(sum)){
+                curr = mp[sum]->next;
+                int temp = sum + curr->val;
+                while(temp!=sum){
+                    mp.erase(temp);
+                    curr = curr->next;
+                    temp += curr->val;
+                }
+                mp[sum]->next = curr->next;
+            }
+            else{
+                
+                mp[sum] = curr;
+            }
+            curr = curr->next;
+        }
+        return dummy->next;
+    }
+};
+
 class Solution {
 public:
     ListNode* removeZeroSumSublists(ListNode* head) {

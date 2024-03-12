@@ -16,19 +16,38 @@ void print(vi &out){
 }
 
 
+
 class Solution {
 public:
-    string customSortString(string order, string str) {
-        int n= order.size();
-        int m= str.size();
-        unordered_map<char,int> mp;
-        for(int i=0;i<n;i++)
-            mp[order[i]]=i+1;
-        sort(str.begin(),str.end(),[&](char a, char b){return mp[a]<mp[b]; });
-        return str;
+    string customSortString(string order, string s) {
+        int n = order.size();
+        map<char,int> mp;
+        for(auto i:s){
+            mp[i]++;
+        }
+        string ans="";
+        for(int i=0; i<order.size(); i++){
+            auto ch = order[i];
+            if(mp.find(ch)!=mp.end()){
+                int freq = mp[ch];
+                for(int j=0; j<freq; j++){
+                    ans += ch;
+                }
+                mp.erase(ch);
+            }
+        }
+
+        for(auto itr:mp){
+            int freq = itr.second;
+            if(freq!=0){
+                while(freq--){
+                    ans+= itr.first;
+                }
+            }
+        }
+        return ans;
     }
 };
-
 
 int main(){
     Solution sol;

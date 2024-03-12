@@ -15,6 +15,56 @@ void print(vi &out){
     cout<<endl;
 }
 
+
+// using set and clean code 
+
+class Solution { // O(n * m^2) 
+public:
+    set<string> getSubs(string s){
+        int n = s.size();
+        set<string> ans;
+        for(int i=0; i<n; i++){
+            string temp;
+            for(int j=i; j<n; j++){
+                temp+=s[j];
+                ans.insert(temp);
+            }
+        }
+        return ans;
+    }
+    vector<string> shortestSubstrings(vector<string>& arr) {
+        int n = arr.size();
+        vector<set<string>> allSubs;
+        map<string,int> mp;
+        for(auto s:arr){
+            auto subs = getSubs(s);
+            allSubs.push_back(subs);
+            for(auto &sub:subs){
+                mp[sub]++;
+            }
+        }
+
+        vector<string> ans;
+        for(int i=0; i<n; i++){
+            string temp;
+            // iterating all substrings for the current string 
+            for(auto &sub:allSubs[i]){
+                if(mp[sub]==1){
+                    // we want the smallest substring for the curr string as ans
+                    if(temp=="" || sub.size()<temp.size()){
+                        temp = sub;
+                    }
+                }
+            }
+            // now we will have the smallest length substring
+            ans.push_back(temp);
+        }
+        return ans;
+    }
+};
+
+
+
 class Solution { // O(n * m^2) 
 public:
     static bool comp(string a, string b){

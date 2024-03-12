@@ -21,6 +21,46 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+
+class Solution {
+public:
+    bool isPossible(int mid, vector<int>& pos, int m){
+        int  n= pos.size();
+        int cnt = 1;
+        int prev = pos[0];
+        for(int i=1; i<n; i++){
+            if(pos[i]-prev>=mid){
+                cnt++;
+                prev = pos[i];
+            }
+            if(cnt>=m)
+                return true;
+        }
+        return false;
+    }
+    int maxDistance(vector<int>& pos, int m) {
+        int n = pos.size();
+        sort(pos.begin(), pos.end());
+        int l = 1;
+        int r = pos[n-1]-pos[0];
+        int ans = 1;
+        while(l<=r){
+            int mid = l+(r-l)/2;
+            // given m <= cnt using the diff as the given mid is possible incre and check  
+            if(isPossible(mid, pos, m)){
+                ans = mid;
+                l = mid+1;
+            }
+            else
+                r = mid-1;
+        }
+        return ans;
+    }
+};
+
+
 class Solution {
 public:
     int maxDistance(vector<int>& pos, int m) {
@@ -53,6 +93,8 @@ public:
         return false;
     }
 }; // o(nlog m)
+
+
 // @lc code=end
 
 
