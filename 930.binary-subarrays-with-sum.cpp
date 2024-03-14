@@ -55,6 +55,7 @@ public:
 // subaray with sum at most k =2  14 subarays 
 // subarray with sum at most k -1 = 2-1 = 1  => 10 subarrays 
 // so the ans is 14-10 =  4;
+
 // @lc code=end
 
 
@@ -68,6 +69,7 @@ public:
         for (int i = 0; i < n; i++) {
             sm += nums[i];
             if (sm == goal) ans++;
+            // sum can increase the goal 
             if (mp.count(sm - goal)) {
                 ans += mp[sm - goal];
             }

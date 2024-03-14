@@ -22,137 +22,72 @@ void print(vi &out){
 
 // @lc code=start
 
-// time limit exceded
+
+// memory limit exceeded 
+
 class Solution {
 public:
     vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
-        vector<vector<string>> ans;
-
+        unordered_set<string> st(wordList.begin(), wordList.end());
         queue<vector<string>> q;
         q.push({beginWord});
 
-        set<string> s(wordList.begin(), wordList.end());
-
-        vector<string> usedOnLevel; // we need to remove those last added string from set 
-        // this array weill keep track of those strings even when we come out of loop
-        usedOnLevel.push_back(beginWord);
-
-        while(q.size()){
-            int n = q.size();
-            for(int i=0; i<n; i++){
-                vector<string> level = q.front();
-                q.pop();
-                vector<string> temp= level;
-
-                string word = level.back();
-                // last word reached
-                if(word==endWord){
-                    ans.push_back(level);
-                }
-
-                for(int i=0;i<word.size(); i++){
-                    char original = word[i];
-                    for(char ch='a'; ch<='z'; ch++){
-                        word[i] =ch;
-                        if(s.find(word)!=s.end()){
-                            temp.push_back(word);
-                            q.push({temp});
-                            usedOnLevel.push_back(word);
-                            // at same there can be different possible paths for strings to choose from 6
-                            temp.pop_back(); // backtrack if any other sequence possible 
-                        }
-                    }
-                    word[i]= original;
-                }
-            }
-            // remove the word from set after all the strings on that level are done 
-            for(auto str:usedOnLevel){
-                s.erase(str);
-            }
-        }
-        return ans;
-    }
-};
-
-// tle 
-class Solution {
-public:
-    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
-       unordered_set<string> st(wordList.begin(), wordList.end());
-        
-        // Creating a queue ds which stores the words in a sequence which is
-        // required to reach the targetWord after successive transformations.
-        queue<vector<string>> q;
-
-        // BFS traversal with pushing the new formed sequence in queue 
-        // when after a transformation, a word is found in wordList.
-
-        q.push({beginWord});
-
-        // A vector defined to store the words being currently used
-        // on a level during BFS.
         vector<string> usedOnLevel;
         usedOnLevel.push_back(beginWord);
         int level = 0;
-       
-        // A vector to store the resultant transformation sequence.
         vector<vector<string>> ans;
-        while (!q.empty())
-        {
+
+        while(q.size()){
             vector<string> vec = q.front();
             q.pop();
-
-            // Now, erase all words that have been
-            // used in the previous levels to transform
-            if (vec.size() > level)
-            {
+            // if we at level 0 then vector will have only one word 
+            // if we at leave 1 then vector will have 2 words 
+            // it simply means when a particular level is completely used up from queue then only we will remove the used 
+            // lastusedwords store in set 
+            if(vec.size()>level){
                 level++;
-                for (auto it : usedOnLevel)
-                {
+                // erasing words that are alredy used 
+                for(auto it : usedOnLevel){
                     st.erase(it);
                 }
+                usedOnLevel.clear();
             }
 
             string word = vec.back();
-
-            // store the answers if the end word matches with targetWord.
-            if (word == endWord)
-            {
-                // the first sequence where we reached end
-                if (ans.size() == 0)
-                {
+            // we made the word 
+            if(word == endWord){
+                // first sequence it will automatically will be the smallest one 
+                if(ans.size() == 0){
                     ans.push_back(vec);
                 }
-                else if (ans[0].size() == vec.size())
-                {
+                // one sequence is already added 
+                //we will only add the next sequence when the size is same to smallest len sequence 
+                else if(ans[0].size() == vec.size()){
                     ans.push_back(vec);
                 }
             }
-            for (int i = 0; i < word.size(); i++)
-            {   
-                // Now, replace each character of ‘word’ with char
-                // from a-z then check if ‘word’ exists in wordList.
+            
+            for(int i=0; i<word.size(); i++){   
                 char original = word[i];
-                for (char c = 'a'; c <= 'z'; c++)
-                {
+                for(char c='a'; c<='z'; c++){
                     word[i] = c;
-                    if (st.count(word) > 0)
-                    { 
-                        // Check if the word is present in the wordList and
-                        // push the word along with the new sequence in the queue.
+                    if (st.count(word) > 0){ 
                         vec.push_back(word);
                         q.push(vec);
-                        // mark as visited on the level
                         usedOnLevel.push_back(word);
+                        // backtrack -> cause there might be some other smller path 
                         vec.pop_back();
                     }
                 }
+                // changing other char of the word 
                 word[i] = original;
             }
         }
         return ans;
     }
 };
+
+
 // @lc code=end
 
 

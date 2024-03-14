@@ -22,10 +22,13 @@ void print(vi &out){
 
 // @lc code=start
 
-// time complexity -> e log v
-// e = totoal no of edges -> n*m
-// tiem complexity = (n*m*4) log (n*m)
 
+// Time complexity:O(M∗N∗log(M∗N))O(M * N * log(M * N))O(M∗N∗log(M∗N))
+// The time complexity for Dijkstra's Algorithm is O(E * log(E)), where E is the number of edges in the graph. 
+// In our case, we can consider the number of edges are M * N.
+
+// Space complexity:O(M∗N)O(M * N)O(M∗N)
+// Since we are storing the minimum effort for the path from the starting point to each cell, then the space complexity is O(M * N).
 class Solution {
 public:
     int minimumEffortPath(vector<vector<int>>& heights) {
@@ -74,6 +77,77 @@ public:
         return 0;
     }
 };
+
+
+
+// Time complexity:O(M∗N∗log(106))O(M * N * log(10^6))O(M∗N∗log(106))
+// The time complexity for Binary Search is log(upper_bound - lower_bound) and in our 
+// case the maximum range in 10^6. and since we are doing DFS in each iteration 
+// knowing that the time complexity for the single DFS is O(N * M) then the total time complexity is O(M * N * log(10^6)).
+// Space complexity:O(M∗N)O(M * N)O(M∗N)
+// Since we are storing the visited array for each cell and the DFS recursion stack complexity is also O(M * N), then the space complexity is O(M * N).
+
+// binary search 
+class Solution {
+public:
+    bool bfs(int limitEffortmid , vector<vector<int>>& heights){
+        int n = heights.size();
+        int m = heights[0].size();
+        
+        queue<pair<int,int>> q;
+        q.push({0,0});
+
+        vector<pair<int,int>> dirs = {{0,1},{1,0},{-1,0},{0,-1}};
+
+        vector<vector<int>> visited(n, vector<int>(m,0));
+        visited[0][0] = 1;
+
+        while(q.size()){
+            int row = q.front().first;
+            int col = q.front().second;
+            q.pop();
+            // reached destination 
+            if(row==n-1 && col==m-1)
+                return true;
+
+            for(auto dir:dirs){
+                int nrow = row + dir.first;
+                int ncol = col + dir.second;
+
+                if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && !visited[nrow][ncol]){
+                    int neffort = abs(heights[nrow][ncol]-heights[row][col]);
+                    
+                    if(neffort <= limitEffortmid){
+                        visited[nrow][ncol] = true;
+                        q.push({nrow, ncol});
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    int minimumEffortPath(vector<vector<int>>& heights) {
+        int n = heights.size();
+        int m = heights[0].size();
+       
+        int l = 0;
+        int r = 1e6;
+        int ans=-1;
+        while(l<=r){
+            int mid = l+(r-l)/2;
+            if(bfs(mid, heights)){
+                ans = mid;
+                r = mid-1;
+            }
+            else 
+                l = mid+1;
+        }
+        return ans;
+    }
+};
+
+
+
 // @lc code=end
 
 

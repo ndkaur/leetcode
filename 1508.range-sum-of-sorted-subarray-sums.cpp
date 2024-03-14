@@ -21,6 +21,8 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+// o(n^2 log(n));
 class Solution {
 public:
     int rangeSum(vector<int>& nums, int n, int left, int right) {
@@ -40,7 +42,47 @@ public:
         }
         return sum;
     }
-}; // o(n^2 log(n));
+}; 
+
+
+// when we find sum of all subaary , while taking nums we pick in range of let to right 
+// and that also in sorted manner 
+// so pq will maintain that sorted order as its min heap 
+
+class Solution { 
+public:
+    int rangeSum(vector<int>& nums, int n, int left, int right) {
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+
+        for(int i=0; i<n; i++){
+            pq.push({nums[i], i+1}); // num , idx 
+        }
+        int sum = 0;
+        int mod = 1e9+7;
+
+        // left boundary is taken care by i 
+        // right boundary is taken care by n
+
+        for(int i=1; i<=right; i++){
+            auto node = pq.top();
+            pq.pop();
+
+            if(i>=left) // i must lie in range [left, right]
+                sum = (sum + node.first)%mod;
+            
+            if(node.second<n){ // if curr idx is less than the size of array 
+                node.first += nums[node.second]; // calculate the prefix sum  = curr node val + next node val 
+                node.second++; // increase the index 
+                pq.push(node);
+            }
+        }
+        return sum;
+    }
+};
+
+
+
+
 // @lc code=end
 
 
