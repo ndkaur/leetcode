@@ -33,6 +33,29 @@ void print(vi &out){
  * };
  */
 
+
+class Solution {
+public:
+    void check(TreeNode *root, int par, int depth, unordered_map<int,pair<int,int>> &m){
+        if(!root)
+            return;
+        m[root->val] = {par,depth};
+        check(root->left, root->val, depth+1, m);
+        check(root->right, root->val, depth+1, m);
+    }
+
+    bool isCousins(TreeNode* root, int x, int y){
+        // node -> {parent, depth  }
+        unordered_map<int,pair<int,int>> m;
+        // for each node store the vlaues of parent and depth  
+        check(root, INT_MIN, 0, m);
+        // nodes x and y exist in map and there dpeth sma e, but parent different
+        if(m.find(x)!=m.end() && m.find(y)!=m.end() && m[x].second==m[y].second && m[x].first!=m[y].first)
+            return true;
+        return false;    
+    }
+};
+
 // conditon is both x and y must not belong to same parent and depth must be equal
 // so check depth as well as parent  
 class Solution {
