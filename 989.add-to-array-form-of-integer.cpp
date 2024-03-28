@@ -14,83 +14,32 @@ void print(vi &out){
 }
 class Solution {
 public:
-    vector<int> addToArrayForm(vector<int>& a, int k) {
-        reverse(a.begin(),a.end());//reversed beacuse i dont want to iterate i from back
-        vector<int> b; 
-        
-        // for converting the long int value of k into an array
+    vector<int> addToArrayForm(vector<int>& num, int k) {
+        int n = num.size();
+        int carry = 0;
+        int i = n-1;
+        while(i>=0){
+            // 1200  k = 34 -> sum = 0 + 4 = 4
+            int sum = num[i] + k%10 + carry;
+            k=k/10;
+            // adding sum to array , summ can be double digit so maintitn carry
+            num[i] =  sum%10;
+            i--;
+            carry = sum/10;
+        }
+        // k value still remaining -> add sum infront of array
         while(k>0){
-            b.push_back(k%10);
-            k/=10;
+            int sum = k%10 + carry;
+            k = k/10;
+            num.insert(num.begin(), sum%10);
+            carry = sum/10;
         }
-        vector<int> out;
-        //here adding is done like the way kids do .. add and take carry 
-        int n=a.size();
-        int m=b.size();
-        int i=0, j=0, carry=0;
-        while(i<n || j<m || carry>0){
-            int sum=0;
-            if(i<n) 
-                sum=sum+a[i++];
-            if(j<m)
-                sum=sum+b[j++];
-            sum=sum+carry;
-            out.push_back(sum%10);
-            carry=sum/10;
-        }
-        reverse(out.begin(),out.end());
 
-        return out;
+        if(carry>0)
+            num.insert(num.begin(), carry);
+        return num;
     }
 };
-
-// ........................................................................
-
-// CASE-2
-// when k is small but other number is long. 
-// class Solution {
-// public:
-//     vector<int> addToArrayForm(vector<int>& a, int k) {
-//         int n=a.size();
-//         vector<int> out;
-//         reverse(a.begin(),a.end());
-//         int i=0,carry;carry=k;
-//         while(i<n || carry>0){
-//             if(i<n)
-//                 carry=carry+a[i++];
-//             out.push_back(carry%10);
-//             carry/=10;
-//         }
-//         reverse(out.begin(),out.end());
-//         return out;
-//     }
-// };
-
-// ...........................................................................
-
-// @lc code=start
-// CASE-1
-// this solution is not valid because the value of k goes upto 10000...so 
-// we will use another method method for adding long numbers
-
-// class Solution {
-// public:
-//     vector<int> addToArrayForm(vector<int>& A, int K) {
-//         int len =A.size();
-//         int sum =0 ;
-//         for(auto x: A){
-//             sum = sum*10+x;    
-//         }
-//         sum+=K;
-//         vector<int> out;
-//         while(sum){
-//             out.push_back(sum%10);
-//             sum/=10;
-//         }
-//         reverse(out.begin(), out.end());
-//         return out;
-//     }
-// };
 
 // @lc code=end
 
