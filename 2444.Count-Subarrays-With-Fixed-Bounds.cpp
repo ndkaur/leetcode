@@ -15,6 +15,36 @@ void print(vi &out){
     cout<<endl;
 }
 
+// sliding window 
+class Solution {
+public:
+    long long countSubarrays(vector<int>& nums, int minK, int maxK) {
+        int n = nums.size();
+        long long ans = 0;
+        int i = -1;
+        int j = 0;
+        int prevMn  = -1;
+        int prevMx = -1;
+
+        while(j<n){
+            if(nums[j]<minK || nums[j]>maxK){
+                i=j;
+            }
+            if(nums[j]==minK){
+                prevMn = j;
+            }
+            if(nums[j]==maxK){
+                prevMx = j;
+            }
+            // we want no of subarrays so use i
+            ans += max(0, min(prevMn, prevMx)-i);
+            j++;
+        }
+        return ans;
+    }
+};
+
+
 class Solution {
 public:
     long long countSubarrays(vector<int>& nums, int minK, int maxK) {
