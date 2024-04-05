@@ -17,6 +17,28 @@ void print(vi &out){
 
 class Solution {
 public:
+    int setBit(int num){
+        int cnt = 0;
+        for(int i=0; i<32; i++){
+            if(num & (1<<i))
+                cnt++;
+        }
+        return cnt;
+    }
+    int sumIndicesWithKSetBits(vector<int>& nums, int k) {
+        int n = nums.size();
+        int sum = 0;
+        for(int i=0; i<n; i++){
+            if(setBit(i)==k){
+                sum += nums[i];
+            }
+        }
+        return sum;
+    }
+};
+
+class Solution {
+public:
     int sumIndicesWithKSetBits(vector<int>& nums, int k) {
         int n = nums.size();
         vector<int> temp;
