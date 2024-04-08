@@ -14,24 +14,24 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
 class Solution {
 public:
-    vector<vector<int>> flipAndInvertImage(vector<vector<int>>& A) {
-        int a=A.size();
-        int b=A[0].size();
-        for(int i=0;i<a;i++){
-            for(int j=0;j<b/2;j++){
-                // for flipping/swaping
-                swap(A[i][j],A[i][b-1-j]);
-            }
-            // for inverting
-            for(int j=0;j<b;j++){
-                A[i][j]^=1;
+    vector<vector<int>> flipAndInvertImage(vector<vector<int>>& image) {
+        int n = image.size();
+        int m = image[0].size();
+        for(int i=0; i<n; i++){
+            reverse(image[i].begin(), image[i].end());
+            for(int j=0; j<m; j++){
+                image[i][j] = image[i][j]==0 ? 1 : 0;
             }
         }
-        return A;
-        }
-    };
+        return image;
+    }
+};
+
+
 // @lc code=end
 
 int main(){
