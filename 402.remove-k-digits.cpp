@@ -26,6 +26,60 @@ class Solution {
 public:
     string removeKdigits(string num, int k) {
         int n = num.size();
+        if(n==k)
+            return "0";
+
+        // monotonic increasing stack:- we want smaller elemts first rhen bigger elems and this order is increasing
+        stack<char> stk;
+        for(auto ch:num){
+            // break condition will be decreasing 
+            while(k && !stk.empty() && int(stk.top()) > (int)(ch)){
+                stk.pop();
+                k--;
+            }
+            stk.push(ch);
+        }
+
+        if(k){
+            while(k--){
+                stk.pop();
+           }
+        }
+        
+        // what if the num has leadin zeroes 
+        // eg = 10200 k=1
+        // stk = 1 , 1>0 pop 1 , k=0
+        // stk= 0200  
+        // we have a leading zero but its at the end of the stack 
+        // to remove it we take help from another stack 
+        stack<char> help;
+        while(stk.size()){
+            help.push(stk.top());
+            stk.pop();
+        }
+        // stk = 0200  , help = 0020
+        // remove trailing zeroes 
+        while(help.top()=='0' && help.size()!=1){
+            help.pop();
+        }
+
+        string ans = "";
+        // now add the char to the final ans
+        while(help.size()){
+            ans.push_back(help.top());
+            help.pop();
+        }
+
+        return ans;
+    }
+};
+
+// 1432219
+
+class Solution {
+public:
+    string removeKdigits(string num, int k) {
+        int n = num.size();
         if(n == k)
             return "0"; 
 

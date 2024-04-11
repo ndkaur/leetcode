@@ -21,6 +21,58 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+class Solution0 {
+public:
+    int timeRequiredToBuy(vector<int>& tickets, int k) {
+        int n = tickets.size();
+        queue<pair<int,int>> q;
+
+        for(int i=0; i<n; i++){
+            q.push({tickets[i], i});
+        }
+
+        int time = 0;
+        while(q.size()){
+            auto val = q.front().first;
+            auto idx = q.front().second;
+            q.pop();
+
+            val = val-1;
+            time++;
+
+            if(idx==k && val==0){ 
+                break;
+            }
+            else if(val!=0){
+                q.push({val,idx});
+            }
+        }
+        return time;
+    }
+};
+
+
+class Solution {
+public:
+    int timeRequiredToBuy(vector<int>& tickets, int k) {
+        int n = tickets.size();
+        int time = 0;
+
+        for(int i=0; i<n; i++){
+            if(i<=k){ 
+                time += min(tickets[i], tickets[k]); 
+            }
+            else{
+                time += min(tickets[i], tickets[k]-1);
+            }
+        }
+        return time;
+    }
+};
+
+
 class Solution {
 public:
     int timeRequiredToBuy(vector<int>& tickets, int k) {
