@@ -21,26 +21,39 @@ void print(vi &out){
 
 // @lc code=start
 class Solution {
-    unordered_map<string,vector<string>> count;
 public:
-    vector<string> wordBreak(string s, vector<string>& wordDict) {
-        if(count.find(s) != count.end()) 
-            return count[s];
-        vector<string> result;
-        for(string w:wordDict){
-            if(s.substr(0,w.length())==w){
-                if(w.length()==s.length())
-                    result.push_back(w);
-                else{
-                    vector<string> temp=wordBreak(s.substr(w.length()),wordDict);
-                    for(string t:temp){
-                        result.push_back(w+" "+t);
-                    }
-                }
+    void solve(int idx, string temp, set<string>& st, vector<string>& ans, string& s){
+        int n = s.size();
+        if(idx==n){
+            // removing the space from behind that we added after the word found in the set 
+            temp.pop_back();
+            ans.push_back(temp);
+            return;
+        }
+        // we need a complete string 
+        string curr = "";
+        for(int i=idx; i<n; i++){
+            // adding the curr word
+            curr += s[i];
+            if(st.find(curr)!=st.end()){
+                // one word found add space cause we want a sentence 
+                curr += ' ';
+                // temp is used to keep the sentence formation 
+                solve(i+1, temp+curr, st, ans, s);
+                // backtracking if words cant be made
+                curr.pop_back();
             }
         }
-        count[s]=result;
-        return result;
+        return; 
+    }
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        int n = s.size();
+        set<string> st(wordDict.begin(), wordDict.end());
+        // backtracking , ans 
+        vector<string> ans;
+        // temp is used to keep the sentence formation 
+        solve(0, "", st, ans, s);
+        return ans;
     }
 };
 

@@ -52,6 +52,41 @@ public:
     }
 };
 
+
+class Solution1 {
+public:
+    int solve(int idx, vector<int>& nums, bool canPick, vector<vector<int>>& dp){
+        int n = nums.size();
+        if(idx>=n)
+            return canPick ? 0 : -1e5;
+        if(dp[idx][canPick]!=-1)
+            return dp[idx][canPick];
+        if(canPick){
+            return dp[idx][canPick] = max(0, nums[idx]+solve(idx+1, nums, true, dp));
+        }
+        return dp[idx][canPick] = max(solve(idx+1, nums, false, dp), nums[idx]+ solve(idx+1, nums,true, dp));
+    }
+    int maxSubArray(vector<int>& nums) {
+        int n = nums.size();
+        vector<vector<int>> dp(n, vector<int>(2,-1));
+        return solve(0, nums, false, dp);
+    }
+};
+
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        vector<vector<int>> dp(2, vector<int>(size(nums)));
+        dp[0][0] = dp[1][0] = nums[0];
+        for(int i = 1; i < size(nums); i++) {
+            dp[1][i] = max(nums[i], nums[i] + dp[1][i-1]);
+            dp[0][i] = max(dp[0][i-1], dp[1][i]);
+        }
+        return dp[0].back();
+    }
+};
+
 class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
