@@ -20,6 +20,36 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+// 1st method: -search linerinly by going to each elem
+// 2nd :-do BS on each row if matrix[i][0] <= target && target <= matrix[i][m - 1]) //O(n+ logm)
+
+// 3rd :- flattening matrix into 1d array by iterating on indexes 
+class Solution { // O(log(NxM))
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        int  l = 0;
+        int h = n*m-1;
+
+        while(l<=h){
+            int mid = l+(h-l)/2;
+            int val = matrix[mid/m][mid%m];
+            if(val==target)
+                return true;
+            else if(val<target){
+                l = mid+1;
+            }
+            else 
+                h = mid-1;
+        } 
+        return false;
+    }
+};
+
+
 class Solution { //O(logn + logm)
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {

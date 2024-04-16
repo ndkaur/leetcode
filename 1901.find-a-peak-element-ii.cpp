@@ -22,6 +22,59 @@ void print(vi &out){
 // @lc code=start
 
 
+// 1st:- brute force:- for each idx check its all 4 dirs O(N*M*4)
+// 2nd:- simply return the largest elem of matrix //O(N*M)
+
+// 3rd:-  intuition:- perform binary search column wise 
+// take mid of coulms and in that col pick the max elem , check its left and right element
+// if its left elemts is greater than delte the right half cause its useless
+// if right elme is greater then delete the left half 
+
+// O(log M * N) ->logM cause binary search and N cause size of row 
+class Solution {
+public:
+    vector<int> findPeakGrid(vector<vector<int>>& mat) {
+        int n = mat.size();
+        int m = mat[0].size();
+
+        int l = 0;
+        int h = m-1;
+
+        while(l<=h){
+            int mid = l+(h-l)/2;
+            // max elemt of the col
+            int mxRow = 0; // row in which max elemt of col is present 
+            for(int i=0; i<n; i++){
+                if(mat[mxRow][mid] <= mat[i][mid])
+                    mxRow = i;
+            }
+
+            // now check left and right side of the max elem from the curr col
+            // check left 
+            bool leftBig = false;
+            if(mid-1>=0 && mat[mxRow][mid-1] > mat[mxRow][mid]){
+                leftBig = true;
+            }
+            
+            bool rightBig = false;
+            if(mid+1<m && mat[mxRow][mid] < mat[mxRow][mid+1]){
+                rightBig = true;
+            }
+
+            // when mid is itself the most greater then its the peak
+            if(leftBig==false && rightBig==false)
+                return {mxRow, mid};
+            else if(leftBig){ // left side elem is greater then mid then right side is of no use 
+                h = mid-1;
+            }
+            else 
+                l = mid+1;
+        }
+        return {-1,-1};
+    }
+};
+
+
 class Solution { //n*logm
 public:
     int findMx(vector<vector<int>>& mat, int n, int m, int mid){
