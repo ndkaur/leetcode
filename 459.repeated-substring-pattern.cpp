@@ -21,6 +21,56 @@ void print(vi &out){
 
 // @lc code=start
 
+
+
+class Solution0 {
+public:
+    bool repeatedSubstringPattern(string s) {
+        int n = s.size();
+        // we can only take len of substring upto n/2
+        // i represen the len we can take of substring  
+        for(int i=1; i<=n/2; i++){
+            // no of divisior 2 * root n
+            if(n%i==0){
+                int times = n/i;
+                string temp = s.substr(0,i); // worst case O(N)
+                string newStr = "";
+                while(times--){ // O(N)
+                    newStr +=temp;
+                }
+                if(newStr==s)
+                    return true;
+            }
+        }
+        return false;
+    }
+};
+// so total time complexity:-  O(2*rootN) * O(2N) ~ O(root N * N)
+// number of divisior for any num = 2 root n
+
+class Solution {
+public:
+    bool repeatedSubstringPattern(string s) {
+        int n = s.size();
+        // we can only take len of substring upto n/2
+        for(int i=n/2; i>=1; i--){
+            if(n%i==0){
+                int times = n/i;
+                string temp = s.substr(0,i);
+                string newStr = "";
+                while(times--){
+                    newStr +=temp;
+                }
+                if(newStr==s)
+                    return true;
+            }
+        }
+        return false;
+    }
+};
+
+
+
 //O(n^2)
 class Solution {
 public:

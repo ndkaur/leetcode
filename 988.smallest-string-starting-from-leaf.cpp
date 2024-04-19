@@ -32,47 +32,63 @@ void print(vi &out){
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
-    string ans="~";
+class Solution0 { //O(N^2)
 public:
-    void dfs(TreeNode* root, string s){
-        if(!root) return;
-        // when reached leaf node
-        
+    string ans=""; 
+    void dfs(TreeNode* root, string temp){
+        if(!root)
+            return;
+        temp = char(root->val+'a') + temp; // in worst case we have to go to n
         if(!root->left && !root->right){
-            ans= min(ans,char(root->val+'a')+s);
+            if(ans=="")
+                ans = temp;
+            else 
+                ans = min(ans,temp);
         }
-        dfs(root->left,char(root->val+'a')+s);
-        dfs(root->right,char(root->val+'a')+s);
-    }
 
+        if(root->left)
+            dfs(root->left, temp);
+        if(root->right)
+            dfs(root->right, temp);
+    }
     string smallestFromLeaf(TreeNode* root) {
+        if(!root)
+            return ans;
         dfs(root,"");
         return ans;
     }
 };
 
-class Solution {
-public:
-    string ans="";
-    void dfs(TreeNode* root, string s){
-        
-        // when reached leaf node
-        s= char(root->val+'a')+s;
-        if(!root->left && !root->right){
-            if(ans=="") ans=s;
-            else
-                ans= min(ans, s);
-        }
-        if(root->left) 
-            dfs(root->left,s);
-        if(root->right)
-            dfs(root->right,s);
-    }
 
+// bfs
+class Solution { 
+public:
     string smallestFromLeaf(TreeNode* root) {
-        if(!root) return ans;
-        dfs(root,"");
+        if(!root)
+            return "";
+        string ans="";
+
+        queue<pair<TreeNode*, string>> q;
+        q.push({root, string(1, char(root->val + 'a'))});
+
+        while(q.size()){
+            auto node = q.front().first;
+            auto temp = q.front().second;
+            q.pop();
+
+            if(!node->left && !node->right){
+                if(ans==""){
+                    ans = temp;
+                }
+                else 
+                    ans = min(ans, temp);
+            }
+
+            if(node->left)
+                q.push({node->left, char(node->left->val+'a') + temp});
+            if(node->right)
+                q.push({node->right, char(node->right->val+'a')+temp});
+        }
         return ans;
     }
 };
