@@ -21,6 +21,29 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+
+class Solution {
+public:
+    int hIndex(vector<int>& citations) {
+        sort(citations.begin(),citations.end(),greater<int>());
+        int answer=0;
+        for(int i=0;i<citations.size();i++){
+            if(citations[i]>=i+1){
+                answer=i+1;
+            }
+            else{
+                break;
+            }
+        }
+        return answer;
+    }
+};
+
+// 0 1 2 3 4
+// 6 5 3 1 0 
+
 class Solution {
 public:
     int hIndex(vector<int>& cit) {

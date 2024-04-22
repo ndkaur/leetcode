@@ -32,6 +32,33 @@ void print(vi &out){
  */
 
 
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode* prev = dummy;
+
+        for(int i=0; i<left-1; i++){
+            prev= prev->next;
+        }
+    //            curr
+        // 1 2     3     4      5
+        //   prev  temp
+
+        // 1 2    4   3   5
+
+        ListNode* curr = prev->next;
+        for(int i=0; i<right-left; i++){
+            ListNode* temp = prev->next;
+            prev->next = curr->next;
+            curr->next = curr->next->next;
+            prev->next->next = temp;
+        }
+        return dummy->next;
+    }
+};
+
 
 class Solution {
 public:

@@ -21,6 +21,43 @@ cout<<endl;
 }
 
 // @lc code=start
+
+
+class Solution {
+public:
+    vector<string> splitIntoWords(const string& sentence) {
+        istringstream iss(sentence);
+        vector<string> words;
+        string word;
+        while (iss >> word) {
+            words.push_back(word);
+        }
+        return words;
+    }
+    bool wordPattern(string pattern, string s) {
+        // pattern ch 
+        // s -> string of words
+        unordered_map<char, string> mp1;
+        unordered_map<string, char> mp2;
+        vector<string> words = splitIntoWords(s);
+
+         if(pattern.size() != words.size())
+            return false;
+
+
+        for(int i=0; i<pattern.size(); i++){
+            if(mp1.find(pattern[i])!=mp1.end() && mp1[pattern[i]]!=words[i]){
+                return false;
+            }
+            if(mp2.find(words[i])!=mp2.end() && mp2[words[i]]!=pattern[i])
+                return false;
+            mp1[pattern[i]] = words[i];
+            mp2[words[i]] = pattern[i]; 
+        }
+        return true;
+    }
+};
+
 class Solution0 {
 public:
     bool wordPattern(string pattern, string s) {

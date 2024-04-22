@@ -21,45 +21,115 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
 class Solution {
 public:
     int openLock(vector<string>& deadends, string target) {
-        unordered_set<string> deadSet(deadends.begin(),deadends.end());
+        int n = deadends.size();
+        unordered_set<string> st(deadends.begin(), deadends.end());
         unordered_set<string> visited;
-        int result =0;
-        if(deadSet.find("0000")!= deadSet.end())
+
+        if(st.find("0000")!=st.end())
             return -1;
-        queue<string> wqueue;
-        wqueue.push("0000");
         visited.insert("0000");
-        while(!wqueue.empty()){
-            int levelSize = wqueue.size();
-            while(levelSize--){
-                string up, down, curr = wqueue.front();
-                wqueue.pop();
-                if(curr== target) 
-                    return result;
-                for(int i=0;i<4;i++){
-                    down =up=curr;
-                    char upCh =up[i];
-                    char downCh = down[i];
-                    up[i] = (upCh == '9' ?'0': upCh+1);
-                    down[i] = (downCh == '0' ? '9' :downCh-1);
-                    if(visited.find(up)==visited.end() && deadSet.find(up)==deadSet.end()){
-                        wqueue.push(up);
-                        visited.insert(up);
-                    }
-                    if(visited.find(down)==visited.end() && deadSet.find(down)==deadSet.end()){
-                        wqueue.push(down);
-                        visited.insert(down);
-                    }
+
+        queue<string> q;
+        q.push({"0000"});
+
+        int cnt = 0;
+        
+        while(q.size()){
+            int sz = q.size();
+            for(int i=0; i<sz; i++){
+                auto curr = q.front();
+                q.pop();
+                if(curr==target)
+                    return cnt;
+                vector<string> nebor = nebors(curr);
+                for(auto ne:nebor){
+                    if(visited.find(ne)!=visited.end())
+                        continue;
+                    if(st.find(ne)!=st.end())
+                        continue;
+                    // mark as visited
+                    visited.insert(ne);
+                    q.push(ne);
                 }
             }
-            result++;
+            cnt++;
         }
         return -1;
     }
+    vector<string> nebors(string& curr){
+        int n = curr.size();
+
+        vector<string> ans;
+
+        for(int i=0; i<4; i++){
+            for(int diff=-1; diff<=1; diff+=2){
+                string temp = curr;
+                temp[i] = (temp[i]-'0' + diff + 10) % 10 + '0';
+                ans.push_back(temp);
+            }
+        }
+        return ans;
+    }
 };
+
+
+class Solution {
+public:
+    int openLock(vector<string>& deadends, string target) {
+        unordered_set<string> dict(deadends.begin(), deadends.end());
+        unordered_set<string> used;
+        
+        string st = "0000";
+        if(dict.count(st))
+            return -1;
+        
+        int cnt=0;
+        queue<string> q;
+        q.push(st);
+        used.insert(st);
+        
+        while(!q.empty()) {
+            int n = q.size();
+            while(n--) {
+                string curr = q.front();
+                q.pop();
+                
+                if(curr == target)
+                    return cnt;
+
+                for(int i=0; i<4; i++) {
+                    string tmp = curr;
+                    
+                    char ch = tmp[i];
+                    int num = ch -'0';
+                    int x = (num+11)%10, y=(num+9)%10;
+                    
+                    tmp[i] = x+'0';
+                    if(!used.count(tmp) && !dict.count(tmp)) {
+                        q.push(tmp);
+                        used.insert(tmp);
+                    }
+                    
+                    tmp[i] = y+'0';
+                    if(!used.count(tmp) && !dict.count(tmp)) {
+                        q.push(tmp);
+                        used.insert(tmp);
+                    }
+                }
+            }
+            cnt++;
+        }
+        
+        return -1;
+    }
+};
+
+
 // @lc code=end
 
 
