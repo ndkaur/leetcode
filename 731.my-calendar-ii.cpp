@@ -22,6 +22,31 @@ void print(vi &out){
 
 // @lc code=start
 
+// line sweep
+class MyCalendarTwo {
+public:
+    map<int,int> mp;
+    MyCalendarTwo() {
+        
+    }
+    
+    bool book(int start, int end) {
+        mp[start]++;
+        mp[end]--;
+        int booked = 0;
+        for(auto itr: mp){
+            booked += itr.second;
+            if(booked==3){
+                mp[start]--;
+                mp[end]++;
+                return false;
+            }
+        }
+        return true;
+    }
+};
+
+
 // o(n^2) 
 class MyCalendarTwo {
 public:

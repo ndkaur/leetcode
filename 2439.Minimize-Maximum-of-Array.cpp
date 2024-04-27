@@ -28,6 +28,43 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    bool isPossible(vector<int>& nums, int mid){
+        int n = nums.size();
+        long ans = 0;
+        for(int i=0; i<n; i++){
+            if(nums[i]>mid){ // nums[i]>mx so we need to decrese 1 this cnt times
+                long cnt = (nums[i]-mid);
+                if(cnt>ans)
+                    return false;
+                ans = ans - cnt;
+            }
+            else  // nums[i] < mid, so increase nums[i] by cnt no of times
+                ans += (mid-nums[i]);
+        }
+        return true;
+    }
+    int minimizeArrayValue(vector<int>& nums) {
+        int n = nums.size();
+        int l = 0;
+        int h = 1e9;
+        int ans = 0;
+        while(l<=h){
+            int mid=  l+(h-l)/2; 
+            // mid is like the max value we are sending 
+            if(isPossible(nums, mid)){
+                ans = mid;
+                h = mid-1;
+            }
+            else 
+                l = mid+1;
+        }
+        return ans;
+    }
+};
+
 int main(){
 
     return 0;

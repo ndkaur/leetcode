@@ -37,6 +37,29 @@ public:
         return true;
     }
 };
+
+
+// line sweep 
+class Solution { //Time: O(n + m), where m is the number of ranges.
+public:
+    bool isCovered(vector<vector<int>>& ranges, int left, int right) {
+        int n = ranges.size();
+        vector<int> arr(52,0);
+        for(auto range:ranges){
+            arr[range[0]]++;
+            arr[range[1]+1]--; // iclusive 
+        }
+        int overlap = 0;
+        for(int i=1; i<=right; i++){
+            overlap += arr[i];
+            if(i>=left && overlap==0){
+                return false;
+            }
+        }
+        return true;
+    }
+};
+
 // @lc code=end
 
 

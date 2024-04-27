@@ -19,20 +19,24 @@ class Solution {
 public:
     long long minimumTime(vector<int>& time, int total) {
         int n = time.size();
+
         long long left = 1;
         int mx = *max_element(time.begin(), time.end());
         long long right = 1LL * mx * total;
 
-        while(left < right){
+        long long ans = 0;
+
+        while(left <= right){
             long long mid = left + (right-left)/2;
             if(possible(mid, total, time)){
-                right = mid; // try reducing it to get min time
+                ans = mid;
+                right = mid-1; // try reducing it to get min time
             }
             else{
                 left = mid+1;
             }
         }
-        return left;
+        return ans;
     }
 
     bool possible(long long mid, int total, vector<int>& time){
@@ -43,6 +47,7 @@ public:
         return sum >= total; // return true;
     }
 };
+
 
 int main(){
 

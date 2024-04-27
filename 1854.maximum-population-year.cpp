@@ -21,6 +21,32 @@ void print(vi &out){
 }
 // @lc code=start
 
+// line sweep
+class Solution {
+public:
+    int maximumPopulation(vector<vector<int>>& logs) {
+        int n = logs.size(); 
+        vector<int> arr(2051,0);
+        for(auto l:logs){
+            arr[l[0]]++;
+            arr[l[1]]--;
+        }
+        // prefix sum
+        for(int i=1; i<2050; i++){
+            arr[i] += arr[i-1];
+        }
+        int mx = INT_MIN;
+        int year = 0;
+        for(int i=0; i<2051; i++){
+            if(mx<arr[i]){
+                mx = arr[i];
+                year = i;
+            }
+        }
+        return year;
+    }
+};
+
 // kind of prefix sum 
 //  give 1 to enter year and -1 to exit year 
 // then find the sum and increase the cnt 

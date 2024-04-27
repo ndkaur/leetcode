@@ -15,6 +15,34 @@ void print(vi &out){
     cout<<endl;
 }
 
+class Solution0 {
+public:
+    int f(int idx, int prev,  string& s, int& k, vector<vector<int>>& dp){
+        int n = s.size();
+        if(idx>=n)
+            return 0;
+
+        if(dp[idx][prev]!=-1)
+            return dp[idx][prev];
+        
+        int pick = 0;
+        if(prev==0 || abs(s[idx]-prev)<=k)
+            pick = 1+f(idx+1, s[idx], s, k, dp);
+
+        int npick = f(idx+1, prev, s, k, dp);
+
+        return dp[idx][prev] = max(pick, npick);
+    }
+    int longestIdealString(string s, int k) {
+        int n = s.size();
+        // z ascii code = 122
+        // z+a = 122 + 25 =147 , so round till 150
+        vector<vector<int>> dp(n+1, vector<int>(150, -1));
+        return f(0,0,s, k, dp);
+    }
+};
+
+
 class Solution0 { //tle
 public:
     int longestIdealString(string s, int k) {
@@ -85,3 +113,7 @@ int main(){
     cout<<ans;
     return 0;
 }
+
+
+
+
