@@ -22,6 +22,38 @@ void print(vi &out){
 
 // @lc code=start
 
+
+class Solution {
+public:
+    int maxSubarraySumCircular(vector<int>& nums) {
+        int n = nums.size();
+        int nonCircularSum = kaden(nums);
+        int tsum = 0;
+        // inveting the signs
+        for(int i=0; i<n; i++){
+            tsum += nums[i];
+            nums[i] = -nums[i];
+        }
+
+        int circularSum =  tsum + kaden(nums);
+        if(circularSum==0)
+            return nonCircularSum;
+        return max(circularSum, nonCircularSum);
+    }
+    int kaden(vector<int>& nums){
+        int n = nums.size();
+        int cur = 0;
+        int mx = INT_MIN;
+        for(int i=0; i<n; i++){
+            cur += nums[i];
+            mx = max(mx, cur);
+            if(cur<0)
+                cur = 0;
+        }
+        return mx;
+    }
+};
+
 class Solution {
 public:
     int maxSubarraySumCircular(vector<int>& nums) {

@@ -14,6 +14,24 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+class Solution0 {
+public:
+    uint32_t reverseBits(uint32_t n) {
+        uint32_t num = 0;
+        for(int i=0; i<32; i++){
+            uint32_t bit = (n>>i)&1;
+            if(bit){
+                num = num | (bit << (31-i));
+            }
+        }
+        return num;
+    }
+};
+
+
+
 class Solution { //O(logn)
 public:
     uint32_t reverseBits(uint32_t n) {
@@ -38,5 +56,7 @@ int main(){
     uint32_t  n = 43261596;
     uint32_t out = sol.reverseBits(n);
     cout<<out<<"\n";
+    // int q = 1<<31;
+    // cout<<q;
     return 0;
 }

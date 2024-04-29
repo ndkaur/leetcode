@@ -21,6 +21,43 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+class Solution {
+public:
+    int f(int i, int j, vector<vector<char>>& matrix, vector<vector<int>>& dp){
+        int n = matrix.size();
+        int m = matrix[0].size();
+        if(i>=n || j>=m)
+            return 0;
+
+        if(dp[i][j]!=-1)
+            return dp[i][j];
+        
+        if(matrix[i][j]=='0')
+            return dp[i][j] = 0;
+        
+        dp[i][j] = 1+min(min(f(i+1, j,matrix, dp), f(i, j+1, matrix, dp)), f(i+1, j+1, matrix, dp));
+        return dp[i][j];
+    }
+    int maximalSquare(vector<vector<char>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        if(n==0)
+            return 0;
+
+        vector<vector<int>> dp(n, vector<int>(m, -1));
+        int mx = 0;
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                mx = max(mx, f(i,j,matrix, dp));
+            }
+        }
+        return mx*mx;
+    }
+};
+
 class Solution {
 public:
     int maximalSquare(vector<vector<char>>& mat) {
