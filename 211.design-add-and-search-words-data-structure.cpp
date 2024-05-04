@@ -6,76 +6,124 @@
 
 // @lc code=start
 
-struct Node{
-    Node* links[26];
-    bool flag = false;
-    
-    bool containKey(char ch){
-        return links[ch-'a']!=NULL;
-    }
-    
-    void put(char ch, Node* node){
-        links[ch-'a'] = node;
-    }
-    
-    Node* get(char ch){
-        return links[ch-'a'];
-    }
-    
-    void setEnd(){
-        flag = true;
-    }
-    
-    bool isEnd(){
-        return flag;
-    }
+
+
+class TrieNode{
+public:
+    TrieNode* child[26];
+    bool isword = false;
 };
 
 class WordDictionary {
-private:
-    Node* root;
 public:
+    TrieNode* root;
     WordDictionary() {
-        root= new Node();
+        root = new TrieNode();
     }
     
     void addWord(string word) {
-        Node* node= root;
+        TrieNode* node = root;
         for(int i=0; i<word.size(); i++){
-            if(!node->containKey(word[i])){
-                node->put(word[i], new Node());
+            int ch = word[i]-'a';
+            // does not exist 
+            if(!node->child[ch]){
+                node->child[ch] = new TrieNode();
             }
-            node= node->get(word[i]);
+            node= node->child[ch];
         }
-        node->setEnd();
+        node->isword = true;
     }
     
     bool search(string word) {
-        Node* node= root;
-        return helper(word, node);
+        return helper(word, 0, root);
     }
 
-    bool helper(string word, Node* node){
-
-        for(int i=0; i<word.size(); i++){
-            if(word[i] == '.'){ // if . is found 
-            // can match . with any char so that the rest of the remaining chars of string can be also matched with rest of the trie 
-            // we give value of . to that char which is preset next in trie so that the remaining string can also be matched 
-                for(char ch='a'; ch<='z'; ch++){
-                    if(node->containKey(ch) && helper(word.substr(i+1), node->get(ch)))
+    bool helper(string &word, int idx, TrieNode* node){
+        for(int i=idx; i<word.size(); i++){
+            if(word[i]!='.'){
+                int ch = word[i]-'a';
+                if(!node->child[ch])
+                    return false;
+                node = node->child[ch];
+            }
+            else{// its a dot then match with each char from a to z
+                for(int ch=0; ch<26; ++ch){
+                    // check if the char we choose exist in trie and then check the reming word chars 
+                    if(node->child[ch] && helper(word, i+1, node->child[ch]))
                         return true;
                 }
                 return false;
             }
-            else{ // if its not a . then simply check if i present or not
-                if(!node->containKey(word[i]))
-                    return false;
-                node = node->get(word[i]);
-            }
         }
-        return node->isEnd();
+        return node->isword;
     }
 };
+
+class TrieNode{
+public:
+    TrieNode* child[26];
+    bool isword = false;
+    // TrieNode(){
+    //     isword = false;
+    //     for(auto &ch:child){
+    //         ch = NULL;
+    //     }
+    // }
+};
+
+class WordDictionary {
+public:
+    TrieNode* root;
+    WordDictionary() {
+        root = new TrieNode();
+    }
+    
+    void addWord(string word) {
+        TrieNode* node = root;
+        for(int i=0; i<word.size(); i++){
+            int ch = word[i]-'a';
+            // does not exist 
+            if(!node->child[ch]){
+                node->child[ch] = new TrieNode();
+            }
+            node= node->child[ch];
+        }
+        node->isword = true;
+    }
+    
+    bool search(string word) {
+        return helper(word, root);
+    }
+
+    bool helper(string word, TrieNode* node){
+        for(int i=0; i<word.size(); i++){
+            int ch = word[i]-'a';
+            if(word[i]!='.'){
+                if(!node->child[ch])
+                    return false;
+                node = node->child[ch];
+            }
+            else{
+                bool found = false;
+                
+
+                int j=0;
+                for(; j<26; j++){
+                    if(node->child[j])
+                        found = found | helper(word.substr(i+1), node->child[j]);
+                        if(found)
+                            return true;
+                }
+                if(j==26)
+                    return false;
+            }
+        }
+        return node->isword;
+    }
+};
+
+
+
 
 /**
  * Your WordDictionary object will be instantiated and called as such:

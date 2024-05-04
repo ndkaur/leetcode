@@ -6,6 +6,66 @@
 
 // @lc code=start
 
+
+class TrieNode{
+public:
+    TrieNode* child[26];
+    bool isWord;
+    TrieNode(){
+        isWord = false;
+        for(auto& c:child){
+            c = NULL;
+        }
+    }
+};
+
+class Trie {
+public:
+    TrieNode* root;
+    Trie() {
+        root = new TrieNode();
+    }
+    
+    void insert(string word) {
+        TrieNode* node = root;
+        for(int i=0; i<word.size(); i++){
+            // check if word already exist 
+            int ch = word[i]-'a';
+            if(!node->child[ch]){ // doent already exist then add it 
+                node->child[ch] = new TrieNode();
+            }
+            //move ahead 
+            node = node->child[ch];
+        }
+        // we reached end of word mark flag as true
+        node->isWord = true;
+    }
+    
+    bool search(string word) {
+        TrieNode* node = root;
+        for(int i=0; i<word.size(); i++){
+            int ch = word[i]-'a';
+            // if that ch doesnot exist 
+            if(!node->child[ch])
+                return false;
+            // if it exist then move ahead till the end of word
+            node=  node->child[ch];
+        }
+        return node->isWord;
+    }
+    
+    bool startsWith(string prefix) {
+        TrieNode* node=  root;
+        for(int i=0; i<prefix.size(); i++){
+            int ch = prefix[i]-'a';
+            if(!node->child[ch])
+                return false;
+            node = node->child[ch];
+        }
+        return true;
+    }
+};
+
 struct Node{
     Node* links[26];
     bool flag = false;
