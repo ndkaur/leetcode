@@ -27,6 +27,25 @@ public:
 };
 
 
+// 5 2 13 pop all -> 2<13, increasing order formed then pop = decreasing stack
+class Solution {
+public:
+    ListNode* removeNodes(ListNode* head) {
+        ListNode* dummy  = new ListNode(INT_MAX);
+        vector<ListNode*> stk = {dummy};
+        while(head){
+            // monotonic decresing stack 
+            while(stk.size() && stk.back()->val<head->val){ // inc break condition 
+                stk.pop_back();
+            }
+            // setting up links 
+            stk.back()->next = head;
+            stk.push_back(head);
+            head= head->next;
+        }
+        return dummy->next;
+    }
+};
 
 
 
