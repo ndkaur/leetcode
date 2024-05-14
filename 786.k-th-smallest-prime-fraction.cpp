@@ -60,6 +60,77 @@ public:
         return {count,num,den};
     }
 };
+
+
+// Time complexity: O(n * n)
+
+// Space complexity: O(n)
+class Solution {
+public:
+    vector<int> kthSmallestPrimeFraction(vector<int>& arr, int k) {
+        int n = arr.size();
+        // max heap
+        priority_queue<pair<double,pair<int,int>>> pq;
+        for(int i=0; i<n-1; i++){
+            for(int j=i+1; j<n; j++){
+                pq.push( {{(double)arr[i]/arr[j]},{arr[i], arr[j]}} );
+                if(pq.size()>k){
+                    pq.pop();
+                }
+            }
+        }
+        return {pq.top().second.first, pq.top().second.second};
+    }
+};
+
+
+// binary search 
+class Solution {
+public:
+    vector<int> kthSmallestPrimeFraction(vector<int>& arr, int k) {
+        int n = arr.size();
+        // max heap
+        double left = 0;
+        double right = 1;
+        vector<int> ans;
+
+        while(left<=right){
+            double mid = left + (right-left)/2;
+            int j = 1;
+            int total = 0;
+            int num = 0;
+            int den =0;
+            double mxFrac =0;
+            for(int i=0; i<n; i++){
+                while(j<n && arr[i]>=arr[j]*mid){
+                    j++;
+                }
+                total += n-j;
+                if(j<n && mxFrac < arr[i]*1.0/arr[j]){
+                    mxFrac = arr[i]*1.0/arr[j];
+                    num = i;
+                    den = j;
+                }
+            }
+
+            if(total==k){
+                ans={arr[num], arr[den]};
+                break;
+            }
+
+            if(total>k){
+                right = mid;
+            }
+            else {
+                left = mid;
+            }
+        }
+        return ans;
+    }
+};
+
+
+
 // @lc code=end
 
 
