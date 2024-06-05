@@ -14,6 +14,55 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+
+
+class Solution {
+public:
+    vector<string> commonChars(vector<string>& words) {
+        int n = words.size();
+        vector<int> hash1(26,0);
+        vector<int> hash2(26,0);
+
+        // chars of the first word count
+        for(auto ch:words[0]){
+            hash1[ch-'a']++;
+        }
+        
+        for(int i=1; i<n; i++){
+            for(auto ch:words[i]){
+                hash2[ch-'a']++;
+            }
+
+            // b=1, e =1, l =2, a=1
+            //roller , r = 0 in h1, 1 in h2 so take min = 0 
+            // min cause we want common in all strings
+            // b , a doent exist in roller so b= 0, a=0
+            for(int i=0; i<26; i++){
+                hash1[i] = min(hash1[i], hash2[i]);
+                hash2[i] = 0;
+            }
+        }
+
+        vector<string> ans;
+        for(int i=0; i<26; i++){
+            // e =1, l =2
+            if(hash1[i]>0){
+                int cnt = hash1[i];
+                while(cnt--){
+                    char ch = i+'a';
+                    string s;
+                    s = ch;
+                    ans.push_back(s);
+                }
+            }
+        }
+
+        return ans;
+    }
+};
+
 class Solution {
 public:
     vector<string> commonChars(vector<string>& words) {
@@ -40,6 +89,9 @@ public:
         return output;
     }
 };
+
+
+
 // @lc code=end
 int main(){
     Solution sol;
