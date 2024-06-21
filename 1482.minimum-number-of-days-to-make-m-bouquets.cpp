@@ -176,6 +176,52 @@ public:
 
 
 
+class Solution0 { // O(N∗Log(Max(Days)))
+public:
+    bool isPossible(int mid, int m, int k, vector<int>& days){
+        int cnt = 0; // cnt of flowers blooming 
+        int boq = 0; // cnt of boq made
+        for(int i=0; i<days.size(); i++){
+            if(days[i]<=mid){
+                cnt++;
+            }
+            else 
+                cnt=0;
+            if(cnt==k){ // we want k flowers in m boqutes
+                boq++;
+                cnt=0;
+            }
+        }
+        return boq>=m;
+    }
+    int minDays(vector<int>& days, int m, int k) {
+        int n = days.size();
+        int l = *min_element(days.begin(), days.end());;
+        int r = *max_element(days.begin(), days.end());
+
+        int ans = -1;
+        while(l<=r){
+            int mid = l+(r-l)/2;
+            // we are at the mid-th day and we check if on the mid-th day what all flowers have blommed 
+            // those bloomed flowers we cnt them and check if its the required cnt for making one bouquet cnt ==k
+            // if one boq made with k no of flowers then increase the no of boq cnt 
+            // at the end check if the total bouquets made == m then return true 
+            // if its true then we can think of reducing the days to something more minimum so r = mid-1
+            // if its false then we need to increase the number of days so l = mid+1
+            if(isPossible(mid, m, k, days)){
+                ans = mid;
+                r = mid-1;
+            }
+            else{
+                l = mid+1;
+            }
+        }
+        return ans;
+    }
+};
+
+
+
 
 
 // @lc code=end
