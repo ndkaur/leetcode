@@ -21,92 +21,55 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution0 {
+class Solution0 { // O(3^n)
 public:
     int numTrees(int n) {
-        vector<int> A(n+1);
-        A[0]=A[1]=1;
-        for(int i=2;i<=n;i++){
-            for(int j=1;j<=i;j++){
-                A[i]+= A[j-1]*A[i-j];
-            }
+        if(n<=1)
+            return 1;
+        int ans= 0;
+        for(int i=1; i<=n; i++){
+            ans += numTrees(i-1) * numTrees(n-i);
         }
-        return A[n];
+        return ans;
     }
 };
 
-// catalan numbers :- 1,1,2,5,14,42,132,429,1430,
+// dp memeoization 
+class Solution1 { // O(N^2)
+public:
+    vector<int> dp;
+    int numTrees(int n) {
+        dp.resize(n+1);
+        if(n<=1)
+            return 1;
+        if(dp[n])
+            return dp[n];
+        for(int i=1; i<=n; i++){
+            dp[n] += numTrees(i-1) * numTrees(n-i);
+        }
+        return dp[n];
+    }
+};
 
-class Solution {
+
+class Solution { //O(N*N)
 public:
     int numTrees(int n) {
         vector<int> dp(n+1);
-        dp[0]=1;
-        for(int i=1;i<=n;i++){
-            for(int left=0;left<i;left++){
-                int right = i-left-1;
-                dp[i]+= dp[left]*dp[right];
+        dp[0] = dp[1] = 1;
+
+        for(int i=2; i<=n; i++){
+            for(int j=1; j<=i; j++){
+                dp[i] += dp[j-1] * dp[i-j];
             }
         }
         return dp[n];
     }
 };
 
-// class Solution1 {  // time limit exceeded
-// public:
-//     int numTrees(int n) {
-//         auto res = generate(1,n);
-//         return res.size();
-//     }
-//     vector<TreeNode*> generate(int start,int end){
-//         vector<TreeNode*> ans;
-//         if(end-start<0)  ans.push_back(0);
-//         if(end-start==0) ans.push_back(new TreeNode(start));
-//         if(end-start>0){
-//             for(int i=start;i<=end;i++){
-//                 vector<TreeNode*> l=generate(start,i-1);
-//                 vector<TreeNode*> r=generate(i+1,end);
-//                 for(int j=0;j<l.size();j++){
-//                     for(int k=0;k<r.size();k++){
-//                         TreeNode* extra= new TreeNode(i);
-//                         extra->left= l[j];
-//                         extra->right = r[k];
-//                         ans.push_back(extra);
-//                     }
-//                 }
-//             }
-//         }
-//         return ans;
-//     }
-// };
+// catalan numbers :- 1,1,2,5,14,42,132,429,1430,
 
-class Solution {  // time limit exceeded 
-public:
-    int numTrees(int n) {
-        int ans=0;
-        if(n==1 || n==0) 
-            return 1;
-        for(int i=0;i<n;i++){
-            ans+= numTrees(i)* numTrees(n-i-1);
-        }
-        return ans;
-    }
-};
-//  c[i] += c[i]* c[n-i-1]
-// using dp
-class Solution {
-public:
-    int numTrees(int n) {
-        vector<int> ans(n+1,0);
-        ans[1]= ans[0]=1;
-        for(int i=2;i<=n;i++){
-            for(int j=0;j<i;j++){
-                ans[i]+=  ans[j]* ans[i-j-1];
-            }
-        }
-        return ans[n];
-    }
-};
+
 
 
 //  binomial cofficent  2n C n / n+1 

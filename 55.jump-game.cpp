@@ -20,33 +20,93 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
 class Solution0 {
 public:
     bool canJump(vector<int>& nums) {
         int n = nums.size();
-        int i=0; // simple movement in the array 
-        for(int reach=0;i<n && i<=reach;i++){ // reach is how far it can move 
-           reach = max(i+nums[i],reach); 
+        int far = nums[0];
+        for(int i=1; i<n; i++){
+            far--;
+            if(far<0)
+                return false;
+            if(far<nums[i]){
+                far = nums[i];
+            }
         }
-        return i==n;// if i reached at last position without getting terminated inbetween 
+        return true;
     }
 };
+
+class Solution1 { // exponential 
+public:
+    bool find(int idx, vector<int>& nums){
+        int n = nums.size();
+        if(idx==n-1)
+            return true;
+        if(nums[idx]==0)
+            return false;
+        
+        int far = nums[idx]+idx;
+
+        for(int jump=idx+1; jump<=far; jump++){
+            if(find(jump, nums))
+                return true;
+        }
+        return false;
+    }
+    bool canJump(vector<int>& nums) {
+        return find(0, nums);
+    }
+};
+
+
+class Solution2 {  //O(N*N)
+public:
+    bool find(int idx, vector<int>& nums, vector<int>& dp){
+        int n = nums.size();
+        if(idx==n-1)
+            return true;
+
+        if(nums[idx]==0)
+            return false;
+
+        if(dp[idx]!=-1)
+            return dp[idx];
+
+        int far = nums[idx]+idx;
+
+        for(int jump=idx+1; jump<=far; jump++){
+            if(find(jump, nums, dp))
+                return dp[idx] = true;
+        }
+        return dp[idx] = false;
+    }
+    bool canJump(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n, -1);
+        return find(0, nums, dp);
+    }
+};
+
 
 class Solution {
 public:
     bool canJump(vector<int>& nums) {
         int n = nums.size();
-        int step= nums[0];
-        for(int i=1;i<n;i++){
-            step--;
-            if(step<0)
+        int far = 0;
+
+        for(int idx=0; idx<n; idx++){
+            if(far < idx)
                 return false;
-            if(step<nums[i])
-                step= nums[i];
+            far = max(far, idx+nums[idx]);
         }
         return true;
     }
 };
+
+
 // @lc code=end
 
 

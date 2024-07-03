@@ -20,23 +20,39 @@ void print(vi &out){
 }
 
 // @lc code=start
-class Solution {
+
+
+
+class Solution { // O(logN)
 public:
     int findMin(vector<int>& nums) {
-        int l=0;
-        int r=nums.size()-1;
-        while(l<r){
-            int mid=l+(r-l)/2;
-            if(nums[mid]>nums[r])
-                l=mid+1;
-            else if(nums[mid]<nums[r])
-                r=mid;
-            else if (nums[mid]==nums[r])
-                r--;
+        int n = nums.size();
+        int l = 0;
+        int h = n-1;
+        int mn =  INT_MAX;
+        
+        while(l<=h){
+            int mid = l+(h-l)/2;
+            if(nums[l]==nums[mid] && nums[mid]==nums[h]){
+                mn = min(mn, nums[mid]);
+                l++;
+                h--;
+                continue;
+            }
+            if(nums[l]<=nums[mid]){
+                mn = min(mn, nums[l]);
+                l= mid+1;
+            }
+            else{
+                mn = min(mn, nums[mid]);
+                h=mid-1;
+            }
         }
-        return nums[l];
+        return mn;
     }
 };
+
+
 // @lc code=end
 int main(){
     Solution sol;

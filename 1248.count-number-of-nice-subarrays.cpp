@@ -80,6 +80,40 @@ public:
     }
 };
 
+
+
+
+class Solution {
+public:
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        int n = nums.size();
+        int i = 0;
+        int j = 0;
+
+        int cnt = 0;  // sum of the odd cnt 
+        int odd = 0; // cnt of the curr odd nums found
+        int ans = 0; // final ans
+
+        while(j<n){
+            if(nums[j]%2!=0){ // its odd 
+                odd++;
+                cnt = 0; // the moment we find new odd num after satisfying k then new  subaary will begin 
+            }
+
+            while(odd==k){
+                if(nums[i]%2==1){
+                    odd--;
+                }
+                cnt++;
+                i++;
+            }
+            ans += cnt; // in eg 3, after we visit first 1 then the remainging numbers will also make the subarray with the already counted nums
+            j++;
+        }
+        return ans;
+    }
+};
+
 // @lc code=end
 
 
