@@ -15,6 +15,8 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
+
 class Solution {
 public:
     vector<int> nodesBetweenCriticalPoints(ListNode* head) {
@@ -23,9 +25,9 @@ public:
         int prevIdx= -1;
         int index= 1;
         ListNode* prev= head;
-        ListNode* curr= temp->next;
+        ListNode* curr= head->next;
         while(curr->next){
-            if((curr->val > prev->val && cur->val > curr->next->val) || (curr->val< prev->val && curr->val< curr->next->val)){
+            if((curr->val > prev->val && curr->val > curr->next->val) || (curr->val< prev->val && curr->val< curr->next->val)){
                 if(firstIdx ==-1){
                     firstIdx = index;
                 }

@@ -40,6 +40,23 @@ public:
     }
 };
 
+class Solution {
+public:
+    int passThePillow(int n, int time) {
+        // we have n but we can only jump n-1 times
+        int round = time/(n-1);
+        int ans = 0;
+
+        if(round%2==0){ // not reverse so 1+time
+            ans = 1 + (time%(n-1));
+        }
+        else{ // reverse jums so n- time
+            ans = n-time%(n-1);
+        }
+        return ans;
+    }
+};
+
 int main(){
 
     return 0;
