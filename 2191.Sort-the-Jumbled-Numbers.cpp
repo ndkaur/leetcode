@@ -15,6 +15,39 @@ void print(vi &out){
     cout<<endl;
 }
 
+
+class Solution {
+public:
+    vector<int> sortJumbled(vector<int>& mapping, vector<int>& nums) {
+        int n = mapping.size();
+        map<int,int> mp;
+        for(int i=0; i<n; i++){
+            mp[i]=mapping[i];
+        }
+
+        vector<pair<int,int>> temp;
+
+        for(int i=0; i<nums.size(); i++){
+            string val = to_string(nums[i]);
+            int new_num = 0;
+            for(auto ch:val){
+                int idx = ch-'0';
+                new_num = new_num*10 + mp[idx];
+            }
+            temp.push_back({new_num,i});
+        }
+
+        sort(temp.begin(), temp.end());
+
+        vector<int> ans;
+        for(int i=0; i<temp.size(); i++){
+            ans.push_back(nums[temp[i].second]);
+        }
+        return ans;
+    }
+};
+
+
 class Solution { // time limit exceeded 
 public:
     vector<int> sortJumbled(vector<int>& mapping, vector<int>& nums) {
