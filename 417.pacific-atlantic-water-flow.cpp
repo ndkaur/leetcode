@@ -21,6 +21,63 @@ void print(vi &out){
 }
 
 // @lc code=start
+
+
+
+class Solution {
+public:
+    void dfs(int i, int j, vector<vector<int>>& heights, vector<vector<bool>>& ocean){
+        int n = heights.size();
+        int m = heights[0].size();
+        vector<pair<int,int>> dirs ={{0,1},{1,0},{0,-1},{-1,0}};
+        
+        ocean[i][j] = true;
+
+        for(auto dir:dirs){
+            int ni = i + dir.first;
+            int nj = j + dir.second;
+            if(ni>=0 && ni<n && nj>=0 && nj<m && !ocean[ni][nj] && heights[ni][nj]>=heights[i][j]){
+                dfs(ni, nj, heights, ocean);
+            }
+        }
+    }
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        int n = heights.size();
+        int m = heights[0].size();
+        // if we move water inside from grid to ocean -> if next grid smaller or equal
+        // move from ocean to grid -> if next grid is greater or equal 
+        // the pacific and atlantic will be filled , ie the sides touching ocean 
+        // the grid which is visted by both 
+        vector<vector<bool>> pacific(n, vector<bool>(m, false));
+        vector<vector<bool>> atlantic(n, vector<bool>(m, false));
+
+        for(int i=0; i<n; i++){
+            // j=0 pacific 
+            dfs(i, 0, heights, pacific);
+            // j= m-1 atlantic
+            dfs(i, m-1, heights, atlantic);
+        }
+
+        for(int j=0; j<m; j++){
+            // i=0 pacifc
+            dfs(0, j, heights, pacific);
+            // i= n-1 atlantic 
+            dfs(n-1, j, heights, atlantic);
+        }
+
+        vector<vector<int>> ans;
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(atlantic[i][j]==pacific[i][j] && pacific[i][j]==true)
+                    ans.push_back({i,j});
+            }
+        }
+        return ans;
+    }
+};
+
+
 // O(M*N)
 // O(M*N),
 

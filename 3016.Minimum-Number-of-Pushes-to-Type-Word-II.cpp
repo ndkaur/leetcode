@@ -20,6 +20,35 @@ class Solution {
 public:
     int minimumPushes(string word) {
         int n = word.size();
+        map<char, int> mp;
+        for(auto ch:word){
+            mp[ch]++;
+        }
+        priority_queue<int> pq;
+        for(auto itr:mp){
+            pq.push(itr.second);
+        }
+
+        
+        int ans = 0;
+        int cnt = 0;
+        
+        while(pq.size()){
+            int val = pq.top();
+            pq.pop();
+            // when its 1-8 then we have available space for val 1 
+            // after that val 2 will 
+            ans += (cnt/8 + 1)* val;
+            cnt++;
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    int minimumPushes(string word) {
+        int n = word.size();
       
         map<char, int> mp;
         for(int i=0; i<n; i++){
