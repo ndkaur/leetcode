@@ -22,73 +22,59 @@ void print(vi &out){
 
 // @lc code=start
 
-
-class Solution { // smae like agresive cows
+class Solution0 {
 public:
-    int check(vector<int>& nums, int k, int mid){
-        int n = nums.size();
-        int cnt =0;
-        // cnt of distances that are less than mid
-        int s=0;
-        int e = 0;
-        while(e<n){
-            while(nums[e]-nums[s]>mid && s<n){
-                s++;
-            }
-            // now dist less than mid
-            cnt += e-s;
-            e++;
-        }
-        return cnt;
-    }
     int smallestDistancePair(vector<int>& nums, int k) {
-        int n  = nums.size();
-        sort(nums.begin(), nums.end());
-        int l = 0;  // not possible 
-        int h = nums[n-1]-nums[0];
-        while(l<=h){
-            int mid = l+(h-l)/2;
-            int dist = check(nums, k, mid);
-            if(dist<k){
-                l = mid+1;
+        int n = nums.size();
+        sort(nums.begin(), nums.end()); // nlogn 
+        priority_queue<int> pq; // logn
+
+        for(int i=0; i<n; i++){ // n*n
+            for(int j=i+1; j<n; j++){
+                int val = nums[j]-nums[i];
+                pq.push(val);
+                if(pq.size()>k)
+                    pq.pop();
             }
-            else 
-                h = mid-1;
         }
-        return l;
+        return pq.top();
     }
 };
 
 
 class Solution {
 public:
-    int smallestDistancePair(vector<int>& nums, int k) {
-        int n= nums.size();
-        sort(nums.begin(),nums.end());
-        int l=0;
-        int h= nums[n-1]-nums[0];
-        while(l<h){
-            int mid= l+(h-l)/2;
-            int count=possible(nums,k,mid);
-            if(count<k){
-                l=mid+1;
-            }else 
-                h=mid;
+    bool check(int mid, vector<int>& nums, int& k){
+        int n = nums.size();
+        int cnt = 0;
+        int j = 0;
+        //{1  1  3}
+        for(int i=0; i<n; i++){
+            while(j<n && nums[j]-nums[i]<=mid){
+                j++;
+            }
+            j--; 
+            cnt += (j-i); // cnt is the no of pairs in between 
         }
-        return l;
+        return (cnt>=k); // reduce the range 
     }
-    int possible(vector<int>& nums, int k,int mid){
-        int n= nums.size();
-        int count=0;
-        int i=0; // checking how many nos are smaller than mid
-        // but to count the nos from starting till mid which are less than or equal to mid 
-        // we increment our i till nums are greater than mid
-        for(int j=1;j<n;j++){
-            while(nums[j]-nums[i]>mid)
-                i++;
-            count+= j-i;
+    int smallestDistancePair(vector<int>& nums, int k) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end()); // nlogn 
+        int l = 0;
+        int r = nums[n-1]-nums[0];
+        int ans = -1;
+        while(l<=r){
+            int mid = l+(r-l)/2;
+            if(check(mid, nums, k)){
+                r = mid-1;
+                ans = mid; // consider it as answer as in next iteration we are trying to find some more smaller kth pair by reducing the range 
+            }
+            else{
+                l = mid+1;
+            }
         }
-        return count;
+        return ans;
     }
 };
 // @lc code=end
