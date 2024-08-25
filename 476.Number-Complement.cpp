@@ -36,6 +36,22 @@ public:
     }
 };
 
+
+class Solution { 
+public:
+    int findComplement(int num) {
+        //  num = 101 we want 10
+        // xor    111 
+                // 10 
+        int mask = 0;
+        // we want mask to be of size num
+        for(int temp= num; temp; temp>>=1){
+            mask = (mask<<1) | 1;
+        }
+        return mask^num;
+    }
+};
+
 //5 -> 101 = 10 , 1 , 0
 // 101 ^ 1 = 100, 100^10= 110  , 110 ^ 100 = 010 
 
