@@ -16,42 +16,82 @@ void print(vi &out){
 }
 
 
-class Solution {
+class Solution0 { // O(N^2)
 public:
-    int setBit(int num){
-        int cnt =0;
-        for(int i=31; i>=0; i--){
-            if(((num>>i)&1)==1)
+    int setBitCount(int num){
+        int cnt = 0;
+        while(num){
+            if(num&1){
                 cnt++;
+            }
+            num = num>>1;
         }
         return cnt;
     }
-    bool check(vector<int>& nums){
+    bool canSortArray(vector<int>& nums) {
         int n = nums.size();
-        for(int i=0; i<n-1; i++){
-            if(nums[i]>nums[i+1])
-                return false;
+        // must be adjacetn and have same set bit then only we can swap 
+        // brute force like bubble sort
+        for(int i=1; i<n; i++){
+            for(int j=0; j<n-i; j++){
+                if(nums[j]<=nums[j+1]) // already sorted
+                    continue;
+                else{
+                    if(setBitCount(nums[j])==setBitCount(nums[j+1])){
+                        swap(nums[j], nums[j+1]);
+                    }
+                    else
+                        return false;
+                }
+            }
         }
         return true;
     }
+};
+
+// all the same bit cnt number if placed together ie adjacent then only they can be swapped
+
+// divide into segements based on the setbit cnt  
+// if the prev segment mx is greter than the curr segment min that means the swap or sorting isnt possible so return false. eg -> 3 2 
+
+class Solution { 
+public:
+    int setBitCnt(int num){
+        int cnt = 0;
+        while(num){
+            if(num&1){
+                cnt++;
+            }
+            num = num>>1;
+        }
+        return cnt;
+    }
     bool canSortArray(vector<int>& nums) {
         int n = nums.size();
-        vector<int> cnt(n);
-        for(int i=0; i<n; i++){
-            cnt[i] = setBit(nums[i]);
-        }
-        int k =0;
-        while(k<n){
-            for(int i=1; i<n; i++){
-                if(cnt[i]==cnt[i-1] && nums[i]<nums[i-1]){
-                    swap(nums[i], nums[i-1]);
-                }
+        int curmx = nums[0];
+        int curmn = nums[0];
+        int prevBitCnt = setBitCnt(nums[0]);
+        int prevmx = INT_MIN;
+
+        int i = 1;
+        while(i<n){
+            // till the set bit cnt is equal for the adjacent elemts 
+            while(i<n && setBitCnt(nums[i])==prevBitCnt){
+                curmx = max(curmx, nums[i]);
+                curmn = min(curmn, nums[i]);
+                i++;
             }
-            if(check(nums)) 
-                return true;
-            k++;
+
+            if(prevmx > curmn) // no swap can be done its false
+                return false;
+            else if(i<n){ // now shift to the next segment 
+                prevmx = curmx;
+                curmx = nums[i];
+                curmn = nums[i];
+                prevBitCnt = setBitCnt(nums[i]);
+            }
         }
-        return false;
+        return true;
     }
 };
 
