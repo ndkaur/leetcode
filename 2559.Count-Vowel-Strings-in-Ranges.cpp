@@ -67,6 +67,36 @@ public:
     }
 };
 
+
+
+class Solution {
+public:
+    vector<int> vowelStrings(vector<string>& words, vector<vector<int>>& queries) {
+        int n = words.size();
+        int m = queries.size();
+        vector<int> prefixSum(n+1,0);
+        set<char> st = {'a','e','i','o','u'};
+        
+        for(int i=0; i<n; i++){
+            if(st.count(words[i].front()) && st.count(words[i].back())){
+                prefixSum[i+1] = prefixSum[i] + 1;
+            }
+            else {
+                prefixSum[i+1] = prefixSum[i]; // runing sum maintainece
+            }
+        }
+
+        vector<int> ans;
+
+        for(auto& q:queries){
+            int start = q[0];
+            int end = q[1];
+            ans.push_back(prefixSum[end+1] - prefixSum[start]);
+        }
+        return ans;
+    }
+};
+
 //  words = ["aba","bcb","ece","aa","e"], queries = [[0,2],[1,4],[1,1]]
 // pref(6)
 // pref is no of vowels word till that idx 
