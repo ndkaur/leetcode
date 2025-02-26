@@ -14,6 +14,55 @@ void print(vi &out){
     cout<<endl;
 }
 
+
+
+class Solution {
+public:
+    bool find(int idx, int n, vector<int>& ans, vector<bool>& used){
+        // reached at last index 
+        if(idx==2*n-1)
+            return true; 
+
+        if(ans[idx]!=0) // already filled then move to next index
+            return find(idx+1, n, ans, used);
+
+        // greedy filling
+        for(int i=n; i>=1; i--){
+            if(used[i]==true)
+                continue;
+            
+            used[i]= true;
+            ans[idx]=i;
+            if(i==1 && find(idx+1, n, ans, used))
+                return true;
+
+            // checking for the valid index 
+            if(i>1 && (idx+i)<(2*n-1) && ans[idx+i]==0){
+                ans[idx+i]=i;
+                if(find(idx+1, n, ans, used))
+                    return true;
+                ans[idx+i] = 0;
+            } 
+
+            // if not possible , equidistance
+            used[i] = false;
+            ans[idx]=0;
+        }
+        return false;
+
+    }
+    vector<int> constructDistancedSequence(int n) {
+        // each elem will occur twice only 1 will occur once
+        vector<int> ans(2*n-1,0);
+        vector<bool> used(n+1, false); // 0 based indexing
+        // find function keeps on filling the ans array and return the boolean value
+        // that bool value states that is the value we adding at the current index 
+        // is it equi-distance to another elem or any other elm already present there 
+        find(0, n, ans, used); 
+        return ans;
+    }
+};
+
 class Solution {
     vector<int> used;
 public:

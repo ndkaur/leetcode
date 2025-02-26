@@ -120,7 +120,7 @@ public:
 };
 
 //  space optimization 
-class Solution { 
+class Solution6 { 
 public:
     int numDistinct(string s, string t) {
         int n= s.size();
@@ -142,7 +142,7 @@ public:
     }
 };
 
-class Solution { 
+class Solution5 { 
 public:
     int numDistinct(string s, string t) {
         int n= s.size();
@@ -159,6 +159,39 @@ public:
         return (int)prev[m];
     }
 };
+
+
+class Solution {
+    public:
+        int f(int i, int j, string& s, string& t, vector<vector<int>>& dp){
+            if(j==0)
+                return 1;
+            if(i==0)
+                return 0;
+            if(dp[i][j]!=-1)
+                return dp[i][j];
+    
+            if(s[i-1]==t[j-1]){
+                return dp[i][j] = f(i-1,j-1, s, t, dp) + f(i-1, j, s, t, dp);
+            }
+            return dp[i][j] = f(i-1, j, s, t, dp);
+        }
+        int numDistinct(string s, string t) {
+            int n = s.size();
+            int m = t.size();
+            vector<vector<int>> dp(n+1, vector<int>(m+1,-1));
+            
+            // for(int i=0; i<dp.size(); i++){
+            //     for(int j=0; j<dp[0].size(); j++){
+            //         cout<<dp[i][j]<<" ";
+            //     }
+            //     cout<<endl;
+            // }
+            return f(n, m, s, t, dp);
+        }
+    };
+
+
 // @lc code=end
 
 
@@ -171,29 +204,29 @@ int main(){
    return 0;
 }
 
-"babgbag"
-"bag"
+// "babgbag"
+// "bag"
 
 
-     0 b a g
-0    1 0 0 0 
-b    1 1 0 0 
-a    1 1 1 0 
-b    1 2 1 0 
-g    1 2 1 1 
-b    1 3 1 1 
-a    1 3 4 1 
-g    1 3 4 5  
+//      0 b a g
+// 0    1 0 0 0 
+// b    1 1 0 0 
+// a    1 1 1 0 
+// b    1 2 1 0 
+// g    1 2 1 1 
+// b    1 3 1 1 
+// a    1 3 4 1 
+// g    1 3 4 5  
 
-i= b a b g
-j= b   
-no of ways = 2
+// i= b a b g
+// j= b   
+// no of ways = 2
 
-i= b a b g a
-j= b a
-no of ways = 4
+// i= b a b g a
+// j= b a
+// no of ways = 4
 
-if equal -> [i-1][j-1]  + [i-1][j]
-not equal  -> [i-1][j]
+// if equal -> [i-1][j-1]  + [i-1][j]
+// not equal  -> [i-1][j]
 
-every box tells no of way to make till i in j 
+// every box tells no of way to make till i in j 
