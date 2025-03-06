@@ -15,6 +15,25 @@ void print(vi &out){
     cout<<endl;
 }
 
+
+class Solution {
+    public:
+        long long coloredCells(int n) {
+            long long ans =1;
+            int idx =1;
+            for(int i=1; i<n; i++){
+                ans += (4*idx);
+                idx++;
+            }
+            return ans;
+        }
+    };
+    
+    // 1-> 1
+    // 2-> 5 ->1+4
+    // 3-> 13-> 1+4+8
+    // 4->25 ->1+4+8+12
+
 class Solution {
 public:
     long long coloredCells(int n) {

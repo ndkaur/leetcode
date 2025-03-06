@@ -68,6 +68,37 @@ public:
 };
 
 
+// dp and two pointer
+class Solution {
+    public:
+        int lenLongestFibSubseq(vector<int>& arr) {
+            int n = arr.size();
+            vector<vector<int>> dp(n, vector<int>(n,0));
+            int mx = 0;
+            for(int i=0; i<n; i++){
+                int start = 0;
+                int end = i-1;
+                // two pointer
+                while(start<end){
+                    int sum = arr[start]+arr[end];
+                    if(sum>arr[i]){
+                        end--;
+                    }
+                    else if(sum<arr[i]){
+                        start++;
+                    }
+                    else{
+                        dp[end][i] = dp[start][end] + 1;
+                        mx = max(mx, dp[end][i]);
+                        end--;
+                        start++;
+                    }
+                }
+            }
+            return mx==0 ? 0: mx+2;
+        }
+    };
+
 // @lc code=end
 
 
