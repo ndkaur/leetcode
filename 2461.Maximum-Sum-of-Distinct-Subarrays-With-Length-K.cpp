@@ -15,6 +15,39 @@ void print(vi &out){
     cout<<endl;
 }
 
+
+
+class Solution {
+    public:
+        long long maximumSubarraySum(vector<int>& nums, int k) {
+            int n = nums.size();
+            long long mxsum =0;
+            long long sum =0;
+            int i =0;
+            int j=0;
+            set<int> st;
+    
+            while(j<n){
+                while(st.find(nums[j])!=st.end()){
+                    sum-=nums[i];
+                    st.erase(nums[i]);
+                    i++;
+                }
+                sum += nums[j];
+                st.insert(nums[j]);
+                
+                if((j-i+1)==k){
+                    mxsum = max(mxsum, sum);
+                    sum-=nums[i];
+                    st.erase(nums[i]);
+                    i++;
+                }
+                j++;
+            }
+            return mxsum;
+        }
+    };
+
         // 0 1 2 3 4 5 6  
 // nums = [1,5,4,2,9,9,9], k = 3
 
