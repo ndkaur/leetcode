@@ -15,6 +15,9 @@ void print(vi &out){
     cout<<endl;
 }
 
+// time complexity -> binary search O(nlogm), where n is the length of nums and m is the maximum value in nums
+// Space complexity: O(1)
+
 class Solution {
 public:
     int possiblyTakenHouses(int mid, vector<int>& nums){

@@ -17,6 +17,24 @@ void print(vi &out){
 
 
 class Solution {
+    public:
+        bool divideArray(vector<int>& nums) {
+            int n = nums.size();
+            int p_cnt= n/2;
+            map<int,int> mp;
+            for(int num:nums){
+                mp[num]++;
+            }
+            for(auto itr:mp){
+                if(itr.second%2==1)
+                    return false;
+            }
+            return true;
+        }
+    };
+
+
+class Solution {
 public:
     bool divideArray(vector<int>& nums) {
         int n = nums.size();
