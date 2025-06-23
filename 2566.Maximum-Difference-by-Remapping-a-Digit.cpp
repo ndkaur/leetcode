@@ -15,6 +15,38 @@ void print(vi &out){
     cout<<endl;
 }
 
+
+
+class Solution {
+public:
+    int minMaxDifference(int num) {
+        string temp = to_string(num);
+        int n = temp.size();
+        string mx = temp;
+        string mn = temp;
+        char small = -1;
+        char large = -1;
+        for(int i=0; i<n; i++){
+            if(large==-1 && temp[i]!='9'){// 90
+                large = temp[i];
+                mx[i]='9';
+            }
+            else{
+                mx[i] = (temp[i]==large)?'9':temp[i];
+            }
+
+            if(small==-1 && temp[i]!='0'){//118
+                small = temp[i];
+                mn[i]='0';
+            }
+            else{
+                mn[i]= (temp[i]==small)?'0':temp[i];
+            }
+        }
+        return stoi(mx)-stoi(mn);
+    }
+}; 
+
 class Solution {
 public:
     int minMaxDifference(int num) {
