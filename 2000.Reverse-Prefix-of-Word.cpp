@@ -38,6 +38,31 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    string reversePrefix(string word, char ch) {
+        int n = word.size();
+        int i =0;
+        for(i=0; i<n; i++){
+            if(word[i]==ch){
+                break;
+            }
+        }
+        if(i==n)
+            return word;
+        int l=0;
+        int r =i;
+        string ans = word;
+        while(l<=r){
+            swap(ans[l], ans[r]);
+            l++;
+            r--;
+        }
+        return ans;
+    }
+};
+
 int main(){
 
     return 0;
