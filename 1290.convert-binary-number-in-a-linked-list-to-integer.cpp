@@ -31,6 +31,34 @@ void print(vi &out){
  * };
  */
 
+
+class Solution {
+public:
+    int getDecimalValue(ListNode* head) {
+        int ans = 0;
+        if(!head)
+            return ans;
+        int len = 0;
+        ListNode* temp = head;
+        while(temp!=NULL){
+            len++;
+            temp= temp->next;
+        }
+
+        len = len-1;
+        while(head){
+            if(head->val==1){
+                ans+= pow(2,len);
+            }
+            len--;
+            head= head->next;
+        }
+        return ans;
+    }
+};
+
+
+
 //  binary representation
 class Solution {
 public:
