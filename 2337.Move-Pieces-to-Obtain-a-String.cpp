@@ -15,6 +15,36 @@ void print(vi &out){
     cout<<endl;
 }
 
+
+class Solution {
+public:
+    bool canChange(string start, string target) {
+        int n = start.size();
+        // conditions when we can move the ptrs 
+        // 1 when both the chars are equal 
+        // when start[i]==L then i>j 
+        // when start[j]==R then i<j so that we can move i right side 
+        int i=0;
+        int j=0;
+        while(i<n || j<n){
+            while(i<n && start[i]=='_'){
+                i++;
+            }
+            while(j<n && target[j]=='_'){
+                j++;
+            }
+            // alter condtions of when not equal false break 
+            if(i==n || j==n || start[i]!=target[j] || (start[i]=='L' && i<j) || (start[i]=='R' && i>j)){
+                break;
+            }
+            i++;
+            j++;
+        }
+        return i==n && j==n;
+    }
+};
+
+
 class Solution {
 public:
     bool canChange(string start, string target) {

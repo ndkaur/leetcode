@@ -18,6 +18,50 @@ void print(vi &out){
 
 class Solution {
 public:
+    int score(string& s,  char a, char b){
+        int cnt = 0;
+        stack<char> stk;
+
+        for(int i=0; i<s.size(); i++){
+            if(!stk.empty() && stk.top()==a && s[i]==b){
+                stk.pop();
+                cnt++;
+            }
+            else{
+                stk.push(s[i]);
+            }
+        }
+        // reseting the string so that we can find with respect to other "ba"
+        s="";
+        
+        while(stk.size()){
+            s+=stk.top();
+            stk.pop();
+        }
+        reverse(s.begin(), s.end());
+        return cnt;
+    }
+    int maximumGain(string s, int x, int y) {
+        int n = s.size();
+
+        int cnta =0;
+        int cntb = 0;
+
+        if(x>y){
+            cnta = score(s, 'a', 'b');
+            cntb = score(s, 'b', 'a');
+        }
+        else{
+            cntb = score(s, 'b', 'a');
+            cnta = score(s, 'a', 'b');
+        } 
+        return cnta*x + cntb*y;
+    }
+};
+
+
+class Solution {
+public:
     string removeAB(string s, int x, int& cnt){
         stack<char> stk;
         for(int i=0; i<s.size(); i++){
