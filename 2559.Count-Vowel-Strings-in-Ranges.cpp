@@ -110,6 +110,41 @@ public:
 //  ans = {2,3,0}
 
 
+class Solution {
+public:
+    vector<int> vowelStrings(vector<string>& words, vector<vector<int>>& queries) {
+        int n = words.size();
+        int m = queries.size();
+
+        set<char> st = {'a','e','i','o','u'};
+        vector<bool> isVowel(n,0);
+        int i=0;
+        for(auto word:words){
+            if(st.count(word.front()) && st.count(word.back())){
+                isVowel[i]=1;
+            }
+            i++;
+        }
+        vector<int> prefix(n,0);
+        prefix[0]= isVowel[0];
+        for(int i=1; i<n; i++){
+            prefix[i] = prefix[i-1]+isVowel[i];
+        }
+        
+        vector<int> ans;
+        for(auto query:queries){
+            int i = query[0];
+            int j = query[1];
+            if(i==0)
+                ans.push_back(prefix[j]);
+            else 
+                ans.push_back(prefix[j]-prefix[i-1]);
+        }
+        return ans;
+    }
+};
+
+
 
 
 
