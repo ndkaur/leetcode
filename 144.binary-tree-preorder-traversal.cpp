@@ -72,6 +72,42 @@ public:
         return ans;
     }
 };
+
+
+// morris traversal
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        // pre = root left right 
+        vector<int> ans;
+        while(root){
+            if(root->left){
+                TreeNode* prev = root->left;
+                while(prev->right && prev->right!=root){
+                    prev = prev->right;
+                }
+                if(!prev->right){ // null
+                    prev->right = root;
+                    ans.push_back(root->val);
+                    root = root->left;
+                }
+                else{ // already connected to the root 
+                    prev->right = NULL;
+                    root = root->right;
+                }
+            }
+            else{
+                ans.push_back(root->val);
+                root= root->right;
+            }
+        }
+        return ans;
+    }
+};
+
+
+
+
 // @lc code=end
 
 

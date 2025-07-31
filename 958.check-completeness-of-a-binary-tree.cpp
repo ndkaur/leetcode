@@ -33,7 +33,7 @@ void print(vi &out){
  * };
  */
 
-//  logic-> left subtree is complete but right subtree has only chil on left side but not on right side
+//  logic-> left subtree is complete but right subtree has only child on left side but not on right side
 // if right subtree have right child at the leaf but no left child at the leaf then it is false 
 class Solution {
 public:
