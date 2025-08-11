@@ -21,31 +21,6 @@ void print(vi &out){
 }
 // @lc code=start
 
-class Solution0 { //tle
-public:
-    vector<int> productExceptSelf(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> ans(n);
-        for(int i=0; i<n; i++){
-            if(i==0)
-                ans[0] = pro(i+1, n-1,nums);
-            if(i==n-1)
-                ans[n-1] = pro(0, n-2,nums);
-            int l = pro(0, i-1,nums);
-            int r = pro(i+1,n-1,nums);
-            ans[i] = l*r;
-        }
-        return ans;
-    }
-    int pro(int s, int e, vector<int>& nums){
-        int n = nums.size();
-        int ans = 1;
-        for(int i=s; i<=e; i++){
-            ans = ans * nums[i];
-        }
-        return ans;
-    }
-};
 
 
 class Solution1 { //O(N*N)
@@ -66,76 +41,24 @@ public:
 };
 
 
-class Solution2 {  //O(N)  O(N)
-public:
-    vector<int> productExceptSelf(vector<int>& nums) {
-        int n = nums.size();
-        
-        vector<int> left(n);
-        left[0] =1;
-        for(int i=1; i<n; i++){
-            left[i]  = left[i-1] * nums[i-1];
-        }
-
-        vector<int> right(n);
-        right[n-1] =1;
-        for(int i=n-2; i>=0; i--){
-            right[i] = right[i+1]  * nums[i+1];
-        }
-
-        vector<int> ans(n);
-        for(int i=0; i<n; i++){
-            ans[i] = left[i] * right[i];
-        }
-        return ans;
-    }
-};
-
-
-class Solution { //time ->O(N) space->O(1)
+class Solution0 {
 public:
     vector<int> productExceptSelf(vector<int>& nums) {
         int n = nums.size();
         vector<int> ans(n);
-        ans[0] =1;
-       
+        vector<int> pre(n);
+        pre[0]=1;
         for(int i=1; i<n; i++){
-            ans[i]  = ans[i-1] * nums[i-1];
+            pre[i] = pre[i-1]*nums[i-1];
         }
-
-        int right = 1;
-        
-        for(int i=n-1; i>=0; i--){
-            ans[i] = ans[i]  * right;
-            right = right * nums[i];
-        }
-        return ans;
-    }
-};
-
-// .......................................................................................
-
-
-class Solution { // O(N) , sp->O(N)
-public:
-    vector<int> productExceptSelf(vector<int>& nums) {
-        int n= nums.size();
-        // 1 2 3 4
-        // left = 1 1 2 6 
-        // right= 24 12 4 1
-        vector<int> left(n);
-        left[0] =1;
-        vector<int> right(n);
-        right[n-1] =1;
-        vector<int> ans(n);
-        for(int i=1; i<n; i++){
-            left[i] = left[i-1]*nums[i-1];
-        }
+        vector<int> suf(n);
+        suf[n-1]=1;
         for(int i=n-2; i>=0; i--){
-            right[i] = right[i+1]*nums[i+1];
+            suf[i] = suf[i+1]*nums[i+1];
         }
+
         for(int i=0; i<n; i++){
-            ans[i] = left[i] * right[i];
+            ans[i] = pre[i]*suf[i];
         }
         return ans;
     }
@@ -146,103 +69,23 @@ class Solution {
 public:
     vector<int> productExceptSelf(vector<int>& nums) {
         int n = nums.size();
-        vector<int> output(n);
-        output[0] = 1;
-        for(int i=1; i<n; i++){
-            output[i] = output[i-1] * nums[i-1];
+        vector<int> ans(n,1);
+        int cur = 1;
+        for(int i=0; i<n; i++){
+            ans[i] = ans[i]*cur;
+            cur = cur*nums[i];
         }
-        int right = 1;
+        cur =1;
         for(int i=n-1; i>=0; i--){
-            output[i] *= right;
-            right *= nums[i];
-        }
-        return output;
-    }
-};
-// 1 2 3 4
-// 1 1 2 6
-// right going n-1 
-// 24  12   8 6
-
-class Solution { //O(n) 
-public:
-    vector<int> productExceptSelf(vector<int>& nums) {
-        int n= nums.size();
-        vector<int> ans(n,0);
-        
-        int pro=1; // total product
-        int zcnt=0;
-        for(int i=0;i<n;i++){
-            if(nums[i]) // findinf pro of lememts excpet including 0 
-                pro *= nums[i];
-            if(nums[i]==0)
-                zcnt++;
-        }
-        if(zcnt>1) // more than 1 zeros exist sot ans array will be filled with 0
-            return ans;
-       for(int i=0;i<n;i++){
-           if(zcnt==0){  // no zero exist so use prefix product technique
-               ans[i] = (pro/nums[i]);
-           }
-           else // only one 0 exist so the ans will be the product of rest of the elements
-                ans[i] = nums[i] ? 0 : pro;
-       }
-       return ans;
-    }
-};
-
-
-class Solution { //O(n)  , O(n)
-public:
-    vector<int> productExceptSelf(vector<int>& nums) {
-        int n= nums.size();
-
-        vector<int> pre(n);
-        int pro=1;
-        for(int i=0;i<n;i++){
-            pro *=nums[i];
-            pref[i]= pro;
-        }
-
-        vector<int> suf(n);
-        int p=1;
-        for(int i=n-1;i>=0;i--){
-            p *= nums[i];
-            suf[i] = p;
-        }
-
-        vector<int> ans(n,0);
-        for(int i=0;i<n;i++){
-            // if i ->for case when i=0  
-            // i<n-1 -> for case i<n 
-            ans[i] = (i ? pref[i-1] :1) * (i+1 < n ? suf[i+1] : 1);
+            ans[i] = ans[i]*cur;
+            cur = cur*nums[i];
         }
         return ans;
     }
 };
 
 
-// solving in constant space 
-class Solution { //O(n)
-public:
-    vector<int> productExceptSelf(vector<int>& nums) {
-        int n= nums.size();
-        int pro=1;
-        int zcnt = count(nums.begin(), nums.end(),0);
-        if(zcnt>1) return vector<int>(n);
-        for(auto num:nums){
-            if(num)
-                pro= pro* num;
-        }
-        for(auto& num:nums){
-            if(zcnt) // only one zero exists
-                num = num ? 0 : pro;
-            else 
-                num = pro/ num;
-        }
-        return nums;
-    }
-};
+
 
 // @lc code=end
 

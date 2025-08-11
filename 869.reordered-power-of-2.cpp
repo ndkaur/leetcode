@@ -22,6 +22,33 @@ void print(vi &out){
 
 // @lc code=start
 
+
+
+class Solution {
+public:
+    string sorted(int n){
+        string s = to_string(n);
+        sort(s.begin(), s.end());
+        return s;
+    }
+    bool reorderedPowerOf2(int n) {
+        string s = sorted(n);
+        // check all powers of 2 , 2^30 will be of size more thn 10^9
+        //1<<0 = 1 , 1<<1 = 10 ->2   , 1<<2 = 100 = 4
+        for(int p=0; p<=29; p++){
+            int powerof2 = (1<<p); 
+            if(s==sorted(powerof2)){
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+
+
+
+
 // generate all permutations -> O(n! * n)
 // then  check for each permutation if pow of 2 or not ->O(log n)
 //  
