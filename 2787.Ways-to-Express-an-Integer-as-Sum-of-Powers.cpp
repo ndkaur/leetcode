@@ -46,6 +46,35 @@ public:
     }
 };
 
+class Solution {
+public:
+    int mod = 1e9+7;
+    int find(int sum, int power, int i, vector<vector<int>>& dp){
+        if(sum==0)
+            return 1;
+
+        // long long temp = pow(i,power);
+        if(pow(i,power) > sum)
+            return 0;
+
+        if(dp[sum][i]!=-1)
+            return dp[sum][i];
+
+        long long pick = find(sum-pow(i,power), power, i+1 ,dp);
+        long long npick = find(sum, power, i+1, dp);
+
+        return dp[sum][i] = (pick + npick)%mod;
+    }
+    int numberOfWays(int n, int x) {
+        int num =1;
+        while(pow(num,x)<=n){
+            num++;
+        }
+        vector<vector<int>> dp(301, vector<int>(num+1, -1));
+        return find(n,x, 1, dp);
+    }
+};
+
 int main(){
 
     return 0;
