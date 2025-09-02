@@ -15,22 +15,39 @@ void print(vi &out){
     cout<<endl;
 }
 
-
-class Solution {
+class Solution0 { // O(n*m)
 public:
     vector<vector<int>> construct2DArray(vector<int>& original, int m, int n) {
-        int sz = original.size();
-        if(sz!=m*n)
+        vector<vector<int>> ans(m, vector<int>(n));
+        if(m*n!=original.size())
             return {};
-
-        vector<vector<int>> ans(m);
-        // filling the rows 
+        int idx =0;
         for(int i=0; i<m; i++){
-           ans[i].assign(original.begin()+i*n , original.begin()+(i+1)*n);
+            for(int j=0; j<n; j++){
+                ans[i][j] = original[idx];
+                idx++;
+            }
         }
         return ans;
     }
 };
+
+
+class Solution { // O(n)
+public:
+    vector<vector<int>> construct2DArray(vector<int>& original, int rows, int cols) {
+        vector<vector<int>> ans(rows, vector<int>(cols));
+        if(rows*cols!=original.size())
+            return {};
+       
+        for(int i=0; i<rows*cols; i++){
+            ans[i/cols][i%cols] = original[i];
+        }
+        return ans;
+    }
+};
+
+
 
 int main(){
 

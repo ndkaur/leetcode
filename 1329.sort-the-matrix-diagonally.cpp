@@ -20,42 +20,60 @@ void print(vi &out){
     cout<<endl;
 }
 // @lc code=start
+
+
 class Solution0 {
 public:
     vector<vector<int>> diagonalSort(vector<vector<int>>& mat) {
-        int n= mat.size();
-        int m= mat[0].size();
-        // checking for row   --  have to move on col
-        for(int col=0;col<m;col++){
-            srt(mat,0, col, m ,n );
-        }
-        //  checking for col -- have to move on row
-        for(int row=1;row<n; row++){
-            srt(mat, row, 0, m ,n);
-        }
-        return mat;
+        int n = mat.size();
+        int m = mat[0].size();
+        vector<vector<int>> ans(n,vector<int>(m));
+        for(int j=0; j<m; j++){
+            int i=0;
+            int jj=j;
+            vector<int> temp;
+            vector<pair<int,int>> idx;
 
-    }
-    void srt(vector<vector<int>> &mat, int row, int col, int& m, int& n){
-        vector<int> val;
-        int r= row; 
-        int c= col;
-        while(r<n && c<m){
-            val.push_back(mat[r][c]); // insert digonal val one by one in vector
-            r++; 
-            c++;
+            idx.push_back({i,jj});
+            temp.push_back(mat[i][jj]);
+
+            while(mat[0][j] && i+1<n && jj+1<m){
+                temp.push_back(mat[i+1][jj+1]);
+                i= i+1;
+                jj = jj+1;
+                idx.push_back({i,jj});
+            }
+            sort(temp.begin(), temp.end());
+            int p =0;
+            for(auto id:idx){
+                if(p<temp.size())
+                    ans[id.first][id.second]= temp[p++];
+            }
         }
-        sort(val.begin(), val.end()); 
-        // put values from vector back to matrix
-        r=row;
-        c=col;
-        int k=0;
-        while(r<n && c<m){
-            mat[r][c]= val[k];
-            k++;
-            r++;
-            c++;
+
+        for(int i=0; i<n; i++){
+            int j=0;
+            int ii=i;
+            vector<int> temp;
+            vector<pair<int,int>> idx;
+
+            idx.push_back({ii,j});
+            temp.push_back(mat[ii][j]);
+
+            while(mat[i][0] && ii+1<n && j+1<m){
+                temp.push_back(mat[ii+1][j+1]);
+                ii = ii+1;
+                j = j+1;
+                idx.push_back({ii,j});
+            }
+            sort(temp.begin(), temp.end());
+            int p =0;
+            for(auto id:idx){
+                if(p<temp.size())
+                    ans[id.first][id.second]= temp[p++];
+            }
         }
+        return ans;
     }
 };
 
@@ -63,42 +81,29 @@ public:
 class Solution {
 public:
     vector<vector<int>> diagonalSort(vector<vector<int>>& mat) {
-        int n= mat.size();
-        int m= mat[0].size();
-        // checking for row   --  have to move on col
-        for(int col=0;col<m;col++){
-            srt(mat,0, col, m ,n );
-        }
-        //  checking for col -- have to move on row
-        for(int row=1;row<n; row++){
-            srt(mat, row, 0, m ,n);
-        }
-        return mat;
+        int n = mat.size();
+        int m = mat[0].size();
+        vector<vector<int>> ans(n,vector<int>(m));
+        unordered_map<int, priority_queue<int, vector<int>, greater<int>>> mp;
 
-    }
-    void srt(vector<vector<int>> &mat, int row, int col, int& m, int& n){
-        int r= row; 
-        int c= col;
-        vector<int> val(101);
-        while(r<n && c<m){
-            val[mat[r][c]]++; // insert digonal val one by one in vector
-            r++; 
-            c++;
-        }
-        
-        // put values from vector back to matrix
-        r=row;
-        c=col;
-        for(int k=1;k<val.size();k++){
-            while(val[k]>0){
-                mat[r][c]= k;
-                val[k]--;
-                r++;
-                c++;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                mp[i-j].push(mat[i][j]);
             }
         }
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                ans[i][j] = mp[i-j].top();
+                mp[i-j].pop();
+            }
+        }
+
+        return ans;
     }
 };
+
+
 // @lc code=end
 
 
