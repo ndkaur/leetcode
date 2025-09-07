@@ -27,6 +27,42 @@ public:
         return output;
     }
 };
+
+
+class Solution {
+public:
+    vector<int> sumZero(int n) {
+        vector<int> ans;
+        if(n==1)
+            return {0};
+        if(n%2==0){
+            for(int i=1; i<=n/2; i++){
+                ans.push_back(i);
+                ans.push_back(-(i));
+            }
+        }
+        else{
+            int val = n/2;
+            int rem = n-val;// even value 
+            int sum=0;
+            for(int i=1; i<=rem; i++){
+                sum+=i;
+                ans.push_back(i);
+            }
+            for(int i=1; i<=val; i++){
+                if(i==val){
+                    ans.push_back(-sum);
+                    break;
+                }
+                sum-=i;
+                ans.push_back(-i);
+            }
+        }
+        sort(ans.begin(), ans.end());
+        return ans;
+    }
+};
+
 // @lc code=end
 int main(){
     Solution sol;
