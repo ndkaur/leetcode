@@ -60,12 +60,55 @@ public:
             auto itr = mp[cuisine].top(); // {rating, food}
             // if rate changed new rating given 
             // rate map -> {food, rating}
-            if(rate[itr.second] == itr.first) // rating is same no change
+            if(rate[itr.second] == itr.first) // rating is same that means no new rating has been added 
                 return itr.second;
             else
                 mp[cuisine].pop();
         }
         // we want to keep all ratings but when two ratings same need lexico smaller string so use comparator
+    }
+};
+
+
+class FoodRatings {
+public:
+    // food-> {cuisne , rating}
+    map<string, pair<string,int>> food_to_cusine_rating;
+    // what cusine? -> max rating? -> same rating ?-> smallest letter food 
+    map<string, map<int, set<string>>> cusine_to_rating_food;
+
+    FoodRatings(vector<string>& foods, vector<string>& cuisines, vector<int>& ratings) {
+        for(int i=0; i<foods.size(); i++){
+            food_to_cusine_rating[foods[i]]={cuisines[i], ratings[i]};
+            cusine_to_rating_food[cuisines[i]][ratings[i]].insert(foods[i]);
+        }    
+    }
+    
+    void changeRating(string food, int newRating) {
+        auto food_info = food_to_cusine_rating.find(food);
+        string cusine = food_info->second.first;
+        int old_rating = food_info->second.second;
+        // change in rating map
+        food_info->second.second = newRating;
+
+        // change in highest rating map
+        cusine_to_rating_food[cusine][old_rating].erase(food);
+        // same cusine can have same rating for different foods 
+        // we need to remove the food for the old rating 
+        // and if at that old rating there is no food left int he set , remove the old rating 
+        // and add the new rating 
+        if(cusine_to_rating_food[cusine][old_rating].empty()){
+            // no food in the set, remove that rating for space managemt
+            cusine_to_rating_food[cusine].erase(old_rating);
+        }
+        // add new rating 
+        cusine_to_rating_food[cusine][newRating].insert(food);
+    }
+    
+    string highestRated(string cuisine) {
+        // cusine -> map(rating in ascending order) -> set(food in lexio smaller order)
+        // rating in highest order -> food in smallest 
+        return *cusine_to_rating_food[cuisine].rbegin()->second.begin();
     }
 };
 
