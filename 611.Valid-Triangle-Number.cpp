@@ -52,6 +52,36 @@ public:
 };
 
 
+class Solution {
+public:
+    int triangleNumber(vector<int>& nums) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end()); // nlogn
+       
+        int cnt =0;
+        for(int i=0; i<n-2; i++){ //n
+            for(int j=i+1; j<n-1; j++){ //n
+                int sum = nums[i]+nums[j];
+                int idx = lower_bound(nums.begin(), nums.end(), sum)-nums.begin(); // logn
+                if(idx>= j+1){ // if the lb return the jth idx as the lb idx then it will not be valid
+                    cnt += (idx-j-1); 
+                    // 0 1 2
+                    // i j idx 
+                }
+            }
+        }
+        return cnt;
+    }
+};
+
+// a+b > c 
+// we need to find that indx till which the sum of 2 sides is greter than the 3rd side 
+// if we fix two sides and find lb(sum) then we will get the idx where value is greter than sum , 
+// and all the values behind that index will add up to our cnt for the valid sides 
+
+// time compl-> nlogn + (n^2 logn) =  n^2 log n 
+
+
 int main(){
     Solution sol;
     vector<int> nums={2,2,3,4}; 
