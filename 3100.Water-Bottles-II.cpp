@@ -52,6 +52,22 @@ public:
     }
 };
 
+class Solution {
+public:
+    int maxBottlesDrunk(int numBottles, int numExchange) {
+        int ans = numBottles;
+        int rem = 0;
+        while(numBottles>=numExchange){
+            int val =  numBottles-numExchange;
+            ans++;
+            val++;
+            numExchange++;
+            numBottles = val;
+        }
+        return ans;
+    }
+};
+
 
 // numBottle = 13,  numExchange = 6
 
