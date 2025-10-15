@@ -33,6 +33,40 @@ public:
     }
 };
 
+class Solution { // az  azz -> ans = "az", "azz"
+public:
+    bool isang(string a, string b){
+        vector<int> cnt(26);
+
+        for(auto i:a){
+            cnt[i-'a']++;
+        }
+        for(auto j:b){
+            cnt[j-'a']--;
+        }
+        for(auto c:cnt){
+            if(c!=0)
+                return false;
+        }
+        return true;
+    }
+    vector<string> removeAnagrams(vector<string>& words) {
+        int n = words.size();
+        vector<string> ans;
+       
+        for(int i=0; i<n; ){
+            int j=i+1;
+            while(j<n && isang(words[i], words[j])){
+                j++;
+            }
+            ans.push_back(words[i]);
+            i=j;
+        }
+        return ans;
+
+    }
+};
+
 int main(){
 
     return 0;
