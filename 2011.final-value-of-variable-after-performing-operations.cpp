@@ -35,6 +35,24 @@ public:
         return ans;
     }
 };
+
+
+class Solution {
+public:
+    int finalValueAfterOperations(vector<string>& ops) {
+        int n = ops.size();
+        int ans = 0;
+        for(int i=0; i<n; i++){
+            if(ops[i][0]=='+' || ops[i][1]=='+')
+                ans++;
+            else
+                ans--;
+        }
+        return ans;
+    }
+};
+
+
 // @lc code=end
 
 
