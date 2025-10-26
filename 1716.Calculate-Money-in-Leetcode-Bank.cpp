@@ -15,6 +15,32 @@ void print(vi &out){
     cout<<endl;
 }
 
+
+class Solution0 {
+public:
+    int totalMoney(int n) {
+        int mon=1;
+        int ans = 0;
+        int val = n/7;
+        int rem = n%7;
+        while(val){
+            for(int i=mon; i<=mon+6; i++){
+                ans += i;
+            }
+            val--;
+            mon++;
+        }
+        int i=mon;
+        while(rem--){
+            ans+=i;
+            i++;
+        }
+        
+        return ans;
+    }
+};
+
+
 class Solution {
 public:
     int totalMoney(int n) {
