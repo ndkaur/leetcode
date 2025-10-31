@@ -1,4 +1,4 @@
-/*
+ /*
  * @lc app=leetcode id=98 lang=cpp
  *
  * [98] Validate Binary Search Tree
