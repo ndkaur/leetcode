@@ -101,6 +101,37 @@ public:
         return sum>0 ? sum:0; 
     }
 };
+
+
+
+class Solution {
+public:
+    vector<int> find(TreeNode* root, int& sum){
+        if(!root)
+            return {INT_MAX, INT_MIN, 0};
+        vector<int> left_tree = find(root->left, sum);
+        vector<int> right_tree = find(root->right, sum);
+        // valid conditions
+        // left->mxval < root->val 
+        // right->mnval > root->val
+
+        // invalid condition
+        if(left_tree.empty() || right_tree.empty() || root->val<=left_tree[1] || root->val>=right_tree[0])
+            return {};
+
+        int cur_sum = left_tree[2]+right_tree[2]+root->val;
+        sum = max(sum, cur_sum);
+        return {min(left_tree[0], root->val), max(root->val, right_tree[1]), cur_sum};
+
+    }
+    int maxSumBST(TreeNode* root) {
+        int sum =0;
+        find(root, sum);
+        return sum;
+    }
+};
+
+
 // @lc code=end
 
 
