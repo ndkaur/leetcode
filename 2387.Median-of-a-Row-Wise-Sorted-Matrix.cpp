@@ -38,42 +38,52 @@ public:
     }
 };
 
-
-// binary  search
 class Solution {
-public:
-    int find(vector<vector<int>>& arr, int target){
-        int cnt = 0;
-        
-        // val>target
-        for(int i=0; i<arr.size(); i++){
-            int idx = upper_bound(arr[i].begin(), arr[i].end(), target) - arr[i].begin();
-            cnt += idx;
+  public:
+    int elmgreater(vector<vector<int>>& mat, int mid){
+        // find cnt of elm greater than mid in row wise sorted matrix
+        int cnt =0;
+        for(vector<int> row:mat){
+            int n = row.size();
+            cnt += upper_bound(row.begin(), row.end(), mid)-row.begin();
+          
         }
         return cnt;
+       
     }
-    int matrixMedian(vector<vector<int>>& grid) {
-        int n = grid.size();
-        int m = grid[0].size();
+    int median(vector<vector<int>> &mat) {
+        // code here
+        int n = mat.size();
+        int m = mat[0].size();
+        int req = (n*m)/2;
+        // the no median will be btw the min and max number of the matrix
         
-        int l = 0; // lowest possible median value
-        int r = 1e6; // highest possible median value
-
-        int median = (n*m)/2;
+        int l = INT_MAX;
+        int r = INT_MIN;
+        for(int i=0; i<n; i++){
+            l = min(l, mat[i][0]);
+            r = max(r, mat[i][m-1]);
+        }
+        int ans = -1;
         
         while(l<=r){
             int mid = l+(r-l)/2;
-            int cnt = find(grid,mid);
-            
-            if(cnt <= median){
+            int cnt = elmgreater(mat, mid);
+            if(cnt<=req){
+                // median is greater than mid
                 l = mid+1;
             }
-            else 
+            else { // cnt>req
+                ans =  mid;
                 r = mid-1;
+            }
         }
-        return l;
+        return ans;
     }
 };
+
+
+
 
 // [1,1,2]
 // [2,3,3]

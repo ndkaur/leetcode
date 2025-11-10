@@ -136,6 +136,32 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int n = nums.size();
+        vector<int> ans(2,-1);
+        if(n==0)
+            return ans;
+        // idx>=target
+        int idx1 = lower_bound(nums.begin(), nums.end(), target)-nums.begin();
+        if(idx1!=n && nums[idx1]==target){
+            ans[0] = idx1;
+
+            idx1++;
+            while(idx1<n && nums[idx1]==target){
+                idx1++;
+            }
+            ans[1] = idx1-1;
+        }
+        else 
+            ans[0]=-1;
+        // upper bound -> idx>target
+        return ans;
+    }
+};
+
 // @lc code=end
 
 
