@@ -45,126 +45,81 @@ public:
     }
 };
 
-class MyHashMap {
+
+
+// using linked list approach 
+
+class Node{
 public:
-    vector<int> m;
-    int sz;
-    MyHashMap() {
-        sz= 1e6+1;
-        m.resize(sz);
-        //  fill used cause map if no value return -1
-        fill(m.begin(),m.end(),-1);
-    }
-    
-    void put(int key, int value) {
-        m[key]= value;
-    }
-    
-    int get(int key) {
-        return m[key];
-    }
-    
-    void remove(int key) {
-        m[key]=-1;
-    }
+    int key;
+    int val;
+    Node* next;
+
+    Node(int k=-1, int v=-1, Node* n=NULL) : key(k), val(v), next(n){}
 };
 
 class MyHashMap {
 public:
-    vector<list<pair<int,int>>> m;
-    int sz;
+    vector<Node*> mp;
     MyHashMap() {
-        sz= 1e6+1;
-        m.resize(sz);
-    }
-    int hash_function(int key){
-        return key%sz;
-    }
-    list<pair<int,int>> :: iterator search(int key){
-        int i= hash_function(key);
-        list<pair<int,int>> :: iterator it = m[i].begin();
-        while(it!= m[i].end()){
-            if(it->first== key) 
-                return it;
-            it++;
+        mp.resize(1000);
+        for(int i=0; i<1000; i++){
+            mp[i]= new Node();
         }
-        return it;
     }
+
+    int hash(int key){
+        return key%1000;
+    }
+
     void put(int key, int value) {
-        int i= hash(key);
-        remove(key);
-        m[i].push_back({key,value});
-    }
-    
-    int get(int key) {
-        int i= hash(key);
-        list<pair<int,int>> :: iterator it= search(key);
-        if(it==m[i].end())
-            return -1;
-        else return it->second;
-    }
-    
-    void remove(int key) {
-        int i= hash(key);
-        list<pair<int,int>> :: iterator it = search(key);
-        if(it!= m[i].end())  // check if key exist 
-            m[i].erase(it);
-    }
-};
+        int hash_key = hash(key);
+        Node* curr = mp[hash_key];
 
-
-class MyHashMap {
-	vector<vector<pair<int, int>>> map;
-	const int size = 10000;
-public:
-	/** Initialize your data structure here. */
-	MyHashMap() {
-		map.resize(size);
-	}
-
-	/** value will always be non-negative. */
-	void put(int key, int value) {
-		int index = key % size;
-        vector<pair<int, int>> &row = map[index];
-        for(auto iter = row.begin(); iter != row.end(); iter++)
-        {
-            if(iter->first == key)
-            {
-                iter->second = value;
+        while(curr->next){
+            if(curr->next->key==key){
+                curr->next->val = value;
                 return;
             }
+            curr= curr->next;
         }
-		row.push_back(make_pair(key, value));
-	}
-
-	/** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
-	int get(int key) {
-		int index = key % size;
-        vector<pair<int, int>> &row = map[index];
-		for (auto iter = row.begin(); iter != row.end(); iter++)
-		{
-			if (iter->first == key)
-			{
-				return iter->second;
-			}
-		}
-		return -1;
-	}
-
-	/** Removes the mapping of the specified value key if this map contains a mapping for the key */
-	void remove(int key) {
-		int index = key % size;
-        vector<pair<int, int>> &row = map[index];
-		for (auto iter = row.begin(); iter != row.end(); iter++)
-		{
-			if (iter->first == key)
-			{
-				row.erase(iter);
+        curr->next = new Node(key, value);
+    }
+    
+    int get(int key) {
+        int hash_key = hash(key);
+        Node* curr = mp[hash_key];
+        while(curr->next){
+            if(curr->next->key==key){
+                return curr->next->val;
+            }
+            curr= curr->next;
+        }
+        return -1;
+    }
+    
+    void remove(int key) {
+        int hash_key = hash(key);
+        Node* curr = mp[hash_key];
+        while(curr->next){
+            if(curr->next->key==key){
+                Node* temp = curr->next;
+                curr->next = curr->next->next;
+                delete temp;
                 return;
-			}
-		}
-	}
+            }
+            curr= curr->next;
+        }
+    }
 };
+
+/**
+ * Your MyHashMap object will be instantiated and called as such:
+ * MyHashMap* obj = new MyHashMap();
+ * obj->put(key,value);
+ * int param_2 = obj->get(key);
+ * obj->remove(key);
+ */
 
 /**
  * Your MyHashMap object will be instantiated and called as such:

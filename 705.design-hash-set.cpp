@@ -85,6 +85,42 @@ public:
 };
 
 
+class MyHashSet {
+public:
+    int numBuckets;
+    vector<list<int>> buckets;
+
+    int hash(int key){
+        return  key%numBuckets;
+    }
+
+    MyHashSet() {
+        numBuckets = 15000;
+        buckets = vector<list<int>>(numBuckets, list<int>{});
+    }
+    
+    void add(int key) { 
+        int idx = hash(key);
+        auto itr = find(buckets[idx].begin(), buckets[idx].end(), key);
+        if(itr==buckets[idx].end())
+            buckets[idx].push_back(key);
+    }
+    
+    void remove(int key) {
+        int idx = hash(key);
+        auto itr = find(buckets[idx].begin(), buckets[idx].end(), key);
+        if(itr!=buckets[idx].end())
+            buckets[idx].erase(itr);
+    }
+    
+    bool contains(int key) {
+        int idx = hash(key);
+        auto itr = find(buckets[idx].begin(), buckets[idx].end(), key);
+
+        return itr != buckets[idx].end();
+    }
+};
+
 
 class MyHashSet {
 public:
