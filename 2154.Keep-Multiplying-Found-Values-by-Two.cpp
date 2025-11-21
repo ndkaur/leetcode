@@ -1,8 +1,3 @@
-/*
- * @lc app=leetcode id=717 lang=cpp
- *
- * [717] 1-bit and 2-bit Characters
- */
 #include "bits/stdc++.h"
 using namespace std;
 // #include "Tree.h"
@@ -20,25 +15,24 @@ void print(vi &out){
     cout<<endl;
 }
 
-// @lc code=start
+// O(N)
 class Solution {
 public:
-    bool isOneBitCharacter(vector<int>& bits) {
-        int n= bits.size();
-        int i;
-        for(i=0;i<n-1;){
-            if(bits[i]==0)
-                i++;
-            else if(bits[i]==1)
-                i+=2;
+    int findFinalValue(vector<int>& nums, int original) {
+        int n = nums.size();
+        map<int,int> mp;
+        for(int num:nums){
+            mp[num]++;
         }
-        if(i==n-1)
-            return true;
-        return false;
+        
+        int ans = original;
+        while(mp[original]){
+            ans = ans*2;
+            original = ans;
+        }
+        return ans;
     }
 };
-
-// @lc code=end
 
 
 int main(){
