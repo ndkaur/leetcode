@@ -34,6 +34,11 @@ void print(vi &out){
 // when cnt = 1 -> {4,5,0,-2,-3,1}
 // cnt = 1+2+3+1 = 7
 
+// logic here is -> pref1 has moudlo with k as A 
+// pref2 has modulo with k as A , both has same modulo ie same reminder 
+// pref1 = k*n+ x , pref2 = k*n' + x
+// so if we subtract pref1-pef2 =  k*n  
+// so this means k*n will also be a multiple of k , ie somewhere a subarray exist whose sum is divisible by k 
 class Solution {
 public:
     int subarraysDivByK(vector<int>& nums, int k) {
