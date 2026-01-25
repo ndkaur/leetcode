@@ -140,6 +140,54 @@ public:
 
 
 
+class Solution {
+public:
+    int mostBooked(int n, vector<vector<int>>& meetings) {
+        int m = meetings.size();
+        sort(meetings.begin(), meetings.end());
+        vector<int> cnt(n,0);
+
+        priority_queue<int, vector<int>, greater<int>> free;
+        priority_queue<pair<long long,int>, vector<pair<long long,int>>, greater<pair<long long,int>>> busy;
+        
+        for(int i=0; i<n; i++){
+            free.push(i);
+        }
+
+    
+        for(auto& meet:meetings){
+            long long  start = meet[0];
+            long long end = meet[1];
+
+            while(!busy.empty() && busy.top().first<=start){ // checking if we have reached the end time when room will get empty
+                free.push(busy.top().second);
+                busy.pop();
+            }
+
+            int room;
+            long long new_endtime;
+
+            if(!free.empty()){
+                room = free.top();
+                free.pop();
+                new_endtime= end;
+            }
+            else{ // no free room
+                auto [next_time_when_free, r] = busy.top();
+                busy.pop();
+                // skip to that time when room will get empty and shift the start and end time
+                room = r;
+                new_endtime =  next_time_when_free + (end-start);
+            }
+            busy.push({new_endtime, room});
+            cnt[room]++;
+        }
+        return int(max_element(cnt.begin(), cnt.end()) - cnt.begin());
+    }
+};
+
+
+
 
 int main(){
 
