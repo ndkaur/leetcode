@@ -77,6 +77,42 @@ public:
     }
 };
 
+class Solution {
+public:
+    vector<pair<int,int>> count;
+    void bit_count(int num){
+        int val = num;
+        int cnt =0;
+        while(num>0){
+            if(num&1){
+                cnt++;
+            }
+            num = num>>1;
+        }
+        count.push_back({cnt, val});
+    }
+    vector<int> sortByBits(vector<int>& arr) {
+        int n = arr.size();
+        for(int i=0; i<n; i++){
+            bit_count(arr[i]);
+        }
+
+        sort(count.begin(), count.end(),[](pair<int,int>& a, pair<int,int>& b){ // first= cnt, second = number 
+            if(a.first==b.first){
+                return a.second<b.second;
+            }
+            return a.first<b.first;
+        });
+
+        
+        vector<int> ans;
+        for(int i=0; i<n; i++){
+            ans.push_back(count[i].second);
+        }
+        return ans;
+    }
+};
+
 // @lc code=end
 
 
