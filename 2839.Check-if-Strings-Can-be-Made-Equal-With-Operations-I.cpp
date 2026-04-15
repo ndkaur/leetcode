@@ -30,6 +30,20 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    bool canBeEqual(string s1, string s2) {
+        string temp1 = s1;
+        swap(temp1[0], temp1[2]);
+        string temp2 = temp1;
+        swap(temp2[1], temp2[3]);
+        string temp3 = s1;
+        swap(temp3[1], temp3[3]);
+        return (s1==s2 || temp1==s2 || temp2==s2 || temp3==s2);
+    }
+};
+
 int main(){
 
     return 0;
