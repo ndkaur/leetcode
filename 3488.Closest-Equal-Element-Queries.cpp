@@ -17,6 +17,49 @@ void print(vi &out){
 
 
 class Solution {
+public:
+    vector<int> solveQueries(vector<int>& nums, vector<int>& queries) {
+        int n = nums.size();
+        map<int,vector<int>> mp;
+        for(int i=0; i<n; i++){
+            mp[nums[i]].push_back(i);
+        }
+        vector<int> ans;
+
+        for(auto q:queries){
+            int idx = q;
+            int val = nums[q];
+            vector<int>& temp = mp[val];
+
+            if(temp.size()==1){
+                ans.push_back(-1);
+                continue;
+            }
+
+            int lb = lower_bound(temp.begin(), temp.end(), idx)-temp.begin(); 
+            int res =INT_MAX;
+
+            // left side 
+            // 2 neighbours, 1-> direct left i-1,  2-> rotate if starting idx=0
+            int left =  temp[(lb-1+temp.size()) %temp.size()];   
+            int diff = abs(idx-left); // direct left
+            // rotate 
+            res = min(res, min(diff, n-diff));
+            
+            // right side
+            // 1, direct right i+1 , 2-> rotate when idx is last 
+            int right = temp[(lb+1)%temp.size()];
+            int d = abs(idx-right);
+            res = min(res, min(d, n-d));
+            
+            ans.push_back(res);
+        }
+        return ans;
+    }
+};
+
+
+class Solution {
     public:
         vector<int> solveQueries(vector<int>& nums, vector<int>& queries) {
             int n = nums.size();

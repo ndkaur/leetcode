@@ -18,6 +18,30 @@ void print(vi &out){
 
 class Solution {
 public:
+    int minimumDistance(vector<int>& nums) {
+        int n = nums.size();
+        map<int,vector<int>> mp;
+        for(int i=0; i<n; i++){
+            mp[nums[i]].push_back(i);
+        }
+
+        int ans =INT_MAX;
+        for(auto itr:mp){
+            int val = itr.first;
+            vector<int> arr = itr.second;
+            if(arr.size()<3)
+                continue;
+            for(int i=0; i<arr.size()-2; i++){
+                ans = min(ans,abs(arr[i]-arr[i+1]) + abs(arr[i+1]-arr[i+2]) + abs(arr[i+2]-arr[i]));
+            }
+        }
+        return ans==INT_MAX? -1: ans;
+    }
+}; 
+
+
+class Solution {
+public:
     int find(vector<int>& arr){
         // eg ->{0,1,2,3} more than 3 indexes then we want min of all 
         // and we cant take idx like  {0,1,3}
