@@ -16,6 +16,32 @@ void print(vi &out){
 }
 
 
+
+class Solution {
+public:
+    int f(int i, vector<int>& nums, int target, vector<int>& dp){
+        if(i==0)
+            return dp[i]=0;
+        
+        if(dp[i]!=-1)
+            return dp[i];
+        
+        int ans =INT_MIN;
+        for(int j=0; j<i; j++){
+            if(abs(nums[j]-nums[i])<=target){
+                ans = max(ans, 1+f(j, nums, target, dp));
+            }
+        }
+        return dp[i] = ans;
+    }
+    int maximumJumps(vector<int>& nums, int target) {
+        int n = nums.size();
+        vector<int> dp(n, -1);
+        int ans = f(n-1, nums, target, dp);
+        return ans<0 ? -1 :ans;
+    }
+};
+
 class Solution {
 public:
     int maximumJumps(vector<int>& nums, int target) {
